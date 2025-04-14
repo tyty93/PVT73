@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           Provider(create: (_) => AuthRepository()),
-          // Inject AuthRepository into both ViewModels mik
+          // Inject AuthRepository into both ViewModels
           ChangeNotifierProvider(
             create: (context) => AuthViewmodel(authRepository: context.read<AuthRepository>()),
           ),
