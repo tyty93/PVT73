@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           Provider(create: (_) => AuthRepository()),
-          // Inject AuthRepository into both ViewModels
+          // Inject AuthRepository into both ViewModels  Lazaro
           ChangeNotifierProvider(
             create: (context) => AuthViewmodel(authRepository: context.read<AuthRepository>()),
           ),
