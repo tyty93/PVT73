@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/login_or_register_viewmodel.dart';
 import 'package:flutter_application_1/ui/auth/widgets/auth_page.dart';
-import 'package:flutter_application_1/ui/common/theme/theme2.dart';
+import 'package:flutter_application_1/ui/common/theme/theme.dart';
+import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import 'data/repositories/auth_repository.dart';
+import 'data/repositories/event_repository.dart';
+import 'data/services/auth_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,7 +28,18 @@ class MyApp extends StatelessWidget {
       title: 'The App',
       home: MultiProvider(
         providers: [
-          Provider(create: (_) => AuthRepository()),
+          // Provide AuthService
+          Provider<AuthService>(
+            create: (_) => AuthService(),
+          ),
+
+          // Inject AuthService into AuthRepositoryImpl
+          Provider<AuthRepository>(
+            create: (context) => AuthRepositoryImpl(context.read<AuthService>()),
+          ),
+          Provider<EventRepository>(
+            create: (context) => EventRepositoryImpl(),
+          ),
           // Inject AuthRepository into both ViewModels
           ChangeNotifierProvider(
             create: (context) => AuthViewmodel(authRepository: context.read<AuthRepository>()),
@@ -35,6 +49,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
               create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>()),
+          ),
+          ChangeNotifierProvider(
+              create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
           )
         ],
         child: const AuthPage(),

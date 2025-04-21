@@ -7,29 +7,19 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/repositories/auth_repository.dart';
+import 'package:flutter_application_1/ui/event/event_page.dart';
+import 'package:flutter_application_1/ui/home/home_page.dart';
 
 import '../../data/models/event.dart';
 
-final List<Event> testList = [
-  Event(
-    name: 'Test Event 1',
-    description: 'This is a test event.',
-    dateTime: DateTime(2025, 4, 16, 17, 30),
-  ),
-  Event(
-    name: 'Test Event 2',
-    description: 'Another test event.',
-    dateTime: DateTime(2025, 4, 17, 9, 25),
-  ),
-];
-
 class HomeViewmodel extends ChangeNotifier {
   final AuthRepository _authRepository;
-  final List<Event> _events = testList;
+  // final List<Event> _events = _eventRepository.list??;
+
 
   HomeViewmodel({required AuthRepository authRepository}) : _authRepository = authRepository;
 
-  UnmodifiableListView<Event> get events => UnmodifiableListView(_events);
+  //UnmodifiableListView<Event> get events => UnmodifiableListView(_events);
 
   void signOut() {
     _authRepository.signOut();

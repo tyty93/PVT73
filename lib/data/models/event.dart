@@ -4,6 +4,9 @@ class Event {
   DateTime _dateTime;
 
   String get name => _name;
+  String get description => _description;
+  DateTime get dateTime => _dateTime;
+
   Event({required String name, required String description, required DateTime dateTime})
       : _name = name, _description = description, _dateTime = dateTime;
 

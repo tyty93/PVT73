@@ -1,55 +1,44 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_application_1/data/services/auth_service.dart';
 
-// Todo: Make AuthRepository an interface. Put the current function implementations under services/
-class AuthRepository {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+abstract class AuthRepository {
 
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges;
 
-  Future<UserCredential> signUpWithEmailAndPassword(String email, String password) async {
-    try {
-      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return userCredential;
-    } on FirebaseAuthException catch(e) {
-      throw Exception(e.code);
-    }
+  Future<UserCredential> signUpWithEmailAndPassword(String email, String password);
+
+  Future<UserCredential> signInWithEmailAndPassword(String email, String password);
+
+  Future<UserCredential> signInWithGoogle();
+
+  Future<void> signOut();
+}
+
+class AuthRepositoryImpl implements AuthRepository {
+
+  final AuthService _authService;
+  AuthRepositoryImpl(this._authService);
+
+  @override
+  Stream<User?> get authStateChanges => _authService.authStateChanges;
+
+  @override
+  Future<UserCredential> signUpWithEmailAndPassword(String email, String password) {
+    return _authService.signUpWithEmailAndPassword(email, password);
+  }
+  
+  @override
+  Future<UserCredential> signInWithEmailAndPassword(String email, String password) {
+    return _authService.signInWithEmailAndPassword(email, password);
   }
 
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
-    // try sign in
-    try {
-      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.code);
-    }
-
+  @override
+  Future<UserCredential> signInWithGoogle() {
+    return _authService.signInWithGoogle();
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    try {
-      // begin interactive sign in process
-      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-
-      // obtain auth details from request
-      final GoogleSignInAuthentication? gAuth = await gUser?.authentication;
-
-      //create  new credential for user
-      final credential = GoogleAuthProvider.credential(accessToken: gAuth?.accessToken, idToken: gAuth?.idToken,);
-
-      // sign in
-      UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
-      return userCredential;
-    } on FirebaseAuthException catch(e) {
-      throw Exception(e.code);
-    }
-  }
-
-  Future<void> signOut() async {
-   await _firebaseAuth.signOut();
+  @override
+  Future<void> signOut() {
+    return _authService.signOut();
   }
 }

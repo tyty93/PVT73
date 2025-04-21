@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../event/event_page.dart';
 import '../../home/home_page.dart';
 import '../viewmodels/auth_viewmodel.dart';
 import 'login_or_register_page.dart';
@@ -14,7 +15,7 @@ class AuthPage extends StatelessWidget {
       body: Consumer<AuthViewmodel>(
         builder: (context, viewModel, _) {
           if (viewModel.isLoggedIn) {
-            return const HomePage(title: "HomePage");
+            return const EventPage();
           } else {
             return const LoginOrRegisterPage();
           }
