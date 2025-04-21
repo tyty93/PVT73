@@ -31,17 +31,17 @@ class AuthRepository {
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    // begin interactive sign in process
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-
-    // obtain auth details from request
-    final GoogleSignInAuthentication? gAuth = await gUser?.authentication;
-
-    //create  new credential for user
-    final credential = GoogleAuthProvider.credential(accessToken: gAuth?.accessToken, idToken: gAuth?.idToken,);
-
-    // sign in
     try {
+      // begin interactive sign in process
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+      // obtain auth details from request
+      final GoogleSignInAuthentication? gAuth = await gUser?.authentication;
+
+      //create  new credential for user
+      final credential = GoogleAuthProvider.credential(accessToken: gAuth?.accessToken, idToken: gAuth?.idToken,);
+
+      // sign in
       UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
       return userCredential;
     } on FirebaseAuthException catch(e) {

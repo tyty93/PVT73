@@ -26,7 +26,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -34,10 +33,9 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // logo
-              Icon(
-                Icons.person,
-                size: 70,
-                color: Theme.of(context).colorScheme.inversePrimary,
+              Image.asset(
+                'assets/logo.png',
+                height: 100,
               ),
 
               const SizedBox(height: 20),
@@ -87,11 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account?",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
+                  Text("Already have an account?"),
                   Consumer<LoginOrRegisterViewmodel>(
                     builder: (context, viewModel, _) {
                       return GestureDetector(
