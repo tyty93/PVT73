@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/login_or_register_viewmodel.dart';
 import 'package:flutter_application_1/ui/auth/widgets/auth_page.dart';
-import 'package:flutter_application_1/ui/common/theme/theme1.dart';
+import 'package:flutter_application_1/ui/common/theme/theme2.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 
