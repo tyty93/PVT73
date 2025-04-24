@@ -19,7 +19,7 @@ class EventsViewmodel extends ChangeNotifier {
     if (_hasLoadedEvents) return;
     _hasLoadedEvents = true;
     _events = await _eventRepository.fetchEvents();
-    _events?.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    _events?.sort((a, b) => a.dateTime.compareTo(b.dateTime)); // Events sorted by date by default
     notifyListeners();
   }
 
