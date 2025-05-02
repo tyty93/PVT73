@@ -7,6 +7,8 @@ import '../models/event.dart';
 
 abstract class EventRepository {
   Future<List<Event>> fetchEvents();
+
+  Future<void> deleteEvent(int eventId);
 }
 
 // This implementation currently fetches all events stored in ../demo/events
@@ -19,7 +21,7 @@ class EventRepositoryImpl implements EventRepository {
   @override
   Future<List<Event>> fetchEvents() async {
     final response = await client.get(
-        Uri.parse("https://group-3-75.pvt.dsv.su.se/demo/events")
+        Uri.parse("https://group-3-75.pvt.dsv.su.se/events/all")
     );
 
     if(response.statusCode == HttpStatus.ok) {
@@ -33,5 +35,10 @@ class EventRepositoryImpl implements EventRepository {
     } else {
       throw Exception("Failed to fetch events.");
     }
+  }
+
+  @override
+  Future<void> deleteEvent(int eventId) async {
+
   }
 }

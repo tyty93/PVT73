@@ -20,5 +20,9 @@ class Event {
     );
   }
 
-  Map<String, dynamic> toJson() => {'name': _name, 'description': _description, 'date': _dateTime};
+  Map<String, dynamic> toJson() => {
+    'name': _name,
+    'description': _description,
+    'date': _dateTime.toIso8601String()
+  };
 }
