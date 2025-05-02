@@ -14,13 +14,19 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card.filled(
-      child: ListTile(
-        leading: Icon(Icons.event),
-        title: Text(eventName),
-        subtitle: Text(eventDescription),
-        trailing: Icon(Icons.arrow_right),
-        onTap: () {}, // Todo onTap "View Event details" (Navigator.push)
+    return SizedBox(
+      height: 112,
+      child: Card.filled(
+        child: Center(
+          child: ListTile(
+            leading: CircleAvatar(), // Todo fix CircleAvatar to work as image placeholder backgroundImage: NetworkImage(userAvatarUrl),
+            title: Text(eventName),
+            subtitle: Text(eventDescription),
+            trailing: Icon(Icons.info_outline),
+            // todo add information about date, time and participants
+            onTap: () {}, // Todo onTap "View Event details" (Navigator.push)
+          ),
+        ),
       ),
     );
   }
