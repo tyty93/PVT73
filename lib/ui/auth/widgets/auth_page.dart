@@ -9,7 +9,7 @@ import 'login_or_register_page.dart';
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<AuthViewmodel>(
@@ -22,5 +22,9 @@ class AuthPage extends StatelessWidget {
         },
       ),
     );
+  }*/
+  @override
+  Widget build(BuildContext context) {
+    return const LoginOrRegisterPage();
   }
 }
