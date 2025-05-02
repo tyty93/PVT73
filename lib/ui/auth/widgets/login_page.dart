@@ -59,13 +59,14 @@ class _LoginPageState extends State<LoginPage> {
                       if (viewModel.errorMessage != null)
                         Text(viewModel.errorMessage!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
 
+                      SizedBox(height: 20,),
                       CustomButton(
                           text: "Login",
                           onTap: () => viewModel.signInWithEmailAndPassword(emailController.text, passwordController.text)
                       ),
                     ],
                   );
-                  },
+                },
               ),
               const SizedBox(height: 20),
 

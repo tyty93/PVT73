@@ -23,7 +23,7 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       child: Text(
-        "Login",
+        text,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,

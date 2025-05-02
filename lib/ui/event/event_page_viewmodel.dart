@@ -1,10 +1,9 @@
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../data/models/event.dart';
 import '../../data/repositories/event_repository.dart';
 
-// todo: refactor how events is handled?
 class EventsViewmodel extends ChangeNotifier {
   List<Event>? _events;
   bool _hasLoadedEvents = false;
@@ -14,6 +13,7 @@ class EventsViewmodel extends ChangeNotifier {
         _eventRepository = eventRepository;
 
   List<Event>? get events => _events;
+  bool get hasLoadedEvents => _hasLoadedEvents;
 
   Future<void> loadEvents() async {
     if (_hasLoadedEvents) return;
@@ -23,5 +23,9 @@ class EventsViewmodel extends ChangeNotifier {
     notifyListeners();
   }
 
-
+  // Can be used to re-fetch data. For example triggered by onTaps or pull-down-to-refresh or polling.
+  void refreshEvents() {
+    _hasLoadedEvents = false;
+    loadEvents();
+  }
 }
