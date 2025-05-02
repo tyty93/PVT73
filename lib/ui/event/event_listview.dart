@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/event/event_card.dart';
-
 import '../../data/models/event.dart';
 
 class EventListview extends StatelessWidget {

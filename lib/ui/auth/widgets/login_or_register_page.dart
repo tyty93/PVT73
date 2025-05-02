@@ -3,6 +3,7 @@ import 'package:flutter_application_1/ui/auth/widgets/register_page.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/login_or_register_viewmodel.dart';
 import 'login_page.dart';
+
 class LoginOrRegisterPage extends StatelessWidget {
   const LoginOrRegisterPage({super.key});
 

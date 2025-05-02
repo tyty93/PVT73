@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../common/custom_button.dart';
+import '../../common/filled_button_wide.dart';
 import '../../common/custom_textfield.dart';
 import '../viewmodels/login_or_register_viewmodel.dart';
 
@@ -71,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (viewModel.errorMessage != null)
                         Text(viewModel.errorMessage!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
 
-                      CustomButton(
+                      FilledButtonWide(
                         text: "Register",
                         onTap: () => viewModel.signUpWithEmailAndPassword(emailController.text, passwordController.text, confirmPwController.text)
                       ),

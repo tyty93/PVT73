@@ -7,14 +7,12 @@ class LoginOrRegisterViewmodel extends ChangeNotifier {
   bool _showLoginPage = true;
   String? _errorMessage;
 
-
   LoginOrRegisterViewmodel({required AuthRepository authRepository})
       : _authRepository = authRepository;
 
   bool get showLoginPage => _showLoginPage;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
-
 
   void togglePages() {
     _showLoginPage = !_showLoginPage;

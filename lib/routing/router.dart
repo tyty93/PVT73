@@ -12,10 +12,8 @@ import '../ui/home/home_page.dart';
 // TODO: test if android back button works on deeper nested pages within any bottomnavbr item's branch.
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
-// Define go_router instance
 // Use StatefulShellRoute for bottom navigation bar, which will show a UI shell
 // wrapping the main content and preventing the navbar from rebuilding each time we navigate to new page
-
 GoRouter createRouter(AuthViewmodel authViewmodel) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,

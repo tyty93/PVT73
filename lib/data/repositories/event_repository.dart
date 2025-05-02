@@ -11,7 +11,6 @@ abstract class EventRepository {
   Future<void> deleteEvent(int eventId);
 }
 
-// This implementation currently fetches all events stored in ../demo/events
 class EventRepositoryImpl implements EventRepository {
   final http.Client client;
 
@@ -26,7 +25,7 @@ class EventRepositoryImpl implements EventRepository {
 
     if(response.statusCode == HttpStatus.ok) {
       final String jsonString = response.body;
-      final List<dynamic> eventsJson = jsonDecode(jsonString); // Directly decode as a list
+      final List<dynamic> eventsJson = jsonDecode(jsonString); // Directly decode body as a list
       final List<Event> events = [];
       for (Map<String, dynamic> eventJson in eventsJson) {
         events.add(Event.fromJson(eventJson));
@@ -37,6 +36,7 @@ class EventRepositoryImpl implements EventRepository {
     }
   }
 
+  // todo: add impl
   @override
   Future<void> deleteEvent(int eventId) async {
 

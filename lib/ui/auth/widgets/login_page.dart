@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
-import '../../common/custom_button.dart';
+import '../../common/filled_button_wide.dart';
 import '../../common/custom_textfield.dart';
 import '../viewmodels/login_or_register_viewmodel.dart';
 
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                         Text(viewModel.errorMessage!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
 
                       SizedBox(height: 20,),
-                      CustomButton(
+                      FilledButtonWide(
                           text: "Login",
                           onTap: () => viewModel.signInWithEmailAndPassword(emailController.text, passwordController.text)
                       ),
