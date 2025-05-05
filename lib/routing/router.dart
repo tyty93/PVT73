@@ -7,13 +7,14 @@ import 'package:go_router/go_router.dart';
 import '../ui/auth/viewmodels/auth_viewmodel.dart';
 import '../ui/auth/widgets/auth_page.dart';
 import '../ui/home/home_page.dart';
-// TODO: add navigatorkeys for each branch, try NoTransitionPages, refactor GoRouter instance into singleton DI with  provider to avoid rebuild on hot reload
+// TODO: add navigatorkeys for each branch, try NoTransitionPages using pageBuilder for no 'android transition' screen from default MaterialPage
 // see https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter/ for more info
 // TODO: test if android back button works on deeper nested pages within any bottomnavbr item's branch.
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 // Use StatefulShellRoute for bottom navigation bar, which will show a UI shell
 // wrapping the main content and preventing the navbar from rebuilding each time we navigate to new page
+// todo: don't use a createRouter method..  refactor GoRouter instance into singleton DI with  provider to avoid rebuild on hot reload
 GoRouter createRouter(AuthViewmodel authViewmodel) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,

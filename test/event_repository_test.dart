@@ -28,7 +28,7 @@ void main() {
           // Stub
           when(
             mockHttpClient.get(
-              Uri.parse("https://group-3-75.pvt.dsv.su.se/demo/events"),
+              Uri.parse("https://group-3-75.pvt.dsv.su.se/events/all"),
             ),
           ).thenAnswer(
             (_) async => Response('''
@@ -62,7 +62,7 @@ void main() {
         () async {
           when(
             mockHttpClient.get(
-              Uri.parse("https://group-3-75.pvt.dsv.su.se/demo/events"),
+              Uri.parse("https://group-3-75.pvt.dsv.su.se/events/all"),
             ),
           ).thenAnswer((_) async => Response('Not found', HttpStatus.notFound));
 

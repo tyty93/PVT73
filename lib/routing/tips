@@ -1,0 +1,4 @@
+For nested routing, see context.push(Routes.nestedProfile). Declare full route such as nestedProfile = /settings/profile.
+Can then have for example Button onTap => context.push(Routes.nestedProfile)
+It has an 'extra' propery which can be used to pass objects to the nested page. In receiving page, it must have such a field and required data in constructor
+Finally, in the GoRouter setup, the nested route should be passed state.extra as (Datatype)

@@ -1,4 +1,5 @@
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/event.dart';
@@ -10,12 +11,14 @@ class EventsViewmodel extends ChangeNotifier {
   final EventRepository _eventRepository;
 
   EventsViewmodel({required EventRepository eventRepository}) :
-        _eventRepository = eventRepository;
+        _eventRepository = eventRepository {
+    _loadEvents(); // initialize list
+  }
 
   List<Event>? get events => _events;
   bool get hasLoadedEvents => _hasLoadedEvents;
 
-  Future<void> loadEvents() async {
+  Future<void> _loadEvents() async {
     if (_hasLoadedEvents) return;
     _hasLoadedEvents = true;
     _events = await _eventRepository.fetchEvents();
@@ -26,6 +29,28 @@ class EventsViewmodel extends ChangeNotifier {
   // Can be used to re-fetch data. For example triggered by onTaps or pull-down-to-refresh or polling.
   void refreshEvents() {
     _hasLoadedEvents = false;
-    loadEvents();
+    _loadEvents();
+  }
+
+  Future<void> deleteEvent(Event event) async {
+    // find the event in the list, based on equality of its id compared to argument events id
+    final removedEvent = events?.firstWhereOrNull((e) => e.eventId == event.eventId);
+
+    // safety guard, return if nothing to remove
+    if (removedEvent == null) return;
+
+    // optimistic removal locally to update listviews quickly
+    events?.remove(removedEvent);
+    notifyListeners();
+
+    try {
+      // attempt removal by id in repo
+      await _eventRepository.deleteEvent(event.eventId);
+    } catch (e) {
+      // if remote removal failed, re-add the removed event to local list
+      events?.add(removedEvent);
+      notifyListeners();
+      throw Exception('Failed to delete event: $e');
+    }
   }
 }
