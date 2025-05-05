@@ -13,6 +13,7 @@ abstract class EventRepository {
 
 class EventRepositoryImpl implements EventRepository {
   final http.Client client;
+  final String baseUrl = "https://group-3-75.pvt.dsv.su.se/events";
 
   // Optional parameter http client for mock tests
   EventRepositoryImpl({http.Client? client}) : client = client ?? http.Client();
@@ -20,7 +21,7 @@ class EventRepositoryImpl implements EventRepository {
   @override
   Future<List<Event>> fetchEvents() async {
     final response = await client.get(
-        Uri.parse("https://group-3-75.pvt.dsv.su.se/events/all")
+      Uri.parse('$baseUrl/all'),
     );
 
     if(response.statusCode == HttpStatus.ok) {
@@ -39,6 +40,13 @@ class EventRepositoryImpl implements EventRepository {
   // todo: add impl
   @override
   Future<void> deleteEvent(int eventId) async {
-
+    final response = await client.delete(
+        Uri.parse('$baseUrl/$eventId')
+    );
+    if(response.statusCode == HttpStatus.ok) {
+      return;
+    } else {
+      throw Exception('Failed to delete event');
+    }
   }
 }
