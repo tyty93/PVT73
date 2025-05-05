@@ -7,6 +7,7 @@ import 'package:flutter_application_1/ui/common/theme/theme.dart';
 import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_1/ui/map/map_viewmodel.dart';
 
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/event_repository.dart';
@@ -43,6 +44,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MapViewModel(eventRepository: context.read<EventRepository>()),
         ),
       ],
     child: MyApp()
