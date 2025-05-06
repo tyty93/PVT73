@@ -34,6 +34,7 @@ class FriendsPage extends StatelessWidget{
             }
             final users = viewModel.friends!;
             return ListView.builder(
+              physics: const BouncingScrollPhysics(),
               itemCount: users.length,
               itemBuilder: (context, index) {
                 return Center(
@@ -47,10 +48,25 @@ class FriendsPage extends StatelessWidget{
             );
           }
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Color(0xFFFBDCDC),
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 2, color: Color(0xFF371515), strokeAlign: 1),
+            borderRadius: BorderRadius.circular(90),
+          ),
+          onPressed: () {},
+          label: Text(
+            "     Lägg till ny vän    ",
+            style: GoogleFonts.itim(
+              textStyle: TextStyle(color: Colors.black),
+              fontSize: 32,
+            ),
+          ),
+        ),
+        
         backgroundColor: Color.fromRGBO(153, 88, 88, 1)
 
     );
   }
-
-
 }
