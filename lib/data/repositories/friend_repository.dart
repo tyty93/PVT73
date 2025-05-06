@@ -14,14 +14,13 @@ abstract class FriendRepository {
 
 class FriendRepositoryImpl implements FriendRepository {
   final http.Client client;
-  final String baseUrl = "http://10.0.2.2:8080/demo/friends";
+  final String baseUrl = "http://10.0.2.2:8080/demo/friend";
 
   FriendRepositoryImpl({http.Client? client}) : client = client ?? http.Client();
 
   @override
   Future<List<User>> fetchUsers(int id) async{
     final response = await client.get( Uri.parse('$baseUrl/getFriends?uid=2'),);
-    print(response);
 
     if(response.statusCode == HttpStatus.ok){
       final String jsonString = response.body;
@@ -29,7 +28,7 @@ class FriendRepositoryImpl implements FriendRepository {
       final List<User> friends = [];
       for (Map<String,dynamic> friendJson in friendsJson){
         friends.add(User.fromJson(friendJson));
-        log(friendsJson.toString());
+        log(friendJson.toString());
       }
       return friends;
     } else {

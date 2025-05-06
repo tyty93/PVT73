@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/friends/friends_page_viewmodel.dart';
+import 'package:flutter_application_1/ui/friends/friends_page_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -35,10 +36,12 @@ class FriendsPage extends StatelessWidget{
             return ListView.builder(
               itemCount: users.length,
               itemBuilder: (context, index) {
-                return Container(
-                  height: 50,
-                  color: Colors.green,
-                  child: Center(child: Text('Entry ${users[index]})'))
+                return Center(
+                    child: FriendsPageCard(
+                      username: users[index].name,
+                      userEmail: users[index].email,
+                      favourite: users[index].favourite,
+                    ),
                 );
               } 
             );
