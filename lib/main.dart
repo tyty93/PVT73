@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/login_or_register_viewmodel.dart';
 import 'package:flutter_application_1/ui/auth/widgets/auth_page.dart';
 import 'package:flutter_application_1/ui/common/theme/theme.dart';
+import 'package:flutter_application_1/ui/friends/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +27,12 @@ class MyApp extends StatelessWidget {
       title: 'The App',
       home: MultiProvider(
         providers: [
-          Provider(create: (_) => AuthRepository()),
+          Provider<AuthRepository>(
+            create: (_) => AuthRepository()
+          ),
+          Provider<FriendRepository>(
+            create: (context) => FriendRepositoryImpl()
+          ),
           // Inject AuthRepository into both ViewModels
           ChangeNotifierProvider(
             create: (context) => AuthViewmodel(authRepository: context.read<AuthRepository>()),
@@ -35,7 +42,10 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
               create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>()),
-          )
+          ),
+          ChangeNotifierProvider(
+              create: (context) => FriendsPageViewmodel(friendRepository: context.read<FriendRepository>()),
+          ),
         ],
         child: const AuthPage(),
       ),
