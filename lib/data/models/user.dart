@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 import 'event.dart';
 
 class User {
