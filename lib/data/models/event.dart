@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Event {
   final int _eventId;
   String _name;
@@ -27,6 +29,16 @@ class Event {
     'eventId': _eventId,
     'name': _name,
     'description': _description,
-    'date': _dateTime.toIso8601String()
+    'date': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(_dateTime)
   };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Event &&
+              runtimeType == other.runtimeType &&
+              _eventId == other._eventId;
+
+  @override
+  int get hashCode => _eventId.hashCode;
 }
