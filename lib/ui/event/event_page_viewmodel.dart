@@ -10,6 +10,7 @@ class EventsViewmodel extends ChangeNotifier {
   bool _hasLoadedEvents = false;
   final EventRepository _eventRepository;
 
+  // todo: check if better to expose loadEvents and not call it in constructor
   EventsViewmodel({required EventRepository eventRepository}) :
         _eventRepository = eventRepository {
     _loadEvents(); // initialize list
@@ -18,6 +19,7 @@ class EventsViewmodel extends ChangeNotifier {
   List<Event>? get events => _events;
   bool get hasLoadedEvents => _hasLoadedEvents;
 
+  // todo: catch exceptions thrown from repository
   Future<void> _loadEvents() async {
     if (_hasLoadedEvents) return;
     _hasLoadedEvents = true;
@@ -44,13 +46,39 @@ class EventsViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      // attempt removal by id in repo
+      // attempt removal by id in backend
       await _eventRepository.deleteEvent(event.eventId);
     } catch (e) {
       // if remote removal failed, re-add the removed event to local list
       events?.add(removedEvent);
       notifyListeners();
       throw Exception('Failed to delete event: $e');
+    }
+  }
+
+  // todo: pass the userId along with the event data.
+  // todo (on the backend): look up the User from the DB using that ID, and set it on the Event before saving.
+  // idea: inject AuthService in to Event viewmodel. Extract user id.
+  Future<void> createEvent({
+    required String name,
+    required String description,
+    required DateTime dateTime,
+  }) async {
+    try {
+      // create event on backend and receive the created event (with ID)
+      final createdEvent = await _eventRepository.createEvent(
+        name: name,
+        description: description,
+        dateTime: dateTime,
+      );
+
+      // add only the confirmed event from backend
+      _events ??= []; // if events is null, ensure its at least an empty list
+      _events!.add(createdEvent);
+      _events!.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Failed to add event: $e');
     }
   }
 }
