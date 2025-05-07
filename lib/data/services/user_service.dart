@@ -10,7 +10,7 @@ class UserService {
 
   Future<void> createUser({
     required String id,
-    required String name,
+    required String username,
     required String email,
   }) async {
     final url = Uri.parse(baseUrl);
@@ -20,7 +20,7 @@ class UserService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'id': id,
-        'name': name,
+        'name': username,
         'email': email
       }),
     );

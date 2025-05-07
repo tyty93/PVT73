@@ -7,7 +7,7 @@ abstract class AuthRepository {
 
   Stream<User?> get authStateChanges;
 
-  Future<UserCredential> signUpWithEmailAndPassword(String email, String password);
+  Future<UserCredential> signUpWithEmailAndPassword(String username, String email, String password);
 
   Future<UserCredential> signInWithEmailAndPassword(String email, String password);
 
@@ -25,12 +25,12 @@ class AuthRepositoryImpl implements AuthRepository {
   Stream<User?> get authStateChanges => _authService.authStateChanges;
 
   @override
-  Future<UserCredential> signUpWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> signUpWithEmailAndPassword(String username, String email, String password) async {
     final userCredential = await _authService.signUpWithEmailAndPassword(email, password);
     String userUid = userCredential.user?.uid ?? '';
     String identifier = userCredential.user?.email ?? '';
     if (userUid.isNotEmpty && identifier.isNotEmpty) {
-      await _userService.createUser(id: userUid, name: 'hardcoded', email: email); // todo: fix.. hardcoded other values in User that has nothing to do with firebse!
+      await _userService.createUser(id: userUid, username: username, email: email); // todo: fix.. hardcoded other values in User that has nothing to do with firebse!
     }
     return userCredential;
   }

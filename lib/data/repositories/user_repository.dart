@@ -21,7 +21,7 @@ class UserRepositoryImpl implements UserRepository {
     required String name,
     required String email,
   }) async {
-    await _userService.createUser(id: id, name: name, email: email);
+    await _userService.createUser(id: id, username: name, email: email);
 
     return User(
       id: id,

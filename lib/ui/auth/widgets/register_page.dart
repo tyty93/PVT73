@@ -72,7 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       FilledButtonWide(
                         text: "Register",
-                        onTap: () => viewModel.signUpWithEmailAndPassword(emailController.text, passwordController.text, confirmPwController.text)
+                        onTap: () => viewModel.signUpWithEmailAndPassword(usernameController.text, emailController.text, passwordController.text, confirmPwController.text)
                       ),
                     ],
                   );
