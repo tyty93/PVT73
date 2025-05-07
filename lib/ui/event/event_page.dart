@@ -60,12 +60,24 @@ class EventPage extends StatelessWidget {
                 child: EventCard(
                   eventName: events[index].name,
                   eventDescription: events[index].description,
+                  index: index,
                 ),
               );
             },
             itemCount: events.length
           );
         }
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          // todo: don't hardcode, these values are for testing. the FAB should initiate a create flow with texteditingcontrollers
+          context.read<EventsViewmodel>().createEvent(
+            name: "Sample Event",
+            description: "This is a description of the sample event.",
+            dateTime: DateTime.now(), // one day in the future
+          ); // calling function (without rebuilding for now)
+        },
       ),
     );
   }
