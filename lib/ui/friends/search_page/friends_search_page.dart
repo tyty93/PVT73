@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/data/repositories/search_repository.dart';
 import 'package:flutter_application_1/ui/friends/Widgets/users_search_bar.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
@@ -36,7 +37,6 @@ class FriendsSearchPage extends StatelessWidget{
               log(myController.text)
             },
           ),
-          SizedBox(height:40),
           Consumer<FriendsSearchPageViewmodel>(
             builder: (context, viewModel, _){
               if(viewModel.users == null){
@@ -46,8 +46,10 @@ class FriendsSearchPage extends StatelessWidget{
                 return Center(child: Text('No friends'));
               }
               final users = viewModel.users!;
-              return ListView.builder(
-                physics: const BouncingScrollPhysics(),
+              return Container(
+                width: double.infinity,
+                height:400,
+                child: ListView.builder(
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   return Center(
@@ -58,6 +60,7 @@ class FriendsSearchPage extends StatelessWidget{
                       ),
                   );
                 } 
+                )
               );
             }
           ),
