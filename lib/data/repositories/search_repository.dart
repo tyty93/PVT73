@@ -18,9 +18,7 @@ class SearchRepositoryImpl implements SearchRepository{
 
   @override
   Future<List<Stranger>> searchUsers(int id, String searchString) async{
-    log('Crashed here 1');
     final response = await client.get( Uri.parse('$baseUrl/search/users?user_id=$id&query=$searchString'));
-    log('Crashed here 1');
     if(response.statusCode == HttpStatus.ok){
       final String jsonString = response.body;
       final List<dynamic> strangersJson = jsonDecode(jsonString);
