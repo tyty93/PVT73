@@ -7,7 +7,6 @@ import 'package:flutter_application_1/ui/auth/viewmodels/login_or_register_viewm
 import 'package:flutter_application_1/ui/auth/widgets/auth_page.dart';
 import 'package:flutter_application_1/ui/common/theme/theme.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
-import 'package:flutter_application_1/ui/friends/search_page/friends_search_page.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:provider/provider.dart';

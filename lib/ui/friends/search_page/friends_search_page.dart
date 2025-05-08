@@ -1,71 +1,39 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/data/repositories/search_repository.dart';
-import 'package:flutter_application_1/ui/friends/Widgets/users_search_bar.dart';
-import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
-import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
+import 'package:flutter_application_1/ui/friends/Widgets/search_list_view.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'dart:developer';
 
 class FriendsSearchPage extends StatelessWidget{
   FriendsSearchPage({super.key});
 
+  final SearchListView slv = SearchListView();
   final myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFFFFEFEF),
-      appBar: AppBar(
-        centerTitle: true,
+      extendBodyBehindAppBar: false,
+
+      appBar: AppBar(    
         toolbarHeight: 100,
+        backgroundColor: Color(0xFFFFEFEF),
+        scrolledUnderElevation: 0,
+        centerTitle: true, 
+
         title: Text(
           "Sök användare",
           style: GoogleFonts.itim(
             textStyle: TextStyle(color: Colors.black),
             fontSize: 45,
           )
-        )
+        ),
+        
       ),
-      body: Column(
-        children: [
-          UsersSearchBar(
-            controller: myController,
-            onFinishedTyping: (p0) => {
-              log(myController.text)
-            },
-          ),
-          Consumer<FriendsSearchPageViewmodel>(
-            builder: (context, viewModel, _){
-              if(viewModel.users == null){
-                return const Center(child: CircularProgressIndicator());
-              }
-              if(viewModel.users!.isEmpty){
-                return Center(child: Text('No friends'));
-              }
-              final users = viewModel.users!;
-              return Container(
-                width: double.infinity,
-                height:400,
-                child: ListView.builder(
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  return Center(
-                      child: FriendsPageCard(
-                        username: users[index].name,
-                        userEmail: "",
-                        favourite: false,
-                      ),
-                  );
-                } 
-                )
-              );
-            }
-          ),
-        ],
-    ),
+      
+      body: SearchListView()
     );
   }
 

@@ -9,7 +9,7 @@ class FriendsSearchPageViewmodel extends ChangeNotifier{
   String search;
   final SearchRepository _searchRepository;
 
-  FriendsSearchPageViewmodel({required SearchRepository searchRepository, this.search = 'Nrt'}) 
+  FriendsSearchPageViewmodel({required SearchRepository searchRepository, this.search = ''}) 
       : _searchRepository = searchRepository {
         _loadUsers(search);
       }
