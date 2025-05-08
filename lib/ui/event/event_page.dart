@@ -3,6 +3,7 @@ import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'event_card.dart';
 
+/* show all events available to sign up for */
 class EventPage extends StatelessWidget {
   const EventPage({super.key});
 
@@ -14,13 +15,13 @@ class EventPage extends StatelessWidget {
       ),
       body: Consumer<EventsViewmodel>(
         builder: (context, viewModel, _) {
-          if (viewModel.events == null) {
+          if (viewModel.availableEvents == null) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (viewModel.events!.isEmpty) {
+          if (viewModel.availableEvents!.isEmpty) {
             return Center(child: Text('No events available'));
           }
-          final events = viewModel.events!;
+          final events = viewModel.availableEvents!;
           return ListView.builder(
             itemBuilder: (context, index) {
               return Dismissible(
@@ -68,17 +69,14 @@ class EventPage extends StatelessWidget {
           );
         }
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          // todo: don't hardcode, these values are for testing. the FAB should initiate a create flow with texteditingcontrollers
-          context.read<EventsViewmodel>().createEvent(
-            name: "Sample Event",
-            description: "This is a description of the sample event.",
-            dateTime: DateTime.now(), // one day in the future
-          ); // calling function (without rebuilding for now)
+          context.read<EventsViewmodel>().joinEvent(
+            ......
+          );
         },
-      ),
+      ),*/
     );
   }
 }
