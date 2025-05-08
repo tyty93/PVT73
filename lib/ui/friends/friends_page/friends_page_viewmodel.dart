@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../data/Friend Model/User.dart';
-import '../../data/repositories/friend_repository.dart';
+import '../../../data/Friend Model/User.dart';
+import '../../../data/repositories/friend_repository.dart';
 
 class FriendsPageViewmodel extends ChangeNotifier{
   List<User>? _users;
@@ -13,13 +13,14 @@ class FriendsPageViewmodel extends ChangeNotifier{
         _loadFriends();
       }
 
-  List<User>? get friends => _users;
+  List<User>? get users => _users;
   bool get hasLoadedFriends => _hasLoadedFriends;
 
   Future<void> _loadFriends() async{
     if(_hasLoadedFriends) return;
     _hasLoadedFriends = true;
     _users = await _friendRepository.fetchUsers(2);
+    notifyListeners();
   }
 
   void refresh() {

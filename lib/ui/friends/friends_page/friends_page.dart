@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/ui/friends/friends_page_viewmodel.dart';
-import 'package:flutter_application_1/ui/friends/friends_page_card.dart';
+import 'package:flutter_application_1/data/repositories/search_repository.dart';
+import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
+import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
+import 'package:flutter_application_1/ui/friends/search_page/friends_search_page.dart';
+import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:developer';
 import 'package:provider/provider.dart';
 
-class FriendsPage extends StatelessWidget{
-  const FriendsPage({super.key});
+class FriendPageScreen extends StatefulWidget {
+  const FriendPageScreen({super.key});
 
   @override
+  FirstScreenState createState() => FirstScreenState();
+}
+
+class FirstScreenState extends State<FriendPageScreen>{
+  @override
   Widget build(BuildContext context){
+    log(context.toString());
     return Scaffold(
         appBar: AppBar( 
           centerTitle: true,
@@ -26,13 +36,13 @@ class FriendsPage extends StatelessWidget{
         ),
         body: Consumer<FriendsPageViewmodel>(
           builder: (context, viewModel, _){
-            if(viewModel.friends == null){
+            if(viewModel.users == null){
               return const Center(child: CircularProgressIndicator());
             }
-            if(viewModel.friends!.isEmpty){
+            if(viewModel.users!.isEmpty){
               return Center(child: Text('No friends'));
             }
-            final users = viewModel.friends!;
+            final users = viewModel.users!;
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: users.length,
@@ -55,7 +65,21 @@ class FriendsPage extends StatelessWidget{
             side: BorderSide(width: 2, color: Color(0xFF371515), strokeAlign: 1),
             borderRadius: BorderRadius.circular(90),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => MultiProvider(
+                providers: [
+                  Provider<SearchRepository>(
+                  create: (context) => SearchRepositoryImpl()
+                  ),
+                  ChangeNotifierProvider(
+                  create: (context) => FriendsSearchPageViewmodel(searchRepository: context.read<SearchRepository>()),
+                  )
+                ],
+                child: FriendsSearchPage(),
+              )
+            ));
+          },
           label: Text(
             "     Lägg till ny vän    ",
             style: GoogleFonts.itim(

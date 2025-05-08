@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../friends/friends_page.dart';
+import '../../friends/friends_page/friends_page.dart';
 import '../viewmodels/auth_viewmodel.dart';
 import 'login_or_register_page.dart';
 
@@ -14,7 +14,7 @@ class AuthPage extends StatelessWidget {
       body: Consumer<AuthViewmodel>(
         builder: (context, viewModel, _) {
           if (viewModel.isLoggedIn) {
-            return const FriendsPage();
+            return const FriendPageScreen();
           } else {
             return const LoginOrRegisterPage();
           }
