@@ -32,7 +32,7 @@ void main() async {
           create: (context) => AuthRepositoryImpl(context.read<AuthService>(), context.read<UserService>()),
         ),
         Provider<EventRepository>(
-          create: (context) => EventRepositoryImpl(),
+          create: (context) => EventRepositoryImpl(context.read<AuthService>()),
         ),
         Provider<UserRepository>(
           create: (context) => UserRepositoryImpl(context.read<UserService>()),
@@ -46,7 +46,7 @@ void main() async {
           create: (context) => LoginOrRegisterViewmodel(authRepository: context.read<AuthRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>()),
+          create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>(), eventRepository: context.read<EventRepository>()),
         ),
         ChangeNotifierProvider(
           create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
