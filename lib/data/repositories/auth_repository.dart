@@ -27,6 +27,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<UserCredential> signUpWithEmailAndPassword(String username, String email, String password) async {
     final userCredential = await _authService.signUpWithEmailAndPassword(email, password);
+    userCredential.user?.getIdToken();
     String userUid = userCredential.user?.uid ?? '';
     String identifier = userCredential.user?.email ?? '';
     if (userUid.isNotEmpty && identifier.isNotEmpty) {
