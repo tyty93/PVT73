@@ -91,4 +91,17 @@ class EventService {
       throw Exception("Failed to fetch events.");
     }
   }
+
+
+  // todo fix:
+  Future<Event> fetchEventById(int id) async {
+    /*final response = await _client.get(Uri.parse($baseUrl"/"$id));
+
+    if (response.statusCode == HttpStatus.ok) {
+      final Map<String, dynamic> jsonMap = jsonDecode(response.body);
+      return EventInfo.fromJson(jsonMap);
+    } else {
+      throw Exception("Failed to fetch event details.");
+    }*/
+    throw UnimplementedError('fetchEventById is not implemented yet.');  }
 }
