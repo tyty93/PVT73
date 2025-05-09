@@ -16,7 +16,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180,
+      height: 120,
       child: Card.filled(
         color: index.isEven ? Theme.of(context).colorScheme.surfaceContainerHigh : Theme.of(context).colorScheme.surfaceContainer,
         child: Column(
@@ -30,7 +30,7 @@ class EventCard extends StatelessWidget {
               // todo add information about date, time and participants
               onTap: () {
                 final eventId = event.eventId;
-                context.push('/home/event/$eventId');
+                context.push('/home/event/$eventId', extra: event);
               }
             ),
           ],
