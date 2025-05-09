@@ -1,5 +1,7 @@
 import 'event.dart'; 
 
+// todo handleable by Event data class, it contains everything one needs to know about an Event already
+/*
 class EventInfo {
   final Event event;           
   final String ownerEmail;     
@@ -19,4 +21,4 @@ class EventInfo {
   DateTime get dateTime => event.dateTime;
   String get location => event.location;
   int get maxAttendees => event.maxAttendees;
-}
+}*/
