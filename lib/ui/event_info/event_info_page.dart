@@ -4,16 +4,16 @@ import 'package:provider/provider.dart';
 import 'event_info_viewmodel.dart';
 import '../../data/repositories/event_info_repository.dart';
 
-class EventInfoScreen extends StatefulWidget {
+class EventInfoPage extends StatefulWidget {
   final int eventId;
 
-  const EventInfoScreen({super.key, required this.eventId});
+  const EventInfoPage({super.key, required this.eventId});
 
   @override
-  State<EventInfoScreen> createState() => _EventInfoScreenState();
+  State<EventInfoPage> createState() => _EventInfoPageState();
 }
 
-class _EventInfoScreenState extends State<EventInfoScreen> {
+class _EventInfoPageState extends State<EventInfoPage> {
   late Future<void> _initFuture;
 
   @override

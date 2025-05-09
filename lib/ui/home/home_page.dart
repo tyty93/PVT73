@@ -70,8 +70,7 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     child: EventCard(
-                      eventName: events[index].name,
-                      eventDescription: events[index].description,
+                      event: events[index],
                       index: index,
                     ),
                   );

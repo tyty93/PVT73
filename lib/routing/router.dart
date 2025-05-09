@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../ui/auth/viewmodels/auth_viewmodel.dart';
 import '../ui/auth/widgets/auth_page.dart';
+import '../ui/event_info/event_info_page.dart';
 import '../ui/home/home_page.dart';
 // TODO: add navigatorkeys for each branch, try NoTransitionPages using pageBuilder for no 'android transition' screen from default MaterialPage
 // see https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter/ for more info
@@ -43,6 +44,12 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
               GoRoute(
                 path: Routes.homePage,
                 builder: (context, state) => const HomePage(),
+                routes: [
+                  GoRoute(
+                    path: Routes.eventDetailPath,
+                    pageBuilder:  (context, state) => NoTransitionPage(child: EventInfoPage(eventId: int.parse(state.pathParameters['eventId']!))) // eveninfopage to the specific event by eventId, but wshould use correct path string
+                  ),
+                ],
               )
             ],
           ),
