@@ -8,7 +8,7 @@ import '../models/user.dart';
 
 class UserService {
   final http.Client _client;
-  final String _baseUrl = "https://group-3-75.pvt.dsv.su.se/users";
+  final String _baseUrl = "http://10.0.2.2:8080/users";
 
   // Optional parameter http client for mock tests
   UserService({http.Client? client}) : _client = client ?? http.Client();

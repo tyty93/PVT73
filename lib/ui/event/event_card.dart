@@ -3,6 +3,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/models/event.dart';
 
+
+// todo: Might be problematic to have context.push('/home/event/$eventId', extra: event);
+// todo here because it is tied to the page which uses eventcard, yet here it is hardcoded to home/event
+// todo a solution is to have home/myevent/id, home/participationevent/id for homepage, and event/id for event page
+// todo and then pull that state out of this class into those pages and hardcode the strings frmo there
 class EventCard extends StatelessWidget {
   final Event event;
   final int index;
@@ -27,7 +32,6 @@ class EventCard extends StatelessWidget {
               title: Text(event.name),
               subtitle: Text(event.description),
               trailing: Icon(Icons.info_outline),
-              // todo add information about date, time and participants
               onTap: () {
                 final eventId = event.eventId;
                 context.push('/home/event/$eventId', extra: event);

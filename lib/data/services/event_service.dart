@@ -8,10 +8,11 @@ import 'package:intl/intl.dart';
 
 import '../models/event.dart';
 
-// Use http://10.0.2.2:8080 for testing
+// http://10.0.2.2:8080 for testing
+// https://group-3-75.pvt.dsv.su.se for production
 class EventService {
   final http.Client _client;
-  final String _baseUrl = "https://group-3-75.pvt.dsv.su.se/events";
+  final String _baseUrl = "http://10.0.2.2:8080/events";
 
   // Optional parameter http client for mock tests
   EventService({http.Client? client}) : _client = client ?? http.Client();
