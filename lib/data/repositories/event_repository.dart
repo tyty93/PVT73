@@ -80,7 +80,7 @@ class EventRepositoryImpl implements EventRepository {
       'description': description,
       'theme': theme,
       'location': location,
-      'date': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateTime),
+      'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateTime),
       'maxAttendees': maxAttendees
     };
 
