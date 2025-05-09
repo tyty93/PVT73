@@ -94,7 +94,7 @@ class EventRepositoryImpl implements EventRepository {
       // send to base url endpoint: /events
       Uri.parse(_baseUrl),
       // JSON object being passed
-      headers: { // todo: add Authentication: bearer (JWT from firebase)
+      headers: {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $idToken',
       },
