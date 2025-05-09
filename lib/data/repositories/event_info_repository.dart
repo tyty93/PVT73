@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 
 import '../models/event_info.dart';
 
-abstract class EventInfoRepository {
+// todo commented out because no need to fetch event by id, we can pass the data directly from the home page
+/*abstract class EventInfoRepository {
   Future<EventInfo> fetchEventById(int id);
 }
 
@@ -25,4 +26,4 @@ class EventInfoRepositoryImpl implements EventInfoRepository {
       throw Exception("Failed to fetch event details.");
     }
   }
-}
+}*/
