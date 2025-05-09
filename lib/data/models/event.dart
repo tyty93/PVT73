@@ -65,4 +65,6 @@ class Event {
 
   @override
   int get hashCode => _eventId.hashCode;
+
+  get getOwnerEmail => "fakePlaceholder@email.se";
 }
