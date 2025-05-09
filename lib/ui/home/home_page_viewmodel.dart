@@ -94,8 +94,9 @@ class HomeViewmodel extends ChangeNotifier {
     } catch (e) {
       // if remote removal failed, re-add the removed event to local list
       ownedEvents?.add(removedEvent);
+      //_ownedEvents = List.from(_ownedEvents!)..add(removedEvent);
       notifyListeners();
-      throw Exception('Failed to delete event: $e');
+      rethrow;
     }
   }
 }

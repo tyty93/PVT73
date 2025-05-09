@@ -59,14 +59,18 @@ class EventService {
     }
   }
 
-  Future<void> deleteEvent(int eventId) async {
+  Future<void> deleteEvent(int eventId, String idToken) async {
+    print('$_baseUrl/$eventId');
     final response = await _client.delete(
-        Uri.parse('$_baseUrl/$eventId')
+        Uri.parse('$_baseUrl/$eventId'),
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $idToken',
+        }
     );
     if(response.statusCode == HttpStatus.ok) {
       return;
     } else {
-      throw Exception('Failed to delete event');
+      throw Exception('Failed to delete event with eventId: $eventId');
     }
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'event_card.dart';
 
-/* Should show all events available to sign up for. By clicking an event, go to EventInfo which should have a sign up button */
+/* Should show all events available to sign up for. By clicking an event, go to EventInfo which should have a register button */
 /* todo: the dismissible that is still here should be removed, and its logic be placed in HomePage (unregistering from events) */
 class EventPage extends StatelessWidget {
   const EventPage({super.key});
@@ -25,7 +25,7 @@ class EventPage extends StatelessWidget {
           final events = viewModel.availableEvents!;
           return ListView.builder(
             itemBuilder: (context, index) {
-              return Dismissible(
+              return Dismissible( // todo remove dismissible for event page, but use the showDialog logic and keep the list/card
                 direction: DismissDirection.startToEnd,
                 confirmDismiss: (direction) {
                   return showDialog(

@@ -58,9 +58,6 @@ class EventsViewmodel extends ChangeNotifier {
   }
 
   // todo: change business logic. The event page gives option to join an event (listview, index, event.eventId)
-  Future<void> joinEvent({
-    required int eventId,
-  }) async {
-
+  Future<void> registerToEvent(Event event) async {
   }
 }

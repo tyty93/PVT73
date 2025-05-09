@@ -28,7 +28,15 @@ class EventRepositoryImpl implements EventRepository {
 
   @override
   Future<void> deleteEvent(int eventId) async {
-    _eventService.deleteEvent(eventId);
+    final idToken = await _authService.getIdToken();
+    if (idToken == null) {
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try {
+      await _eventService.deleteEvent(eventId, idToken);
+    } catch (e) {
+      rethrow; // Rethrow the caught exception as is
+    }
   }
 
   @override
