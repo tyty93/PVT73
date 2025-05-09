@@ -13,6 +13,7 @@ abstract class EventRepository {
     required DateTime dateTime,
     required int maxAttendees
   });
+  Future<Event> fetchEventById(int eventId);
 }
 
 class EventRepositoryImpl implements EventRepository {
@@ -63,5 +64,10 @@ class EventRepositoryImpl implements EventRepository {
       maxAttendees: maxAttendees,
       idToken: idToken,
     );
+  }
+
+  @override
+  Future<Event> fetchEventById(int id) async {
+    return await _eventService.fetchEventById(id);
   }
 }
