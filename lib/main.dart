@@ -12,6 +12,7 @@ import 'data/repositories/auth_repository.dart';
 import 'data/repositories/event_repository.dart';
 import 'data/repositories/user_repository.dart';
 import 'data/services/auth_service.dart';
+import 'data/services/event_service.dart';
 import 'firebase_options.dart';
 
 // TODO: Inject GoRouter instead of having a function called in MyApp.build that recreates the instance on rebuilds
@@ -21,21 +22,26 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        // Provide services and repositories
+        // Provide services
         Provider<AuthService>(
           create: (_) => AuthService(),
         ),
         Provider<UserService>(
           create: (_) => UserService(),
         ),
+        Provider<EventService>(
+          create: (_) => EventService(),
+        ),
+
+        // Provide repositories
         Provider<AuthRepository>(
           create: (context) => AuthRepositoryImpl(context.read<AuthService>(), context.read<UserService>()),
         ),
         Provider<EventRepository>(
-          create: (context) => EventRepositoryImpl(context.read<AuthService>()),
+          create: (context) => EventRepositoryImpl(context.read<AuthService>(), context.read<EventService>()),
         ),
         Provider<UserRepository>(
-          create: (context) => UserRepositoryImpl(context.read<UserService>()),
+          create: (context) => UserRepositoryImpl(context.read<UserService>(), context.read<AuthService>()),
         ),
 
         // Inject into Viewmodels
@@ -46,7 +52,7 @@ void main() async {
           create: (context) => LoginOrRegisterViewmodel(authRepository: context.read<AuthRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>(), eventRepository: context.read<EventRepository>()),
+          create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>(), userRepository: context.read<UserRepository>(), eventRepository: context.read<EventRepository>()),
         ),
         ChangeNotifierProvider(
           create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
