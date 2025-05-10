@@ -8,7 +8,7 @@ class UsersSearchBar extends StatelessWidget{
   final TextStyle hintStyle;
   final String hintText;
   final TextEditingController controller;
-  final void Function(BuildContext) onFinishedTyping;
+  final ValueChanged<String> onChanged;
 
   
   const UsersSearchBar({super.key, 
@@ -18,7 +18,7 @@ class UsersSearchBar extends StatelessWidget{
   this.hintStyle = const TextStyle(),
   this.hintText = "Sök",
   required this.controller,
-  required this.onFinishedTyping});
+  required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class UsersSearchBar extends StatelessWidget{
               onTapOutside: (event) => {
                 FocusScope.of(context).unfocus()
               },
-              onEditingComplete: ()=> onFinishedTyping(context),
+              onChanged: onChanged,
             )
           );
   }

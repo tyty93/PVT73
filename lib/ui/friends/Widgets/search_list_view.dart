@@ -26,7 +26,7 @@ class DisplayListViewState extends State<SearchListView>{
             UsersSearchBar(
               controller: myController,
 
-              onFinishedTyping: (p0) => {
+              onChanged:(value) => {
                 setState(() {
                   query = myController.text;
                   changed = true;
@@ -35,22 +35,23 @@ class DisplayListViewState extends State<SearchListView>{
             ),
 
             Consumer<FriendsSearchPageViewmodel>(
-            builder: (context, viewModel, _){
+              builder: (context, viewModel, _){
+                if(query.length < 3){
+                  return SizedBox();
+                }
                 if(changed == true){
                   viewModel.refresh(query);
                   changed = false;
                 }
-
                 if(viewModel.users == null){
                   return const Center(child: CircularProgressIndicator());
                 }
-
                 if(viewModel.users!.isEmpty){
                   return Center(
                     child: Column(
                       children:[
                         SizedBox(height: 30,),
-                        Text('No friends')
+                        Text('Found no users called "$query"')
                       ]
                     )
                   );
