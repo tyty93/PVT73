@@ -24,7 +24,7 @@ class HomeViewmodel extends ChangeNotifier {
   }) : _authRepository = authRepository, _userRepository = userRepository, _eventRepository = eventRepository {
     _authRepository.authStateChanges.listen((user) {
       if (user != null) {
-        loadOwnedEvents(); // Reload events when a new user is logged in
+        _loadOwnedEvents(); // Reload events when a new user is logged in
       }
     });
   }
@@ -33,12 +33,17 @@ class HomeViewmodel extends ChangeNotifier {
   bool get hasLoadedOwnedEvents => _hasLoadedOwnedEvents;
 
   // triggered during constructor
-  Future<void> loadOwnedEvents() async {
+  Future<void> _loadOwnedEvents() async {
     if (_hasLoadedOwnedEvents) return;
     _hasLoadedOwnedEvents = true;
     _ownedEvents = await _userRepository.fetchOwnedEvents();
     _ownedEvents?.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     notifyListeners();
+  }
+
+  Future<void> refreshOwnedEvents() async {
+    _hasLoadedOwnedEvents = false;
+    _loadOwnedEvents();
   }
   
   void signOut() {

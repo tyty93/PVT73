@@ -23,49 +23,52 @@ class EventPage extends StatelessWidget {
             return Center(child: Text('No events available'));
           }
           final events = viewModel.availableEvents!;
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              return Dismissible( // todo remove dismissible for event page, but use the showDialog logic and keep the list/card
-                direction: DismissDirection.startToEnd,
-                confirmDismiss: (direction) {
-                  return showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Unregister from the event?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          child: const Text('No'),
-                        ),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          child: const Text('Yes'),
-                        ),
-                      ],
+          return RefreshIndicator(
+            onRefresh: viewModel.refreshEvents,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return Dismissible( // todo remove dismissible for event page, but use the showDialog logic and keep the list/card
+                  direction: DismissDirection.startToEnd,
+                  confirmDismiss: (direction) {
+                    return showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Unregister from the event?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  onDismissed: (direction) {
+                    viewModel.unregisterFromEvent(events[index]);
+                  },
+                  key: ValueKey<int>(events[index].eventId),
+                  background: Container(
+                    padding: const EdgeInsets.all(12),
+                    color: Theme.of(context).colorScheme.errorContainer,
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      Icons.arrow_forward_sharp,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                      size: 40,
                     ),
-                  );
-                },
-                onDismissed: (direction) {
-                  viewModel.unregisterFromEvent(events[index]);
-                },
-                key: ValueKey<int>(events[index].eventId),
-                background: Container(
-                  padding: const EdgeInsets.all(12),
-                  color: Theme.of(context).colorScheme.errorContainer,
-                  alignment: Alignment.centerLeft,
-                  child: Icon(
-                    Icons.arrow_forward_sharp,
-                    color: Theme.of(context).colorScheme.onErrorContainer,
-                    size: 40,
                   ),
-                ),
-                child: EventCard(
-                  event: events[index],
-                  index: index,
-                ),
-              );
-            },
-            itemCount: events.length
+                  child: EventCard(
+                    event: events[index],
+                    index: index,
+                  ),
+                );
+              },
+              itemCount: events.length
+            ),
           );
         }
       ),

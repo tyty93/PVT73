@@ -33,49 +33,52 @@ class HomePage extends StatelessWidget {
               return Center(child: Text('(placeholder text): You have not created any events.'));
             }
             final events = viewModel.ownedEvents!;
-            return ListView.builder(
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    direction: DismissDirection.startToEnd,
-                    confirmDismiss: (direction) {
-                      return showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Cancel the event?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, false),
-                              child: const Text('No'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, true),
-                              child: const Text('Yes'),
-                            ),
-                          ],
+            return RefreshIndicator(
+              onRefresh: viewModel.refreshOwnedEvents,
+              child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      direction: DismissDirection.startToEnd,
+                      confirmDismiss: (direction) {
+                        return showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Cancel the event?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('No'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                child: const Text('Yes'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      onDismissed: (direction) {
+                        viewModel.deleteEvent(events[index]);
+                      },
+                      key: ValueKey<int>(events[index].eventId),
+                      background: Container(
+                        padding: const EdgeInsets.all(12),
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        alignment: Alignment.centerLeft,
+                        child: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                          size: 40,
                         ),
-                      );
-                    },
-                    onDismissed: (direction) {
-                      viewModel.deleteEvent(events[index]);
-                    },
-                    key: ValueKey<int>(events[index].eventId),
-                    background: Container(
-                      padding: const EdgeInsets.all(12),
-                      color: Theme.of(context).colorScheme.errorContainer,
-                      alignment: Alignment.centerLeft,
-                      child: Icon(
-                        Icons.delete,
-                        color: Theme.of(context).colorScheme.onErrorContainer,
-                        size: 40,
                       ),
-                    ),
-                    child: EventCard(
-                      event: events[index],
-                      index: index,
-                    ),
-                  );
-                },
-                itemCount: events.length
+                      child: EventCard(
+                        event: events[index],
+                        index: index,
+                      ),
+                    );
+                  },
+                  itemCount: events.length
+              ),
             );
           }
       ),

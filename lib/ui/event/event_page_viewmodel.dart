@@ -29,7 +29,7 @@ class EventsViewmodel extends ChangeNotifier {
   bool get hasLoadedEvents => _hasLoadedEvents;
 
   // todo: catch exceptions thrown from repositoryfresh or polling.
-  void refreshEvents() {
+  Future<void> refreshEvents() async {
     _hasLoadedEvents = false;
     _loadAllEvents();
   }
