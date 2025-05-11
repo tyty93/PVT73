@@ -33,9 +33,6 @@ class Event {
         _maxAttendees = maxAttendees,
         _dateTime = dateTime;
 
-
-
-  // todo add unit tests:  In practice, the fromJson() and toJson() methods both need to have unit tests in place to verify correct behavior.
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
       eventId: json['id'] as int,
@@ -44,18 +41,19 @@ class Event {
       theme: json['theme'] as String,
       location: json['location'] as String,
       maxAttendees: json['maxAttendees'] as int,
-      dateTime: DateTime.parse(json['date'] as String),
+      dateTime: DateTime.parse(json['eventDateTime'] as String),
     );
   }
 
+  // check how this is used, if at all. Had to omit id because it is auto-generated!
+  // create event is not toJson'ing antything, its just usuing jsonEncode(data)..
   Map<String, dynamic> toJson() => {
-    'eventId': _eventId,
     'name': _name,
     'description': _description,
     'theme': _theme,
     'location': _location,
     'maxAttendees': _maxAttendees,
-    'date': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(_dateTime),
+    'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(_dateTime),
   };
 
   @override
