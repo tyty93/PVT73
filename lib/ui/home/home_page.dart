@@ -22,7 +22,20 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      //bottomNavigationBar: NavigationBar?
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          // todo: don't hardcode, these values are for testing. the FAB should initiate a create flow with texteditingcontrollers and nested navigation in gorouter
+          context.read<HomeViewmodel>().createEvent(
+            name: "Event x",
+            description: "Description x",
+            theme: "Theme x",
+            location: "Location x",
+            maxAttendees: 5,
+            dateTime: DateTime.now().add(Duration(days: 1)),
+          ); // calling function (without rebuilding for now)
+        },
+      ),
     );
   }
 }

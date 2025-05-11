@@ -19,7 +19,7 @@ class LoginOrRegisterViewmodel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signUpWithEmailAndPassword(String email, String password, String confirmPassword) async {
+  Future<void> signUpWithEmailAndPassword(String username, String email, String password, String confirmPassword) async {
     if (password != confirmPassword) {
       _errorMessage = "Passwords do not match.";
       notifyListeners();
@@ -30,7 +30,7 @@ class LoginOrRegisterViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _authRepository.signUpWithEmailAndPassword(email, password);
+      await _authRepository.signUpWithEmailAndPassword(username, email, password);
       _errorMessage = null;
     } catch (e) {
       _errorMessage = e.toString();

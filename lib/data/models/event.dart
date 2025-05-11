@@ -1,28 +1,70 @@
+import 'package:intl/intl.dart';
+
 class Event {
+  final int _eventId;
   String _name;
   String _description;
+  String _theme;
+  String _location;
+  int _maxAttendees;
   DateTime _dateTime;
 
+  int get eventId => _eventId;
   String get name => _name;
   String get description => _description;
+  String get theme => _theme;
+  String get location => _location;
+  int get maxAttendees => _maxAttendees;
   DateTime get dateTime => _dateTime;
 
-  Event({required String name, required String description, required DateTime dateTime})
-      : _name = name, _description = description, _dateTime = dateTime;
+  Event({
+    required int eventId,
+    required String name,
+    required String description,
+    required String theme,
+    required String location,
+    required int maxAttendees,
+    required DateTime dateTime,
+  })  : _eventId = eventId,
+        _name = name,
+        _description = description,
+        _theme = theme,
+        _location = location,
+        _maxAttendees = maxAttendees,
+        _dateTime = dateTime;
+
 
 
   // todo add unit tests:  In practice, the fromJson() and toJson() methods both need to have unit tests in place to verify correct behavior.
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
+      eventId: json['id'] as int,
       name: json['name'] as String,
       description: json['description'] as String,
+      theme: json['theme'] as String,
+      location: json['location'] as String,
+      maxAttendees: json['maxAttendees'] as int,
       dateTime: DateTime.parse(json['date'] as String),
     );
   }
 
   Map<String, dynamic> toJson() => {
+    'eventId': _eventId,
     'name': _name,
     'description': _description,
-    'date': _dateTime.toIso8601String()
+    'theme': _theme,
+    'location': _location,
+    'maxAttendees': _maxAttendees,
+    'date': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(_dateTime),
   };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Event &&
+              runtimeType == other.runtimeType &&
+              _eventId == other._eventId;
+
+  @override
+  int get hashCode => _eventId.hashCode;
 }

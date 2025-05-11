@@ -16,6 +16,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 // Use StatefulShellRoute for bottom navigation bar, which will show a UI shell
 // wrapping the main content and preventing the navbar from rebuilding each time we navigate to new page
+// todo: don't use a createRouter method..  refactor GoRouter instance into singleton DI with  provider to avoid rebuild on hot reload
 GoRouter createRouter(AuthViewmodel authViewmodel) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,

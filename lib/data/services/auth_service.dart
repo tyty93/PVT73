@@ -6,6 +6,12 @@ class AuthService {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
+  // JWT token for authentication
+  Future<String?> getIdToken() async {
+    final user = _firebaseAuth.currentUser;
+    return await user?.getIdToken();
+  }
+
   Future<UserCredential> signUpWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
