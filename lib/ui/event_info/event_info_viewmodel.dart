@@ -12,7 +12,7 @@ class EventInfoViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
 
-  EventInfo? get event => _event;
+  EventInfo? get eventinfo => _event;
   bool get isLoading => _isLoading;
   String? get error => _error;
 
@@ -23,8 +23,10 @@ class EventInfoViewModel extends ChangeNotifier {
     try {
       _event = await eventRepository.fetchEventById(eventId);
       _error = null;
-    } catch (e) {
+    } catch (e, stackTrace) {
       _error = e.toString();
+      print("Error fetching event info: $_error");
+      print("StackTrace: $stackTrace");
     } finally {
       _isLoading = false;
       notifyListeners();
