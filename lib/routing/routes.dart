@@ -1,3 +1,7 @@
+/*
+Make sure you push the full path.
+Declare relative path strings here without leading /
+ */
 class Routes {
   Routes._();
   static const String homePage = '/home';
@@ -5,6 +9,11 @@ class Routes {
   static const String eventsPage = '/events';
   static const String authPage = '/auth';
 
-  static String eventDetail(String id) => '$homePage/event/$id';
-  static const String eventDetailPath = 'event/:eventId'; // relative path inside homePage route
+
+  // Nested under home
+  static const String create = 'create-event';
+
+  // relative path under both homepage and eventpage due to how its under EventCard?
+  //static String eventDetail(String id) => '$homePage/event/$id';
+  static const String eventDetailPath = 'event/:eventId';
 }

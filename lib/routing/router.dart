@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routing/layout_scaffold.dart';
 import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/event/event_page.dart';
+import 'package:flutter_application_1/ui/home/create_event_page.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data/models/event.dart';
@@ -44,6 +45,7 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
           navigationShell: navigationShell,
         ),
         branches: [
+          /// Home Page branch
           StatefulShellBranch(
             navigatorKey: _shellNavigatorAKey,
             routes: [
@@ -51,17 +53,26 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
                 path: Routes.homePage,
                 builder: (context, state) => const HomePage(),
                 routes: [
-                  GoRoute(
+                  GoRoute( // todo: understand why this is working even from EventPage?
                     path: Routes.eventDetailPath,
                     pageBuilder:  (context, state) {
+                      print("Navigating to details: ${state.matchedLocation}");
                       final event = state.extra as Event;
                       return NoTransitionPage(child: EventInfoPage(event: event));
+                    }
+                  ),
+                  GoRoute(
+                    path: Routes.create,
+                    pageBuilder: (context, state) {
+                      print("Navigating to create event: ${state.matchedLocation}");
+                      return NoTransitionPage(child: CreateEventPage());
                     }
                   ),
                 ],
               )
             ],
           ),
+          /// Event Page branch
           StatefulShellBranch(
             navigatorKey: _shellNavigatorBKey,
             routes: [
@@ -71,6 +82,7 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
               )
             ],
           ),
+          /// Profile Page branch
           StatefulShellBranch(
             navigatorKey: _shellNavigatorCKey,
             routes: [

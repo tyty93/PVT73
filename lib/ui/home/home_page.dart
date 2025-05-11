@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../event/event_card.dart';
@@ -85,15 +87,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          // todo: don't hardcode, these values are for testing. the FAB should initiate a create flow with texteditingcontrollers and nested navigation in gorouter
-          context.read<HomeViewmodel>().createEvent(
-            name: "Other event",
-            description: "Lets swim",
-            theme: "Sport",
-            location: "Swimcenter",
-            maxAttendees: 100,
-            dateTime: DateTime.now().add(Duration(days: 1)),
-          ); // calling function (without rebuilding for now)
+          context.push('/home/create-event');// calling function (without rebuilding for now)
         },
       ),
     );
