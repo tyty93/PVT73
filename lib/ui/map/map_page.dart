@@ -19,7 +19,7 @@ class MapPage extends StatelessWidget {
           return Stack(
             children: [
               GoogleMap(
-                onMapCreated: viewModel.onMapCreated,
+                onMapCreated: (controller) => viewModel.onMapCreated(controller, context),
                 initialCameraPosition: CameraPosition(
                   target: viewModel.currentLocation!,
                   zoom: 15,

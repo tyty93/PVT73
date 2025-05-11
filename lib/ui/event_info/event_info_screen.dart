@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'event_info_viewmodel.dart';
-import '../../data/repositories/event_info_repository.dart';
 
 class EventInfoScreen extends StatefulWidget {
   final int eventId;

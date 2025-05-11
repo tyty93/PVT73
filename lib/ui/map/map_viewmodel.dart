@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ui/event_info/event_info_screen.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -31,9 +32,9 @@ class MapViewModel extends ChangeNotifier {
     _getLocationUpdates();
   }
 
-  void onMapCreated(GoogleMapController controller) {
+  void onMapCreated(GoogleMapController controller, BuildContext context) {
     _mapController.complete(controller);
-    //_fetchEventMarkers(); // Nytt, ej testat
+    _fetchEventMarkers(context); // Nytt, ej testat
   }
 
   Future<void> _getLocationUpdates() async {
@@ -101,12 +102,12 @@ class MapViewModel extends ChangeNotifier {
 
 
   // To-Do: Change event model/repository to fetch adress, that can be turned into LatLng. Problem, får null när date ska castas.
-  /* Har ej testat detta än.
-  Future<void> _fetchEventMarkers() async {
+  // Har ej testat detta än.
+ Future<void> _fetchEventMarkers(BuildContext context) async {
   const String apiKey = 'AIzaSyCZJdZi3_6p0ivanHol3DqGFuqJ-aSm3_o';
 
   try {
-    final events = await eventRepository.fetchEvents();
+    final events = await eventRepository.fetchAllEvents();
     for (final event in events) {
       final LatLng? position = await getLatLngFromAddress(event.location, apiKey);
       if (position != null) {
@@ -117,6 +118,14 @@ class MapViewModel extends ChangeNotifier {
             infoWindow: InfoWindow(
               title: event.name,
               snippet: event.description,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EventInfoScreen(eventId: event.eventId),
+                  ),
+                );
+              },
             ),
           ),
         );
@@ -128,7 +137,7 @@ class MapViewModel extends ChangeNotifier {
   } catch (e) {
     debugPrint("Error fetching events: $e");
   }
-  }
+}
 
   Future<LatLng?> getLatLngFromAddress(String address, String apiKey) async {
   final url = Uri.parse(
@@ -148,5 +157,5 @@ class MapViewModel extends ChangeNotifier {
     debugPrint('HTTP request failed with status: ${response.statusCode}');
   }
   return null;
-  }*/
+  }
 }
