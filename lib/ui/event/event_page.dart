@@ -3,8 +3,7 @@ import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'event_card.dart';
 
-/* Should show all events available to sign up for. By clicking an event, go to EventInfo which should have a register button */
-/* todo: the dismissible that is still here should be removed, and its logic be placed in HomePage (unregistering from events) */
+/* show all events available to sign up for */
 class EventPage extends StatelessWidget {
   const EventPage({super.key});
 
@@ -25,13 +24,13 @@ class EventPage extends StatelessWidget {
           final events = viewModel.availableEvents!;
           return ListView.builder(
             itemBuilder: (context, index) {
-              return Dismissible( // todo remove dismissible for event page, but use the showDialog logic and keep the list/card
+              return Dismissible(
                 direction: DismissDirection.startToEnd,
                 confirmDismiss: (direction) {
                   return showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text('Unregister from the event?'),
+                      title: const Text('Remove the event?'),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context, false),
@@ -46,7 +45,7 @@ class EventPage extends StatelessWidget {
                   );
                 },
                 onDismissed: (direction) {
-                  viewModel.unregisterFromEvent(events[index]);
+                  viewModel.deleteEvent(events[index]);
                 },
                 key: ValueKey<int>(events[index].eventId),
                 background: Container(
@@ -54,13 +53,14 @@ class EventPage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.errorContainer,
                   alignment: Alignment.centerLeft,
                   child: Icon(
-                    Icons.arrow_forward_sharp,
+                    Icons.delete,
                     color: Theme.of(context).colorScheme.onErrorContainer,
                     size: 40,
                   ),
                 ),
                 child: EventCard(
-                  event: events[index],
+                  eventName: events[index].name,
+                  eventDescription: events[index].description,
                   index: index,
                 ),
               );
@@ -69,6 +69,14 @@ class EventPage extends StatelessWidget {
           );
         }
       ),
+      /*floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          context.read<EventsViewmodel>().joinEvent(
+            ......
+          );
+        },
+      ),*/
     );
   }
 }

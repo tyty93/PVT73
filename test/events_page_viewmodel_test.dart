@@ -1,9 +1,9 @@
-/*import 'package:flutter_application_1/data/repositories/event_repository.dart';
+import 'package:flutter_application_1/data/repositories/event_repository.dart';
 import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class MockEventRepository extends Mock implements UserRepository {}
+class MockEventRepository extends Mock implements EventRepository {}
 
 void main() {
   late MockEventRepository mockEventRepository;
@@ -25,4 +25,4 @@ void main() {
       },
     );
   });
-}*/
+}

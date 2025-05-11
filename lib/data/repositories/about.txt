@@ -1,9 +1,0 @@
-Currently, multiple repository functions are just delegating to services and not doing much more logic.
-
-From service to repository we should ideally have:
-1.Data is adapted between domain models and raw service results.
-2.Business logic like caching, token refresh, validation, error handling, or transformations is applied.
-3.Multiple data sources (e.g., network + local DB) are combined.
-
-This is already true in some code such as EventRepositoryImpl.createEvent which uses AuthService to
-first retrieve an authentication token before proceeding with calling EventService
