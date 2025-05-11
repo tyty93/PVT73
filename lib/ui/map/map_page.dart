@@ -25,7 +25,7 @@ class MapPage extends StatelessWidget {
                   zoom: 15,
                 ),
                 markers: viewModel.markers,
-                onLongPress: viewModel.addMarker,
+                onLongPress: viewModel.addMarker, //Ta bort detta också när markers läggs in automatiskt.
               ),
               Positioned(
                 top: 20,
