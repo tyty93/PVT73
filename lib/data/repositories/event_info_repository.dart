@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 
 import '../models/event_info.dart';
 
-abstract class EventInfoRepository {
+// todo commented out because no need to fetch event by id, we can pass the data directly from the home page
+// todo othewise, can just use EventRepository which already is the Single Source of Truth for all event-related data
+/*abstract class EventInfoRepository {
   Future<EventInfo> fetchEventById(int id);
 }
 
@@ -19,13 +21,10 @@ class EventInfoRepositoryImpl implements EventInfoRepository {
     final response = await client.get(Uri.parse("https://group-3-75.pvt.dsv.su.se/events/$id"));
 
     if (response.statusCode == HttpStatus.ok) {
-      print("getting eventinfo worked");
       final Map<String, dynamic> jsonMap = jsonDecode(response.body);
-      print(jsonMap);
       return EventInfo.fromJson(jsonMap);
     } else {
-      print("getting eventinfo failed");
       throw Exception("Failed to fetch event details.");
     }
   }
-}
+}*/
