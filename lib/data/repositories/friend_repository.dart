@@ -4,13 +4,16 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../Friend Model/User.dart';
-import '../Friend Model/stranger.dart';
 
 import 'dart:developer';
 
 abstract class FriendRepository {
   Future<List<User>> fetchUsers(int id);
-  Future<List<Stranger>> searchUsers(int id, String search);
+  Future<User> fetchUser(int userId, int personId);
+  Future<List<User>> searchUsers(int id, String searchString);
+  Future<void> toggleFavourite(int userId, int personId);
+  Future<void> removeFriend(int userId, int personId);
+  Future<void> addFriend(int userId, int personId);
 }
 
 class FriendRepositoryImpl implements FriendRepository {
@@ -38,16 +41,38 @@ class FriendRepositoryImpl implements FriendRepository {
   }
 
   @override
-  Future<List<Stranger>> searchUsers(int id, String searchString) async{
-    log('Crashed here 1');
-    final response = await client.get( Uri.parse('$baseUrl/all'));
-    log('Crashed here 1');
+  Future<User> fetchUser(int userId, int personId) async{
+    final response = await client.get(Uri.parse('$baseUrl/ProfileInfo/person?user_id=2&friend_id=$personId'));
+
+    if(response.statusCode == HttpStatus.ok && response.body.toString() != "null"){
+      final String json = response.body;
+      final dynamic userJson = jsonDecode(json);
+      return User.fromJson(userJson);
+    }
+    throw Exception('Failed to fetch user');
+  }
+
+  @override
+  Future<String> toggleFavourite(int userId, int personId) async{
+    final response = await http.patch(Uri.parse('$baseUrl/friend/Favourite?user_id=$userId&friend_id=$personId'));
+
+    if(response.statusCode == HttpStatus.ok){
+      return response.body;
+    }
+    else{
+      throw Exception("Request failed");
+    }
+  }
+
+  @override
+  Future<List<User>> searchUsers(int id, String searchString) async{
+    final response = await client.get( Uri.parse('$baseUrl/search/users?user_id=$id&query=$searchString'));
     if(response.statusCode == HttpStatus.ok){
       final String jsonString = response.body;
       final List<dynamic> strangersJson = jsonDecode(jsonString);
-      final List<Stranger> users = [];
+      final List<User> users = [];
       for(Map<String,dynamic> json in strangersJson){
-        users.add(Stranger.fromJson(json));
+        users.add(User.fromJson(json));
         log('found $json');
       }
       return users;
@@ -56,5 +81,28 @@ class FriendRepositoryImpl implements FriendRepository {
       throw Exception("Failed to fetch strangers");
     }
   }
+  
+  @override
+  Future<String> removeFriend(int userId, int personId) async{
+    final response = await http.delete(Uri.parse('$baseUrl/friends/remove?user_id=$userId&friend_id=$personId'));
 
+    if(response.statusCode == HttpStatus.ok){
+      return response.body;
+    }
+    else{
+      throw Exception("Request failed");
+    }
+  }
+
+  @override
+  Future<String> addFriend(int userId, int personId) async{
+    final response = await http.post(Uri.parse('$baseUrl/friends/add?user_id=$userId&friend_id=$personId'));
+
+    if(response.statusCode == HttpStatus.ok){
+      return response.body;
+    }
+    else{
+      throw Exception("Request failed");
+    }
+  }
 }

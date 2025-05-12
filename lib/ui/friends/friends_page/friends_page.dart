@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 import 'package:flutter_application_1/data/repositories/search_repository.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
@@ -49,6 +50,7 @@ class FirstScreenState extends State<FriendPageScreen>{
               itemBuilder: (context, index) {
                 return Center(
                     child: FriendsPageCard(
+                      id: users[index].userId,
                       username: users[index].name,
                       userEmail: users[index].email,
                       favourite: users[index].favourite,
@@ -69,11 +71,11 @@ class FirstScreenState extends State<FriendPageScreen>{
             Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => MultiProvider(
                 providers: [
-                  Provider<SearchRepository>(
-                  create: (context) => SearchRepositoryImpl()
+                  Provider<FriendRepository>(
+                  create: (context) => FriendRepositoryImpl()
                   ),
                   ChangeNotifierProvider(
-                  create: (context) => FriendsSearchPageViewmodel(searchRepository: context.read<SearchRepository>()),
+                  create: (context) => FriendsSearchPageViewmodel(userRepository: context.read<FriendRepository>()),
                   )
                 ],
                 child: FriendsSearchPage(),
