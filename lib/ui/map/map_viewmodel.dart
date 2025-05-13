@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/ui/event_info/event_info_screen.dart';
+import 'package:flutter_application_1/ui/event_info/event_info_page.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,7 +14,7 @@ class MapViewModel extends ChangeNotifier {
   final EventRepository eventRepository;
 
   LatLng? _currentLocation;
-  bool _followUser = true;
+  bool _followUser = false;
   final Set<Marker> _markers = {};
 
   LatLng? get currentLocation => _currentLocation;
@@ -101,6 +100,7 @@ class MapViewModel extends ChangeNotifier {
   }
 
 
+
   // To-Do: Change event model/repository to fetch adress, that can be turned into LatLng. Problem, får null när date ska castas.
   // Har ej testat detta än.
  Future<void> _fetchEventMarkers(BuildContext context) async {
@@ -122,8 +122,8 @@ class MapViewModel extends ChangeNotifier {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EventInfoScreen(eventId: event.eventId),
-                  ),
+                  builder: (context) => EventInfoPage(event: event), 
+                  ), 
                 );
               },
             ),
