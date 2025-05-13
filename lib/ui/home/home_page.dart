@@ -92,7 +92,7 @@ class HomePage extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               Theme.of(context).colorScheme.inversePrimary,
-              Theme.of(context).colorScheme.onPrimary,
+              Theme.of(context).colorScheme.primary,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
