@@ -7,7 +7,6 @@ class LoginOrRegisterViewmodel extends ChangeNotifier {
   bool _showLoginPage = true;
   String? _errorMessage;
 
-
   LoginOrRegisterViewmodel({required AuthRepository authRepository})
       : _authRepository = authRepository;
 
@@ -15,13 +14,12 @@ class LoginOrRegisterViewmodel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-
   void togglePages() {
     _showLoginPage = !_showLoginPage;
     notifyListeners();
   }
 
-  Future<void> signUpWithEmailAndPassword(String email, String password, String confirmPassword) async {
+  Future<void> signUpWithEmailAndPassword(String username, String email, String password, String confirmPassword) async {
     if (password != confirmPassword) {
       _errorMessage = "Passwords do not match.";
       notifyListeners();
@@ -32,7 +30,7 @@ class LoginOrRegisterViewmodel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _authRepository.signUpWithEmailAndPassword(email, password);
+      await _authRepository.signUpWithEmailAndPassword(username, email, password);
       _errorMessage = null;
     } catch (e) {
       _errorMessage = e.toString();
