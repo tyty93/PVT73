@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../data/repositories/auth_repository.dart';
 
-
-// Exposes isLoggedIn so auth_page knows whether to return Home or LoginOrRegister pages
 // Listens to Firebase auth stream exposed by the AuthRepository
 class AuthViewmodel extends ChangeNotifier {
   final AuthRepository _authRepository;
@@ -21,7 +19,6 @@ class AuthViewmodel extends ChangeNotifier {
 
   User? get user => _user;
   bool get isLoggedIn => _user != null;
-
 
   @override
   void dispose() {
