@@ -5,6 +5,10 @@
 import FlutterMacOS
 import Foundation
 
+<<<<<<< HEAD
+
+func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+=======
 import firebase_auth
 import firebase_core
 import google_sign_in_ios
@@ -17,4 +21,5 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTGoogleSignInPlugin.register(with: registry.registrar(forPlugin: "FLTGoogleSignInPlugin"))
   LocationPlugin.register(with: registry.registrar(forPlugin: "LocationPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
+>>>>>>> main
 }

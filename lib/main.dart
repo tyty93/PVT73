@@ -1,5 +1,13 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+import 'package:flutter_application_1/ui/create_event.dart';
+import 'package:intl/intl_standalone.dart' if (dart.library.html) 'package:intl/intl_browser.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await findSystemLocale();
+  runApp(const MyApp());
+=======
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 import 'package:flutter_application_1/data/services/user_service.dart';
 import 'package:flutter_application_1/routing/router.dart';
@@ -80,13 +88,20 @@ void main() async {
     child: MyApp()
     ),
   );
+>>>>>>> main
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+    return MaterialApp(
+      title: 'The App',
+      home: CreateEvent(),
+=======
     final router = context.read<GoRouter>();
     return MaterialApp.router(
         debugShowCheckedModeBanner: false,
@@ -95,6 +110,8 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.system,
         theme: MaterialTheme.lightTheme,
         darkTheme: MaterialTheme.darkTheme,
+>>>>>>> main
     );
+
   }
 }
