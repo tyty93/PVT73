@@ -13,4 +13,8 @@ List<NavigationDestination> navigationDestinations = [
     icon: Icon(Icons.person),
     label: 'Profile',
   ),
+  NavigationDestination(
+    icon: Icon(Icons.map),
+    label: 'Map',
+  ),
 ];

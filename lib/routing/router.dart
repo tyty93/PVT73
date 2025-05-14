@@ -3,13 +3,15 @@ import 'package:flutter_application_1/routing/layout_scaffold.dart';
 import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/event/event_page.dart';
 import 'package:flutter_application_1/ui/home/create_event_page.dart';
+import 'package:flutter_application_1/ui/profile/profile_settings_page.dart';
 import 'package:go_router/go_router.dart';
-
 import '../data/models/event.dart';
 import '../ui/auth/viewmodels/auth_viewmodel.dart';
 import '../ui/auth/widgets/auth_page.dart';
 import '../ui/event_info/event_info_page.dart';
 import '../ui/home/home_page.dart';
+
+import 'package:flutter_application_1/ui/map/map_page.dart';
 // Shaared detail sreens from multiple tabs? see https://dev.to/7twilight/mastering-nested-navigation-in-flutter-with-gorouter-and-a-bottom-nav-bar-555l
 // see https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter/ for more info
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -85,7 +87,15 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
             routes: [
               GoRoute(
                 path: Routes.profilePage,
-                builder: (context, state) => const Placeholder(),
+                builder: (context, state) => const EditProfileScreen(email: '', userName: '',),
+              )
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.mapPage,
+                builder: (context, state) => const MapPage(),
               )
             ],
           ),

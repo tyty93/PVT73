@@ -11,6 +11,8 @@ import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewm
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_1/ui/map/map_viewmodel.dart';
+
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/event_repository.dart';
 import 'data/repositories/user_repository.dart';
@@ -65,6 +67,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => FriendsPageViewmodel(userRepository: context.read<FriendRepository>()),
         ),
+        ChangeNotifierProvider(
+          create: (context) => MapViewModel(eventRepository: context.read<EventRepository>()),
+        ),
 
         // Router
         Provider<GoRouter>(
@@ -84,6 +89,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final router = context.read<GoRouter>();
     return MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: 'The App',
         routerConfig: router,
         themeMode: ThemeMode.system,
