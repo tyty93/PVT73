@@ -1,0 +1,7 @@
+Test description tips: Given, When, Then style
+Test structure tips: line separated logical groupings of statements that Arrange, Act, Assert
+Use setUp/setUpAll/tearDown/tearDownAll where it makes sense to avoid code duplication
+Use groups{} for hierarchy and efficiency, but be careful of tess depending on each other
+use async await where necessary
+Test should not depend on external factors (Use mockito to mock for example http requests when testing repositories)
+Do not use the await keyword when expecting the function to throw an exception
