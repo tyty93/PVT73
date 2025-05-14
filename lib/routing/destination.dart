@@ -17,4 +17,8 @@ List<NavigationDestination> navigationDestinations = [
     icon: Icon(Icons.map),
     label: 'Map',
   ),
+  NavigationDestination(
+    icon: Icon(Icons.person_2),
+    label: 'Friends'
+  )
 ];

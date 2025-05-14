@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/routing/layout_scaffold.dart';
 import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/event/event_page.dart';
+import 'package:flutter_application_1/ui/friends/friends_page/friends_page.dart';
 import 'package:flutter_application_1/ui/home/create_event_page.dart';
 import 'package:flutter_application_1/ui/profile/profile_settings_page.dart';
 import 'package:go_router/go_router.dart';
@@ -99,6 +100,14 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
               )
             ],
           ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.friendPage,
+                builder: (context, state) => const FriendPageScreen(),
+              )
+            ]
+          )
         ], // state is current route state
       ),
     ],
