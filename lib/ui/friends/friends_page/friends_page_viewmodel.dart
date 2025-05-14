@@ -36,8 +36,8 @@ class FriendsPageViewmodel extends ChangeNotifier{
     refresh();
   }
 
-  void removeFriend(int uid){
-    _userRepository.removeFriend(2, uid);
+  Future<void> removeFriend(int uid) async{
+    await _userRepository.removeFriend(2, uid);
     refresh();
   }
 

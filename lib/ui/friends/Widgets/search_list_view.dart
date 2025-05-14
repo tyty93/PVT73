@@ -58,7 +58,7 @@ class DisplayListViewState extends State<SearchListView>{
                 }
 
                 final users = viewModel.users!;
-                return Container(
+                return SizedBox(
                   width: double.infinity,
                   height: MediaQuery.sizeOf(context).height - 100 - 68,
 

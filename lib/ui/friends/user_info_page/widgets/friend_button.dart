@@ -86,7 +86,8 @@ class FriendButtonState extends State<FriendButton>{
               setState((){isFriend = true; outgoingRequest = false; incomingRequest = false;});
             },
             child: Icon(
-              Icons.clear_rounded,
+              Icons.check_rounded,
+              color: Color(0xFF000000),
               size:39
             ),
           ),
@@ -102,6 +103,7 @@ class FriendButtonState extends State<FriendButton>{
             },
             child: Icon(
               Icons.clear_rounded,
+              color: Color(0xFF000000),
               size:30
             )
           )

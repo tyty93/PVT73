@@ -6,7 +6,6 @@ import 'package:flutter_application_1/ui/friends/user_info_page/widgets/friend_b
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'dart:developer';
 
 
 class UserInfoPage extends StatefulWidget{
