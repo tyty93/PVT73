@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
-import '../../common/custom_button.dart';
+import '../../common/filled_button_wide.dart';
 import '../../common/custom_textfield.dart';
 import '../viewmodels/login_or_register_viewmodel.dart';
 
@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -30,16 +29,15 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // logo
-              Icon(
-                Icons.person,
-                size: 70,
-                color: Theme.of(context).colorScheme.inversePrimary,
+              Image.asset(
+                'assets/logo.png',
+                height: 100,
               ),
 
               const SizedBox(height: 20),
 
               // app name
-              const Text("Grupp73 appname"),
+              const Text("AfterTenta"),
               const SizedBox(height: 20),
 
               // email textfield
@@ -61,13 +59,14 @@ class _LoginPageState extends State<LoginPage> {
                       if (viewModel.errorMessage != null)
                         Text(viewModel.errorMessage!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
 
-                      CustomButton(
+                      SizedBox(height: 20,),
+                      FilledButtonWide(
                           text: "Login",
                           onTap: () => viewModel.signInWithEmailAndPassword(emailController.text, passwordController.text)
                       ),
                     ],
                   );
-                  },
+                },
               ),
               const SizedBox(height: 20),
 
@@ -75,11 +74,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account?",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
+                  Text("Don't have an account?"),
                   Consumer<LoginOrRegisterViewmodel>(
                     builder: (context, viewModel, _) {
                       return GestureDetector(
