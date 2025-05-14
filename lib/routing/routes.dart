@@ -8,6 +8,8 @@ class Routes {
   static const String profilePage = '/profile';
   static const String eventsPage = '/events';
   static const String authPage = '/auth';
+  static const String mapPage = '/map';
+  static const String friendPage = '/friends';
 
 
   // Nested under home

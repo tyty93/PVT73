@@ -1,14 +1,5 @@
-import 'dart:io';
 
-import 'package:flutter_application_1/data/models/event.dart';
-import 'package:flutter_application_1/data/repositories/event_repository.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
-import 'package:http/http.dart' as http;
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 
-import 'event_repository_test.mocks.dart';
 // todo: refaactor tests, haave become outdated
 /*
 @GenerateMocks([http.Client])
