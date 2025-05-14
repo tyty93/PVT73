@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
               create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>()),
           ),
           ChangeNotifierProvider(
-              create: (context) => FriendsPageViewmodel(friendRepository: context.read<FriendRepository>()),
+              create: (context) => FriendsPageViewmodel(userRepository: context.read<FriendRepository>()),
           ),
         ],
         child: const AuthPage(),

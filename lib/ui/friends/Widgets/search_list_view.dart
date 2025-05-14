@@ -72,6 +72,8 @@ class DisplayListViewState extends State<SearchListView>{
                             username: users[index].name,
                             userEmail: "",
                             favourite: false,
+                            isFriend: users[index].isFriend,
+                            isPending: users[index].incomingRequest,
                           ),
                       );
                     } 

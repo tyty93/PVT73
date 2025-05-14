@@ -8,12 +8,20 @@ import '../Friend Model/User.dart';
 import 'dart:developer';
 
 abstract class FriendRepository {
+  //Friends page
+  Future<List<User>> fetchPendingRequests(int id);
   Future<List<User>> fetchUsers(int id);
   Future<User> fetchUser(int userId, int personId);
+
+  //Search page
   Future<List<User>> searchUsers(int id, String searchString);
-  Future<void> toggleFavourite(int userId, int personId);
-  Future<void> removeFriend(int userId, int personId);
-  Future<void> addFriend(int userId, int personId);
+
+  //Profile info page
+  Future<String> toggleFavourite(int userId, int personId);
+  Future<String> removeFriend(int userId, int personId);
+  Future<String> addFriend(int userId, int personId);
+  Future<String> acceptRequest(int userId, int personId);
+  Future<String> rejectRequest(int userId, int personId);
 }
 
 class FriendRepositoryImpl implements FriendRepository {
@@ -23,8 +31,27 @@ class FriendRepositoryImpl implements FriendRepository {
   FriendRepositoryImpl({http.Client? client}) : client = client ?? http.Client();
 
   @override
+  Future<List<User>> fetchPendingRequests(int id) async{
+    final response = await client.get( Uri.parse('$baseUrl/friends/pending?uid=$id'));
+
+    if(response.statusCode == HttpStatus.ok){
+      final String jsonString = response.body;
+      final List<dynamic> friendsJson = jsonDecode(jsonString);
+      final List<User> requests = [];
+      for (Map<String,dynamic> friendJson in friendsJson){
+        requests.add(User.fromJson(friendJson));
+        log("Pending request$friendJson");
+      }
+      return requests;
+    }
+    else{
+      throw Exception("Failed to fetch pending requests");
+    }
+  }
+
+  @override
   Future<List<User>> fetchUsers(int id) async{
-    final response = await client.get( Uri.parse('$baseUrl/friend/getFriends?uid=2'),);
+    final response = await client.get( Uri.parse('$baseUrl/friend/getFriends?uid=$id'),);
 
     if(response.statusCode == HttpStatus.ok){
       final String jsonString = response.body;
@@ -105,4 +132,30 @@ class FriendRepositoryImpl implements FriendRepository {
       throw Exception("Request failed");
     }
   }
+
+  @override
+  Future<String> acceptRequest(int userId, int personId) async{
+    final response = await http.post(Uri.parse('$baseUrl/friends/accept?user_id=$userId&friend_id=$personId'));
+
+    if(response.statusCode == HttpStatus.ok){
+      return response.body;
+    }
+    else{
+      throw Exception("Request failed");
+    }
+  }
+
+  @override
+  Future<String> rejectRequest(int userId, int personId) async{
+    final response = await http.delete(Uri.parse('$baseUrl/friends/reject?user_id=$userId&friend_id=$personId'));
+
+    if(response.statusCode == HttpStatus.ok){
+      return response.body;
+    }
+    else{
+      throw Exception("Request failed");
+    }
+  }
+  
+  
 }

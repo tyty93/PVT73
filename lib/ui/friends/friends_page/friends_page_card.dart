@@ -13,7 +13,12 @@ class FriendsPageCard extends StatelessWidget{
   final String username;
   final String userEmail;
   final bool favourite;
+  final bool isFriend;
+  final bool isPending;
   final int id;
+  final void Function()? removeFriendFunction;
+  final void Function()? addFriendFunction;
+  final void Function()? toggleFavoriteFunction;
 
   const FriendsPageCard({
     super.key,
@@ -21,12 +26,17 @@ class FriendsPageCard extends StatelessWidget{
     this.username="Name",
     this.userEmail="Email",
     this.favourite=false,
+    required this.isFriend,
+    required this.isPending,
+    this.removeFriendFunction,
+    this.addFriendFunction,
+    this.toggleFavoriteFunction,
   });
 
   @override
   Widget build(context){
     return Padding(
-      padding: EdgeInsets.only(top: 16),
+      padding: EdgeInsets.fromLTRB(0, 4, 0, 12),
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(
@@ -112,10 +122,43 @@ class FriendsPageCard extends StatelessWidget{
                       ),
                     ],)
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: buildOptionsButton(context)
+                  Builder(
+                    builder: (context){
+                      if(isFriend){
+                        return Align(
+                          alignment: Alignment.center,
+                          child: PopupMenuButton(
+                            position: PopupMenuPosition.over,
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                            elevation: 2,
+                            icon: buildOptionsButton(context),
+                            onSelected: handleOptions,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              side: BorderSide(
+                                color: Colors.black,
+                              )
+                            ),
+                            itemBuilder:  (BuildContext context) {
+                              return {'Favourite','Remove friend'}.map((String choice){
+                                return PopupMenuItem<String>(
+                                  value: choice,
+                                  child: Text(choice), 
+                                );
+                              }).toList();
+                            }
+                          )
+                        );
+                      }
+                      else if(isPending){
+                        return Text('');
+                      }
+                      else{
+                        return Text('');
+                      }
+                    },
                   )
+                  
                 ]
               )
             )
@@ -124,30 +167,38 @@ class FriendsPageCard extends StatelessWidget{
       )
     );
   }
-  Widget buildOptionsButton(Context) => MaterialButton(
-    minWidth: 2,
-    onPressed: () {
-      developer.log('Hello from $username');
-    },
-    child: Column( 
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Icon( 
-          Icons.circle,
-          size: 6,
-        ),
-        SizedBox(height:2),
-        Icon( 
-          Icons.circle,
-          size: 6,
-        ),
-        SizedBox(height:2),
-        Icon( 
-          Icons.circle,
-          size: 6,
-        ),
-      ]
-    )
+
+  void handleOptions(String value){
+    switch(value){
+      case 'Favourite':
+        if(toggleFavoriteFunction != null) toggleFavoriteFunction!();
+        else{ developer.log('Hello 2'); }
+      break;
+      case 'Remove friend':
+        if(removeFriendFunction != null) removeFriendFunction!();
+        else{ developer.log('Hello'); };
+      break;
+    }
+  }
+
+  Widget buildOptionsButton(context) => Column( 
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Icon( 
+        Icons.circle,
+        size: 6,
+      ),
+      SizedBox(height:2),
+      Icon( 
+        Icons.circle,
+        size: 6,
+      ),
+      SizedBox(height:2),
+      Icon( 
+        Icons.circle,
+        size: 6,
+      ),
+    ]
   );
 }

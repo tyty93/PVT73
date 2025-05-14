@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
-import 'package:flutter_application_1/data/repositories/search_repository.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page.dart';
@@ -37,26 +36,80 @@ class FirstScreenState extends State<FriendPageScreen>{
         ),
         body: Consumer<FriendsPageViewmodel>(
           builder: (context, viewModel, _){
+            if(!viewModel.hasLoadedFriends){
+              viewModel.refresh();
+            }
             if(viewModel.users == null){
               return const Center(child: CircularProgressIndicator());
             }
-            if(viewModel.users!.isEmpty){
+            if(viewModel.users!.isEmpty && viewModel.pendingRequests.isEmpty){
               return Center(child: Text('No friends'));
             }
+            final pendingRequests = viewModel.pendingRequests;
             final users = viewModel.users!;
-            return ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                return Center(
+            return RefreshIndicator(
+              onRefresh: (){
+                return Future.delayed(Duration(milliseconds: 500),(){
+                  viewModel.refresh();
+                  setState((){});
+                });
+              },
+              child: ListView.builder(
+                itemCount: (pendingRequests.isNotEmpty)? users.length + pendingRequests.length + 2: users.length + 1,
+                itemBuilder: (context, index) {
+                  if(pendingRequests.isNotEmpty && index < pendingRequests.length+1){
+                    if(index == 0){
+                      return Text(
+                        " Vänförfrågningar",
+                        style: GoogleFonts.itim(
+                          textStyle: TextStyle(color: Colors.white, letterSpacing: 2),
+                          fontSize: 25,
+                        ),
+                      );
+                    }
+                    index-=1;
+                    return Center(
+                      child: FriendsPageCard(
+                        id: pendingRequests[index].userId,
+                        username: pendingRequests[index].name,
+                        userEmail: pendingRequests[index].email,
+                        favourite: pendingRequests[index].favourite,
+                        isFriend: pendingRequests[index].isFriend,
+                        isPending: pendingRequests[index].incomingRequest,
+                      ),
+                    );
+                    
+                  }
+                  int value = (pendingRequests.isNotEmpty)? pendingRequests.length+1 : 0;
+                  index-= value;
+                  if(index == 0){
+                      return Text(
+                        " Mina vänner",
+                        style: GoogleFonts.itim(
+                          textStyle: TextStyle(color: Colors.white, letterSpacing: 2),
+                          fontSize: 25,
+                        ),
+                      );
+                  }
+                  index-=1;
+                  return Center(
                     child: FriendsPageCard(
-                      id: users[index].userId,
-                      username: users[index].name,
-                      userEmail: users[index].email,
-                      favourite: users[index].favourite,
+                      id:         users[index].userId,
+                      username:   users[index].name,
+                      userEmail:  users[index].email,
+                      favourite:  users[index].favourite,
+                      isFriend:   users[index].isFriend,
+                      isPending:  users[index].incomingRequest,
+                      toggleFavoriteFunction: (){
+                        viewModel.favourite(users[index].userId);
+                      },
+                      removeFriendFunction: (){
+                        viewModel.removeFriend(users[index].userId);
+                      },
                     ),
-                );
-              } 
+                  );
+                } 
+              )
             );
           }
         ),
@@ -92,7 +145,6 @@ class FirstScreenState extends State<FriendPageScreen>{
         ),
         
         backgroundColor: Color.fromRGBO(153, 88, 88, 1)
-
     );
   }
 }
