@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
-import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/user_info_page.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 
@@ -171,12 +170,14 @@ class FriendsPageCard extends StatelessWidget{
   void handleOptions(String value){
     switch(value){
       case 'Favourite':
-        if(toggleFavoriteFunction != null) toggleFavoriteFunction!();
-        else{ developer.log('Hello 2'); }
+        if(toggleFavoriteFunction != null) {
+          toggleFavoriteFunction!();
+        } else{ developer.log('Hello 2'); }
       break;
       case 'Remove friend':
-        if(removeFriendFunction != null) removeFriendFunction!();
-        else{ developer.log('Hello'); };
+        if(removeFriendFunction != null) {
+          removeFriendFunction!();
+        } else{ developer.log('Hello'); } {}
       break;
     }
   }
