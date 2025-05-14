@@ -1,13 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:flutter_application_1/ui/create_event.dart';
-import 'package:intl/intl_standalone.dart' if (dart.library.html) 'package:intl/intl_browser.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await findSystemLocale();
-  runApp(const MyApp());
-=======
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 import 'package:flutter_application_1/data/services/user_service.dart';
 import 'package:flutter_application_1/routing/router.dart';
@@ -17,9 +8,10 @@ import 'package:flutter_application_1/ui/common/theme/theme.dart';
 import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
+import 'package:flutter_application_1/ui/map/map_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application_1/ui/map/map_viewmodel.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/event_repository.dart';
@@ -56,7 +48,7 @@ void main() async {
           create: (context) => UserRepositoryImpl(context.read<UserService>(), context.read<AuthService>()),
         ),
         Provider<FriendRepository>(
-          create: (context) => FriendRepositoryImpl()
+          create: (context) => FriendRepositoryImpl(),
         ),
 
         // Inject into Viewmodels
@@ -67,7 +59,11 @@ void main() async {
           create: (context) => LoginOrRegisterViewmodel(authRepository: context.read<AuthRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => HomeViewmodel(authRepository: context.read<AuthRepository>(), userRepository: context.read<UserRepository>(), eventRepository: context.read<EventRepository>()),
+          create: (context) => HomeViewmodel(
+            authRepository: context.read<AuthRepository>(),
+            userRepository: context.read<UserRepository>(),
+            eventRepository: context.read<EventRepository>(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
@@ -85,33 +81,24 @@ void main() async {
           create: (context) => createRouter(context.read<AuthViewmodel>()),
         ),
       ],
-    child: MyApp()
+      child: MyApp(),
     ),
   );
->>>>>>> main
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return MaterialApp(
-      title: 'The App',
-      home: CreateEvent(),
-=======
     final router = context.read<GoRouter>();
     return MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: 'The App',
-        routerConfig: router,
-        themeMode: ThemeMode.system,
-        theme: MaterialTheme.lightTheme,
-        darkTheme: MaterialTheme.darkTheme,
->>>>>>> main
+      debugShowCheckedModeBanner: false,
+      title: 'The App',
+      routerConfig: router,
+      themeMode: ThemeMode.system,
+      theme: MaterialTheme.lightTheme,
+      darkTheme: MaterialTheme.darkTheme,
     );
-
   }
 }
