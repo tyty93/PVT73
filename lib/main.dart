@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
     final authViewmodel = context.watch<AuthViewmodel>();
     final router = createRouter(authViewmodel);
     return MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         title: 'The App',
         routerConfig: router,
         themeMode: ThemeMode.system,

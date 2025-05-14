@@ -3,8 +3,8 @@ import 'package:flutter_application_1/routing/layout_scaffold.dart';
 import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/event/event_page.dart';
 import 'package:flutter_application_1/ui/home/create_event_page.dart';
+import 'package:flutter_application_1/ui/profile/profile_settings_page.dart';
 import 'package:go_router/go_router.dart';
-
 import '../data/models/event.dart';
 import '../ui/auth/viewmodels/auth_viewmodel.dart';
 import '../ui/auth/widgets/auth_page.dart';
@@ -88,7 +88,7 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
             routes: [
               GoRoute(
                 path: Routes.profilePage,
-                builder: (context, state) => const Placeholder(),
+                builder: (context, state) => const EditProfileScreen(email: '', userName: '',),
               )
             ],
           ),
