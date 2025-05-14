@@ -13,9 +13,7 @@ import '../ui/home/home_page.dart';
 
 import 'package:flutter_application_1/ui/map/map_page.dart';
 // Shaared detail sreens from multiple tabs? see https://dev.to/7twilight/mastering-nested-navigation-in-flutter-with-gorouter-and-a-bottom-nav-bar-555l
-// TODO: add navigatorkeys for each branch, try NoTransitionPages, refactor GoRouter instance into singleton DI with  provider to avoid rebuild on hot reload
 // see https://codewithandrea.com/articles/flutter-bottom-navigation-bar-nested-routes-gorouter/ for more info
-// TODO: test if android back button works on deeper nested pages within any bottomnavbr item's branch.
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
@@ -23,7 +21,6 @@ final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'shellC');
 
 // Use StatefulShellRoute for bottom navigation bar, which will show a UI shell
 // wrapping the main content and preventing the navbar from rebuilding each time we navigate to new page
-// todo: don't use a createRouter method..  refactor GoRouter instance into singleton DI with  provider to avoid rebuild on hot reload (see https://github.com/bizz84/nested_navigation_examples/blob/main/examples/gorouter/lib/main.dart)
 GoRouter createRouter(AuthViewmodel authViewmodel) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,

@@ -84,11 +84,28 @@ class HomePage extends StatelessWidget {
             );
           }
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          context.push('/home/create-event');// calling function (without rebuilding for now)
-        },
+      floatingActionButton: Container(
+        width: 56,
+        height: 56,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).colorScheme.inversePrimary,
+              Theme.of(context).colorScheme.primary,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: FloatingActionButton(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          onPressed: () {
+            context.push('/home/create-event');
+          },
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }

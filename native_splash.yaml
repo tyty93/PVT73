@@ -1,0 +1,21 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  # https://pub.dev/packages/flutter_native_splash
+  # https://www.youtube.com/watch?v=3Bsw8a1BJoQ
+  # https://www.youtube.com/watch?v=U1BErwaE3zo
+  color: "#ffdad9"
+  image: "assets/androidlogo_bright.png"
+
+  color_dark: "#733334"
+  image_dark: "assets/androidlogo_dark.png"
+
+
+  android_12:
+    color: "#ffdad9"
+    image: "assets/androidlogo_bright.png"
+
+    color_dark: "#733334"
+    image_dark: "assets/androidlogo_dark.png"
