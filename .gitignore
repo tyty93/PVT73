@@ -92,7 +92,6 @@ app.*.map.json
 /dev/docs/api_docs.zip
 /dev/docs/flutter.docs.zip
 /dev/docs/lib/
-/dev/docs/pubspec.yaml
 /dev/integration_tests/**/xcuserdata
 /dev/integration_tests/**/Pods
 /packages/flutter/coverage/
@@ -166,6 +165,7 @@ local.properties
 **/macos/Flutter/GeneratedPluginRegistrant.swift
 **/macos/Flutter/ephemeral
 **/xcuserdata/
+
 
 # Windows
 **/windows/flutter/ephemeral/
