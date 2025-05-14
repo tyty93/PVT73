@@ -39,4 +39,12 @@ class UserInfoViewmodel extends ChangeNotifier{
   void addFriend(int uid){
     _userRepository.addFriend(2, uid);
   }
+
+  void acceptRequest(int uid){
+    _userRepository.acceptRequest(2, uid);
+  }
+
+  void rejectRequest(int uid){
+    _userRepository.rejectRequest(2, uid);
+  }
 }

@@ -28,11 +28,6 @@ class FriendButtonState extends State<FriendButton>{
   late bool incomingRequest;
   late UserInfoViewmodel viewModel;
 
-  final Color borderColor = Color(0xFF151515);
-  final Color removeFriendButtonColor = Color(0xFFDD3437);
-  final Color outgoingRequestButtonColor = Color(0xFF34DD53);
-  final Color addFriendButtonColor = Color(0xFFFBDCDC);
-
   @override
   void initState(){
     super.initState();
@@ -45,34 +40,118 @@ class FriendButtonState extends State<FriendButton>{
   @override
   Widget build(BuildContext context) {
     if(isFriend){
-      return buildButton("Ta bort vän" ,  borderColor, removeFriendButtonColor, 
-        (){
+      return BasicButton(
+        buttonColor: Color(0xFFDD3437),
+        borderColor: Color(0xFF151515),
+        onPressed: (){
           widget.viewmodel.removeFriend(widget.userId);
           setState((){isFriend = false; outgoingRequest = false; incomingRequest = false;});
-        }
+        },
+        child: Text(
+          "Ta bort vän",
+          style: GoogleFonts.itim(
+            textStyle: TextStyle(color: Colors.black),
+            fontSize: 28,
+          )
+        )
       );
     }
-    else if(outgoingRequest){
-      return buildButton("Skickad", borderColor, outgoingRequestButtonColor,(){});
-    }
-    else if(incomingRequest){
 
+    else if(outgoingRequest){
+      return BasicButton(
+        buttonColor: Color(0xFF34DD53),
+        borderColor: Color(0xFF151515),
+        onPressed: (){},
+        child: Text(
+          "Skickad",
+          style: GoogleFonts.itim(
+            textStyle: TextStyle(color: Colors.black),
+            fontSize: 28,
+          )
+        )
+      );
     }
+
+    else if(incomingRequest){
+      return Row(
+        children: [
+          SizedBox(width:2),
+          BasicButton(
+            height:44,
+            width: 130,
+            buttonColor: Color(0xFF34DD53),
+            borderColor: Color(0xFF151515),
+            onPressed: (){
+              widget.viewmodel.acceptRequest(widget.userId);
+              setState((){isFriend = true; outgoingRequest = false; incomingRequest = false;});
+            },
+            child: Icon(
+              Icons.clear_rounded,
+              size:39
+            ),
+          ),
+          SizedBox(width:2),
+          BasicButton(
+            height: 44,
+            width: 80,
+            buttonColor: Color(0xFFDD3437),
+            borderColor: Color(0xFF371515),
+            onPressed: (){
+              widget.viewmodel.rejectRequest(widget.userId);
+              setState((){isFriend=false; outgoingRequest = false; incomingRequest =false;});
+            },
+            child: Icon(
+              Icons.clear_rounded,
+              size:30
+            )
+          )
+        ],
+      );
+    }
+
     else {
-      return buildButton("Lägg till vän", borderColor, addFriendButtonColor,
-        (){
+      return BasicButton(
+        buttonColor: Color(0xFFFBDCDC),
+        borderColor: Color(0xFF151515),
+        onPressed: (){
           widget.viewmodel.addFriend(widget.userId);
           setState((){isFriend = false; outgoingRequest = true; incomingRequest = false;});
-        }
+        },
+        child: Text(
+          "Lägg till vän",
+          style: GoogleFonts.itim(
+            textStyle: TextStyle(color: Colors.black),
+            fontSize: 28,
+          )
+        )
       );
     }
-    return Text("Hello");
   }
+}
 
-  Widget buildButton(String text, Color borderColor, Color buttonColor, void Function() onTap){
+class BasicButton extends StatelessWidget{
+  final double width;
+  final double height;
+  final Color buttonColor;
+  final Color borderColor;
+  final Widget child;
+  final void Function() onPressed;
+
+  const BasicButton({
+    super.key,
+    this.width = 230,
+    this.height = 44,
+    required this.buttonColor,
+    required this.borderColor,
+    required this.child,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
-      height:43,
-      width:230,
+      height: height,
+      width: width,
       child: ElevatedButton(
         style: ButtonStyle(
           elevation: WidgetStatePropertyAll(0),
@@ -88,29 +167,11 @@ class FriendButtonState extends State<FriendButton>{
             ),
           ),
         ),
-        onPressed: onTap,
-        child: Text(
-          text,
-          style: GoogleFonts.itim(
-            textStyle: TextStyle(color: Colors.black),
-            fontSize: 28,
-          ),
+        onPressed: onPressed,
+        child: Center(
+          child: child,
         )
       )
     );
   }
 }
-
-/*
-ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor: Color(0xFFDD3437),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(90),
-            side: const BorderSide(
-              width: 2,
-              color: Color(0xFF371515),
-              strokeAlign: -1,
-            )
-          )
-          )*/

@@ -6,6 +6,8 @@ import 'package:flutter_application_1/ui/friends/user_info_page/widgets/friend_b
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'dart:developer';
+
 
 class UserInfoPage extends StatefulWidget{
   final int id;
@@ -65,20 +67,21 @@ class UserInfoPageState extends State<UserInfoPage>{
                       )
                     ),
                     SizedBox(
-                      width: 281,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FavouriteButton(
                             isFriend: user.isFriend,
                             favourite: user.favourite,
                             onTap: () {
-                              viewModel.favourite(user.userId);
+                            viewModel.favourite(user.userId);
                             },
                           ),
                           FriendButton(
+                            
                             isFriend: user.isFriend,
                             outgoingRequest: user.outgoingRequest,
-                            incomingRequest: user.outgoingRequest,
+                            incomingRequest: user.incomingRequest,
                             userId: user.userId,
                             viewmodel: viewModel,
                           )
