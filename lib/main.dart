@@ -7,6 +7,7 @@ import 'package:flutter_application_1/ui/auth/viewmodels/login_or_register_viewm
 import 'package:flutter_application_1/ui/common/theme/theme.dart';
 import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/event_repository.dart';
@@ -15,7 +16,6 @@ import 'data/services/auth_service.dart';
 import 'data/services/event_service.dart';
 import 'firebase_options.dart';
 
-// TODO: Inject GoRouter instead of having a function called in MyApp.build that recreates the instance on rebuilds
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -57,6 +57,12 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
         ),
+
+        // Router
+        Provider<GoRouter>(
+          lazy: false,
+          create: (context) => createRouter(context.read<AuthViewmodel>()),
+        ),
       ],
     child: MyApp()
     ),
@@ -68,8 +74,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authViewmodel = context.watch<AuthViewmodel>();
-    final router = createRouter(authViewmodel);
+    final router = context.read<GoRouter>();
     return MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'The App',
