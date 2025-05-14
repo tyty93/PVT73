@@ -45,6 +45,9 @@ void main() async {
         Provider<UserRepository>(
           create: (context) => UserRepositoryImpl(context.read<UserService>(), context.read<AuthService>()),
         ),
+        Provider<FriendRepository>(
+          create: (context) => FriendRepositoryImpl()
+        ),
 
         // Inject into Viewmodels
         ChangeNotifierProvider(
@@ -58,6 +61,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FriendsPageViewmodel(userRepository: context.read<FriendRepository>()),
         ),
 
         // Router
