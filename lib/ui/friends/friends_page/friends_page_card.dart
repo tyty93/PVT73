@@ -38,21 +38,6 @@ class FriendsPageCard extends StatelessWidget{
         onTap: () {
           final userId=user.userId;
           context.push('/friends/user/$userId', extra: user);
-          /*Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => MultiProvider(
-                providers: [
-                  Provider<FriendRepository>(
-                    create: (context) => FriendRepositoryImpl()
-                  ),
-                  ChangeNotifierProvider(
-                    create: (context) => UserInfoViewmodel(friendRepository: context.read<FriendRepository>(), userId: user.userId),
-                  ),
-                ],
-                child: UserInfoPage(user: user),
-              ),
-            ),
-          );*/
         },
         child: SizedBox(
           height: 88,
@@ -85,36 +70,55 @@ class FriendsPageCard extends StatelessWidget{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 0,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  user.name,
-                                  style: GoogleFonts.itim(
-                                    fontSize: 28,
-                                  ),
+                            Container(
+                              width:220,
+                              alignment: Alignment.bottomLeft,
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                child:Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child:Text(
+                                        user.name,
+                                        style: GoogleFonts.itim(
+                                          fontSize: 28,
+                                        ),
+                                      ),
+                                    ),
+                                    Builder(
+                                      builder: (context){
+                                        if(favourite){
+                                          return Icon(
+                                            Icons.star,
+                                            color: Color(0xFFD26666),
+                                            size: 32,
+                                          );
+                                        }
+                                        else{
+                                          return SizedBox(width: 32);
+                                        }
+                                      }
+                                    )
+                                  ],
                                 ),
-                                Builder(
-                                  builder: (context){
-                                    if(favourite){
-                                      return Icon(
-                                        Icons.star,
-                                        color: Color(0xFFD26666),
-                                        size: 32,
-                                      );
-                                    }
-                                    else{
-                                      return SizedBox(width: 36);
-                                    }
-                                  }
-                                )
-                              ],
-                            ),
-                            Text(
-                              user.email,
-                              style: GoogleFonts.itim(
-                                fontSize: 24,
-                                color: const Color.fromARGB(255, 139, 139, 139)
                               )
+                            ),
+                            
+                            Container(
+                              width:220,
+                              alignment: Alignment.bottomLeft,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  user.email,
+                                  style: GoogleFonts.itim(
+                                    fontSize: 24,
+                                    color: const Color.fromARGB(255, 139, 139, 139)
+                                  )
+                                )
+                              ),
                             )
                           ],
                         ),

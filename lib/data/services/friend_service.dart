@@ -6,7 +6,7 @@ import 'dart:developer';
 
 class FriendService {
   final http.Client client;
-  final String baseUrl = "http://10.0.2.2:8080/users";
+  final String baseUrl = "https://group-3-75.pvt.dsv.su.se/app/users";
 
   FriendService({http.Client? client}) : client = client ?? http.Client();
 
@@ -120,7 +120,7 @@ class FriendService {
   }
 
   Future<String> toggleFavourite(String idToken, String personId) async{
-    final response = await client.delete(
+    final response = await client.patch(
       Uri.parse('$baseUrl/friend/favourite/$personId'),
       headers: {
         HttpHeaders.authorizationHeader: 'Bearer $idToken',
