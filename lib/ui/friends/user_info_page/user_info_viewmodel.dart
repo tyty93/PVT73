@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../data/Friend Model/User.dart';
 import '../../../data/repositories/friend_repository.dart';
 
-class UserInfoViewmodel extends ChangeNotifier{
+/*class UserInfoViewmodel extends ChangeNotifier{
   User? _user;
   int userId;
   bool _hasLoadedUser = false;
@@ -47,4 +47,4 @@ class UserInfoViewmodel extends ChangeNotifier{
   void rejectRequest(int uid){
     _userRepository.rejectRequest(2, uid);
   }
-}
+}*/

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/Friend%20Model/User.dart';
-import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
+import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
+//import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/widgets/favourite_button.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/widgets/friend_button.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,8 +10,8 @@ import 'package:provider/provider.dart';
 
 
 class UserInfoPage extends StatefulWidget{
-  final int id;
-  const UserInfoPage({super.key, required this.id});
+  final User user;
+  const UserInfoPage({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() => UserInfoPageState();
@@ -35,12 +36,8 @@ class UserInfoPageState extends State<UserInfoPage>{
           )
         ),
       ),
-      body:Consumer<UserInfoViewmodel>(
+      body:Consumer<FriendsPageViewmodel>(
         builder:(context, viewModel, _){
-          if(viewModel.user == null){
-            return const Center(child: CircularProgressIndicator());
-          }
-          User user = viewModel.user!;
           return Column(
             children: [
               Center(
@@ -52,14 +49,14 @@ class UserInfoPageState extends State<UserInfoPage>{
                   spacing: 0,
                   children: [
                     Text(
-                      user.name,
+                      widget.user.name,
                       style: GoogleFonts.itim(
                         textStyle: TextStyle(color: Colors.black),
                         fontSize: 40,
                       )
                     ),
                     Text(
-                      user.email,
+                      widget.user.email,
                       style: GoogleFonts.itim(
                         textStyle: TextStyle(color: Color(0xFF8B8B8B)),
                         fontSize: 24,
@@ -70,18 +67,17 @@ class UserInfoPageState extends State<UserInfoPage>{
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FavouriteButton(
-                            isFriend: user.isFriend,
-                            favourite: user.favourite,
+                            isFriend: widget.user.isFriend,
+                            favourite: widget.user.favourite,
                             onTap: () {
-                            viewModel.favourite(user.userId);
+                            viewModel.favourite(widget.user.userId);
                             },
                           ),
                           FriendButton(
-                            
-                            isFriend: user.isFriend,
-                            outgoingRequest: user.outgoingRequest,
-                            incomingRequest: user.incomingRequest,
-                            userId: user.userId,
+                            isFriend: widget.user.isFriend,
+                            outgoingRequest: widget.user.outgoingRequest,
+                            incomingRequest: widget.user.incomingRequest,
+                            userId: widget.user.userId,
                             viewmodel: viewModel,
                           )
                         ],

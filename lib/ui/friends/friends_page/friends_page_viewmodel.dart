@@ -21,8 +21,8 @@ class FriendsPageViewmodel extends ChangeNotifier{
   Future<void> _loadFriends() async{
     if(_hasLoadedFriends) return;
     _hasLoadedFriends = true;
-    _pendingRequests = await _userRepository.fetchPendingRequests(2);
-    _users = await _userRepository.fetchUsers(2);
+    _pendingRequests = await _userRepository.fetchPending();
+    _users = await _userRepository.fetchFriends();
     notifyListeners();
   }
 
@@ -31,23 +31,27 @@ class FriendsPageViewmodel extends ChangeNotifier{
     _loadFriends();
   }
 
-  Future<void> favourite(int uid) async{
-    await _userRepository.toggleFavourite(2, uid);
+  Future<void> favourite(String uid) async{
+    await _userRepository.toggleFavourite(uid);
     refresh();
   }
 
-  Future<void> removeFriend(int uid) async{
-    await _userRepository.removeFriend(2, uid);
+  Future<void> removeFriend(String uid) async{
+    await _userRepository.removeFriend(uid);
     refresh();
   }
 
-  Future<void> addFriend(int uid) async{
-    await _userRepository.addFriend(2, uid);
+  Future<void> addFriend(String uid) async{
+    await _userRepository.addFriend(uid);
     refresh();
   }
 
-  void acceptRequest(int uid){
-    _userRepository.acceptRequest(2, uid);
+  void acceptRequest(String uid){
+    _userRepository.acceptRequest(uid);
     refresh();
+  }
+
+  void rejectRequest(String uid){
+    _userRepository.rejectRequest(uid);
   }
 }

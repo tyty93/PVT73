@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/repositories/friend_repository.dart';
+import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class FriendButton extends StatefulWidget{
   final bool isFriend;
   final bool outgoingRequest;
   final bool incomingRequest;
-  final int userId;
-  final UserInfoViewmodel viewmodel;
+  final String userId;
+  final FriendsPageViewmodel viewmodel;
 
   const FriendButton({
     super.key, 
@@ -26,7 +29,7 @@ class FriendButtonState extends State<FriendButton>{
   late bool isFriend;
   late bool outgoingRequest;
   late bool incomingRequest;
-  late UserInfoViewmodel viewModel;
+  late FriendsPageViewmodel viewModel;
 
   @override
   void initState(){
@@ -98,7 +101,7 @@ class FriendButtonState extends State<FriendButton>{
             buttonColor: Color(0xFFDD3437),
             borderColor: Color(0xFF371515),
             onPressed: (){
-              widget.viewmodel.rejectRequest(widget.userId);
+              context.read<FriendRepository>().rejectRequest(widget.userId);
               setState((){isFriend=false; outgoingRequest = false; incomingRequest =false;});
             },
             child: Icon(

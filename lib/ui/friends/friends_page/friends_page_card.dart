@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/Friend%20Model/User.dart';
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/user_info_page.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 
 import 'dart:developer' as developer;
 
@@ -9,21 +11,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class FriendsPageCard extends StatelessWidget{
-  final String username;
-  final String userEmail;
+  final User user;
   final bool favourite;
   final bool isFriend;
   final bool isPending;
-  final int id;
   final void Function()? removeFriendFunction;
   final void Function()? addFriendFunction;
   final void Function()? toggleFavoriteFunction;
 
   const FriendsPageCard({
     super.key,
-    required this.id,
-    this.username="Name",
-    this.userEmail="Email",
+    required this.user,
     this.favourite=false,
     required this.isFriend,
     required this.isPending,
@@ -38,7 +36,9 @@ class FriendsPageCard extends StatelessWidget{
       padding: EdgeInsets.fromLTRB(0, 4, 0, 12),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
+          final userId=user.userId;
+          context.push('/friends/user/$userId', extra: user);
+          /*Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => MultiProvider(
                 providers: [
@@ -46,13 +46,13 @@ class FriendsPageCard extends StatelessWidget{
                     create: (context) => FriendRepositoryImpl()
                   ),
                   ChangeNotifierProvider(
-                    create: (context) => UserInfoViewmodel(friendRepository: context.read<FriendRepository>(), userId: id),
+                    create: (context) => UserInfoViewmodel(friendRepository: context.read<FriendRepository>(), userId: user.userId),
                   ),
                 ],
-                child: UserInfoPage(id: id),
+                child: UserInfoPage(user: user),
               ),
             ),
-          );
+          );*/
         },
         child: SizedBox(
           height: 88,
@@ -88,7 +88,7 @@ class FriendsPageCard extends StatelessWidget{
                             Row(
                               children: [
                                 Text(
-                                  username,
+                                  user.name,
                                   style: GoogleFonts.itim(
                                     fontSize: 28,
                                   ),
@@ -110,7 +110,7 @@ class FriendsPageCard extends StatelessWidget{
                               ],
                             ),
                             Text(
-                              userEmail,
+                              user.email,
                               style: GoogleFonts.itim(
                                 fontSize: 24,
                                 color: const Color.fromARGB(255, 139, 139, 139)

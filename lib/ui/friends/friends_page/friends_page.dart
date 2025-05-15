@@ -40,6 +40,7 @@ class FirstScreenState extends State<FriendPageScreen>{
               viewModel.refresh();
             }
             if(viewModel.users == null){
+              viewModel.refresh();
               return const Center(child: CircularProgressIndicator());
             }
             if(viewModel.users!.isEmpty && viewModel.pendingRequests.isEmpty){
@@ -70,9 +71,7 @@ class FirstScreenState extends State<FriendPageScreen>{
                     index-=1;
                     return Center(
                       child: FriendsPageCard(
-                        id: pendingRequests[index].userId,
-                        username: pendingRequests[index].name,
-                        userEmail: pendingRequests[index].email,
+                        user: pendingRequests[index],
                         favourite: pendingRequests[index].favourite,
                         isFriend: pendingRequests[index].isFriend,
                         isPending: pendingRequests[index].incomingRequest,
@@ -94,9 +93,7 @@ class FirstScreenState extends State<FriendPageScreen>{
                   index-=1;
                   return Center(
                     child: FriendsPageCard(
-                      id:         users[index].userId,
-                      username:   users[index].name,
-                      userEmail:  users[index].email,
+                      user: users[index],
                       favourite:  users[index].favourite,
                       isFriend:   users[index].isFriend,
                       isPending:  users[index].incomingRequest,
@@ -121,7 +118,7 @@ class FirstScreenState extends State<FriendPageScreen>{
             borderRadius: BorderRadius.circular(90),
           ),
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            /*Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => MultiProvider(
                 providers: [
                   Provider<FriendRepository>(
@@ -133,7 +130,7 @@ class FirstScreenState extends State<FriendPageScreen>{
                 ],
                 child: FriendsSearchPage(),
               )
-            ));
+            ));*/
           },
           label: Text(
             "     Lägg till ny vän    ",

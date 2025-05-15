@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
+import 'package:flutter_application_1/data/services/friend_service.dart';
 import 'package:flutter_application_1/data/services/user_service.dart';
 import 'package:flutter_application_1/routing/router.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/auth_viewmodel.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_application_1/ui/auth/viewmodels/login_or_register_viewm
 import 'package:flutter_application_1/ui/common/theme/theme.dart';
 import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
+import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/map/map_viewmodel.dart';
 import 'package:go_router/go_router.dart';
@@ -36,6 +38,9 @@ void main() async {
         Provider<EventService>(
           create: (_) => EventService(),
         ),
+        Provider<FriendService>(
+          create: (_) => FriendService(),
+        ),
 
         // Provide repositories
         Provider<AuthRepository>(
@@ -48,7 +53,7 @@ void main() async {
           create: (context) => UserRepositoryImpl(context.read<UserService>(), context.read<AuthService>()),
         ),
         Provider<FriendRepository>(
-          create: (context) => FriendRepositoryImpl(),
+          create: (context) => FriendRepositoryImpl(context.read<FriendService>(), context.read<AuthService>()),
         ),
 
         // Inject into Viewmodels

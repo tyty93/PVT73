@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_application_1/data/services/auth_service.dart';
+import 'package:flutter_application_1/data/services/friend_service.dart';
 import 'package:http/http.dart' as http;
 
 import '../Friend Model/User.dart';
@@ -8,29 +10,42 @@ import '../Friend Model/User.dart';
 import 'dart:developer';
 
 abstract class FriendRepository {
+  Future<List<User>> fetchFriends();
+  Future<List<User>> fetchPending();
+  
+  Future<String> addFriend(String personId);
+  Future<String> removeFriend(String personId);
+  Future<String> acceptRequest(String personId);
+  Future<String> rejectRequest(String personId);
+  Future<String> toggleFavourite(String personId);
   //Friends page
-  Future<List<User>> fetchPendingRequests(int id);
-  Future<List<User>> fetchUsers(int id);
-  Future<User> fetchUser(int userId, int personId);
+  
+  //Future<List<User>> fetchUsers(int id);
+  //Future<User> fetchUser(int userId, int personId);
 
   //Search page
   Future<List<User>> searchUsers(int id, String searchString);
 
   //Profile info page
-  Future<String> toggleFavourite(int userId, int personId);
-  Future<String> removeFriend(int userId, int personId);
-  Future<String> addFriend(int userId, int personId);
-  Future<String> acceptRequest(int userId, int personId);
-  Future<String> rejectRequest(int userId, int personId);
+  //Future<String> toggleFavourite(int userId, int personId);
+  //Future<String> removeFriend(int userId, int personId);
+  //Future<String> addFriend(int userId, int personId);
+  //Future<String> acceptRequest(int userId, int personId);
+  //Future<String> rejectRequest(int userId, int personId);
 }
 
 class FriendRepositoryImpl implements FriendRepository {
   final http.Client client;
   final String baseUrl = "http://10.0.2.2:8080/demo";
 
-  FriendRepositoryImpl({http.Client? client}) : client = client ?? http.Client();
+  final FriendService friendService;
+  final AuthService authService;
 
-  @override
+  FriendRepositoryImpl(this.friendService, this.authService, {
+    http.Client? client,
+  }) : client = client ?? http.Client();
+
+  /*@override
   Future<List<User>> fetchPendingRequests(int id) async{
     final response = await client.get( Uri.parse('$baseUrl/friends/pending?uid=$id'));
 
@@ -47,9 +62,9 @@ class FriendRepositoryImpl implements FriendRepository {
     else{
       throw Exception("Failed to fetch pending requests");
     }
-  }
+  }*/
 
-  @override
+  /*@override
   Future<List<User>> fetchUsers(int id) async{
     final response = await client.get( Uri.parse('$baseUrl/friend/getFriends?uid=$id'),);
 
@@ -65,9 +80,9 @@ class FriendRepositoryImpl implements FriendRepository {
     } else {
       throw Exception("Failed to fetch friends");
     }
-  }
+  }*/
 
-  @override
+  /*@override
   Future<User> fetchUser(int userId, int personId) async{
     final response = await client.get(Uri.parse('$baseUrl/ProfileInfo/person?user_id=2&friend_id=$personId'));
 
@@ -77,9 +92,9 @@ class FriendRepositoryImpl implements FriendRepository {
       return User.fromJson(userJson);
     }
     throw Exception('Failed to fetch user');
-  }
+  }*/
 
-  @override
+ /* @override
   Future<String> toggleFavourite(int userId, int personId) async{
     final response = await http.patch(Uri.parse('$baseUrl/friend/Favourite?user_id=$userId&friend_id=$personId'));
 
@@ -89,7 +104,7 @@ class FriendRepositoryImpl implements FriendRepository {
     else{
       throw Exception("Request failed");
     }
-  }
+  }*/
 
   @override
   Future<List<User>> searchUsers(int id, String searchString) async{
@@ -109,7 +124,7 @@ class FriendRepositoryImpl implements FriendRepository {
     }
   }
   
-  @override
+  /*@override
   Future<String> removeFriend(int userId, int personId) async{
     final response = await http.delete(Uri.parse('$baseUrl/friends/remove?user_id=$userId&friend_id=$personId'));
 
@@ -119,9 +134,9 @@ class FriendRepositoryImpl implements FriendRepository {
     else{
       throw Exception("Request failed");
     }
-  }
+  }*/
 
-  @override
+  /*@override
   Future<String> addFriend(int userId, int personId) async{
     final response = await http.post(Uri.parse('$baseUrl/friends/add?user_id=$userId&friend_id=$personId'));
 
@@ -131,9 +146,9 @@ class FriendRepositoryImpl implements FriendRepository {
     else{
       throw Exception("Request failed");
     }
-  }
+  }*/
 
-  @override
+  /*@override
   Future<String> acceptRequest(int userId, int personId) async{
     final response = await http.post(Uri.parse('$baseUrl/friends/accept?user_id=$userId&friend_id=$personId'));
 
@@ -155,7 +170,104 @@ class FriendRepositoryImpl implements FriendRepository {
     else{
       throw Exception("Request failed");
     }
+  }*/
+  
+  
+  @override
+  Future<List<User>> fetchFriends() async{
+    final idToken = await authService.getIdToken();
+    if (idToken == null) {
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.fetchFriends(idToken);
+    }
+    catch(e){
+      rethrow;
+    }
   }
-  
-  
+
+  @override
+  Future<List<User>> fetchPending() async{
+    final idToken = await authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.fetchPendingRequests(idToken);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> addFriend(String personId) async{
+    final idToken = await authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.addFriend(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> removeFriend(String personId) async{
+    final idToken = await authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.removeFriend(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> acceptRequest(String personId) async{
+    final idToken = await authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.acceptRequest(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> rejectRequest(String personId) async{
+    final idToken = await authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.rejectRequest(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> toggleFavourite(String personId) async{
+    final idToken = await authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.toggleFavourite(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
 }

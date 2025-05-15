@@ -1,5 +1,5 @@
 class User {
-  final int _userId;
+  final String _userId;
   String _name;
   String _email;
   bool _favourite;
@@ -7,7 +7,7 @@ class User {
   bool _outgoingRequest;
   bool _isFriend;
 
-  int get userId => _userId;
+  String get userId => _userId;
   String get name => _name;
   String get email => _email;
   bool get favourite => _favourite;
@@ -16,7 +16,7 @@ class User {
   bool get isFriend => _isFriend;
 
   User({
-    required int userId, 
+    required String userId, 
     required String name, 
     required String email, 
     required bool favourite, 
@@ -34,7 +34,7 @@ class User {
   
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userId: json['id'] as int,
+      userId: json['id'] as String,
       name: json['name'] as String,
       email: json['email'] as String,
       favourite: json['favourite'] as bool,

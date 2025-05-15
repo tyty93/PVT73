@@ -68,10 +68,8 @@ class DisplayListViewState extends State<SearchListView>{
                     itemBuilder: (context, index) {
                       return Center(
                           child: FriendsPageCard(
-                            id: users[index].userId,
-                            username: users[index].name,
-                            userEmail: "",
-                            favourite: false,
+                            user: users[index],
+                            favourite: users[index].favourite,
                             isFriend: users[index].isFriend,
                             isPending: users[index].incomingRequest,
                           ),
