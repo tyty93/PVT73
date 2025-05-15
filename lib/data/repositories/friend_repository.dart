@@ -10,6 +10,8 @@ import '../Friend Model/User.dart';
 import 'dart:developer';
 
 abstract class FriendRepository {
+  Future<List<User>> searchUsers(String query);
+
   Future<List<User>> fetchFriends();
   Future<List<User>> fetchPending();
   
@@ -24,7 +26,7 @@ abstract class FriendRepository {
   //Future<User> fetchUser(int userId, int personId);
 
   //Search page
-  Future<List<User>> searchUsers(int id, String searchString);
+  //Future<List<User>> searchUsers(int id, String searchString);
 
   //Profile info page
   //Future<String> toggleFavourite(int userId, int personId);
@@ -106,7 +108,7 @@ class FriendRepositoryImpl implements FriendRepository {
     }
   }*/
 
-  @override
+  /*@override
   Future<List<User>> searchUsers(int id, String searchString) async{
     final response = await client.get( Uri.parse('$baseUrl/search/users?user_id=$id&query=$searchString'));
     if(response.statusCode == HttpStatus.ok){
@@ -122,7 +124,7 @@ class FriendRepositoryImpl implements FriendRepository {
     else{
       throw Exception("Failed to fetch strangers");
     }
-  }
+  }*/
   
   /*@override
   Future<String> removeFriend(int userId, int personId) async{
@@ -172,7 +174,20 @@ class FriendRepositoryImpl implements FriendRepository {
     }
   }*/
   
-  
+  @override
+  Future<List<User>> searchUsers(String query) async{
+    final idToken = await authService.getIdToken();
+    if (idToken == null) {
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return friendService.searchUsers(idToken, query);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
   @override
   Future<List<User>> fetchFriends() async{
     final idToken = await authService.getIdToken();

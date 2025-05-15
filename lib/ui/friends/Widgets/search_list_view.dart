@@ -36,12 +36,12 @@ class DisplayListViewState extends State<SearchListView>{
 
             Consumer<FriendsSearchPageViewmodel>(
               builder: (context, viewModel, _){
-                if(query.length < 3){
-                  return SizedBox();
-                }
                 if(changed == true){
                   viewModel.refresh(query);
                   changed = false;
+                }
+                if(query.length < 3){
+                  return SizedBox();
                 }
                 if(viewModel.users == null){
                   return const Center(child: CircularProgressIndicator());

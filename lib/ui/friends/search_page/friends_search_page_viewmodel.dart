@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/data/Friend%20Model/User.dart';
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
@@ -19,7 +21,7 @@ class FriendsSearchPageViewmodel extends ChangeNotifier{
   Future<void> _loadUsers(String search) async{
     if(_hasLoadedStrangers) return;
     _hasLoadedStrangers = true;
-    _users = await _userRepository.searchUsers(2, search);
+    _users = await _userRepository.searchUsers(search);
     notifyListeners();
   }
 

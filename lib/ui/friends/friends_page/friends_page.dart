@@ -4,6 +4,7 @@ import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewm
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:developer';
 import 'package:provider/provider.dart';
@@ -118,19 +119,7 @@ class FirstScreenState extends State<FriendPageScreen>{
             borderRadius: BorderRadius.circular(90),
           ),
           onPressed: () {
-            /*Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => MultiProvider(
-                providers: [
-                  Provider<FriendRepository>(
-                  create: (context) => FriendRepositoryImpl()
-                  ),
-                  ChangeNotifierProvider(
-                  create: (context) => FriendsSearchPageViewmodel(userRepository: context.read<FriendRepository>()),
-                  )
-                ],
-                child: FriendsSearchPage(),
-              )
-            ));*/
+            context.push('/friends/search-users');
           },
           label: Text(
             "     Lägg till ny vän    ",
