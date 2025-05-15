@@ -20,4 +20,5 @@ class Routes {
   static const String eventDetailPath = 'event/:eventId';
 
   static const String userInfoPath = 'user/:userId';
+  static const String searchPath = 'search-users';
 }

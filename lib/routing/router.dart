@@ -6,6 +6,7 @@ import 'package:flutter_application_1/routing/layout_scaffold.dart';
 import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/event/event_page.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page.dart';
+import 'package:flutter_application_1/ui/friends/search_page/friends_search_page.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/user_info_page.dart';
 import 'package:flutter_application_1/ui/home/create_event_page.dart';
 import 'package:flutter_application_1/ui/profile/profile_settings_page.dart';
@@ -118,6 +119,13 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
                       log("Navigating to userInfo: ${state.matchedLocation}");
                       final user = state.extra as User;
                       return NoTransitionPage(child: UserInfoPage(user: user));
+                    }
+                  ),
+                  GoRoute(
+                    path: Routes.searchPath,
+                    pageBuilder: (context, state) {
+                      log("Navigating to userInfo: ${state.matchedLocation}");
+                      return NoTransitionPage(child: FriendsSearchPage());
                     }
                   )
                 ]
