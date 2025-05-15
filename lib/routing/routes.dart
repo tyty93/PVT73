@@ -18,4 +18,6 @@ class Routes {
   // relative path under both homepage and eventpage due to how its under EventCard?
   //static String eventDetail(String id) => '$homePage/event/$id';
   static const String eventDetailPath = 'event/:eventId';
+
+  static const String userInfoPath = 'user/:userId';
 }

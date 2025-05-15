@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/Friend%20Model/User.dart';
 import 'package:flutter_application_1/routing/layout_scaffold.dart';
 import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/event/event_page.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page.dart';
+import 'package:flutter_application_1/ui/friends/user_info_page/user_info_page.dart';
 import 'package:flutter_application_1/ui/home/create_event_page.dart';
 import 'package:flutter_application_1/ui/profile/profile_settings_page.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +23,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
 final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'shellC');
+final _shellNavigatorDKey = GlobalKey<NavigatorState>(debugLabel: 'shellD');
 
 // Use StatefulShellRoute for bottom navigation bar, which will show a UI shell
 // wrapping the main content and preventing the navbar from rebuilding each time we navigate to new page
@@ -101,10 +106,21 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
             ],
           ),
           StatefulShellBranch(
+            navigatorKey: _shellNavigatorDKey,
             routes: [
               GoRoute(
                 path: Routes.friendPage,
                 builder: (context, state) => const FriendPageScreen(),
+                routes: [
+                  GoRoute(
+                    path: Routes.userInfoPath,
+                    pageBuilder:  (context, state) {
+                      log("Navigating to userInfo: ${state.matchedLocation}");
+                      final user = state.extra as User;
+                      return NoTransitionPage(child: UserInfoPage(user: user));
+                    }
+                  )
+                ]
               )
             ]
           )
