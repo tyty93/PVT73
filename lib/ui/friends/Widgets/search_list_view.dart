@@ -60,18 +60,14 @@ class DisplayListViewState extends State<SearchListView>{
                 final users = viewModel.users!;
                 return SizedBox(
                   width: double.infinity,
-                  height: MediaQuery.sizeOf(context).height - 100 - 68,
-
+                  height: MediaQuery.sizeOf(context).height - 100 - 68 - 104,
                   child: ListView.builder(
                     itemCount: users.length,
 
                     itemBuilder: (context, index) {
                       return Center(
-                          child: FriendsPageCard(
+                          child: UserCard(
                             user: users[index],
-                            favourite: users[index].favourite,
-                            isFriend: users[index].isFriend,
-                            isPending: users[index].incomingRequest,
                           ),
                       );
                     } 

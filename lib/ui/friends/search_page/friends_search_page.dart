@@ -30,7 +30,11 @@ class FriendsSearchPage extends StatelessWidget{
         
       ),
 
-      body: SearchListView()
+      body: SizedBox(
+        height: MediaQuery.sizeOf(context).height - 100 -58,
+        child: SearchListView()
+      ),
+
     );
   }
 
