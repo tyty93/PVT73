@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/data/Friend%20Model/User.dart';
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
