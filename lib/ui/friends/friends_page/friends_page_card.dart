@@ -26,6 +26,22 @@ class UserCard extends StatefulWidget{
 }
 
 class UserPageCardState extends State<UserCard> {
+  late bool isFavourite;
+  late bool isIncomingRequest;
+  late bool isOutgoingReuest;
+  late bool isFriend;
+
+  @override
+  void initState() {
+
+    isFavourite = widget.user.favourite;
+    isIncomingRequest = widget.user.incomingRequest;
+    isOutgoingReuest = widget.user.outgoingRequest;
+    isFriend = widget.user.isFriend;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -85,7 +101,7 @@ class UserPageCardState extends State<UserCard> {
                                     ),
                                     Builder(
                                       builder: (context){
-                                        if(widget.user.favourite){
+                                        if(isFavourite){
                                           return Icon(
                                             Icons.star,
                                             color: Color(0xFFD26666),
@@ -172,6 +188,7 @@ class UserPageCardState extends State<UserCard> {
       case 'Favourite':
         if(widget.toggleFavoriteFunction != null) {
           widget.toggleFavoriteFunction!();
+          setState(() {isFavourite = !isFavourite;});
         } else{ developer.log('Hello 2'); }
       break;
       case 'Remove friend':

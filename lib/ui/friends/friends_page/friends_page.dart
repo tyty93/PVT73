@@ -90,7 +90,7 @@ class FirstScreenState extends State<FriendPageScreen>{
                     child: UserCard(
                       user: users[index],
                       toggleFavoriteFunction: (){
-                        viewModel.favourite(users[index].userId);
+                        viewModel.favourite(users[index]);
                       },
                       removeFriendFunction: (){
                         viewModel.removeFriend(users[index].userId);

@@ -15,6 +15,8 @@ class User {
   bool get outgoingRequest => _outgoingRequest;
   bool get isFriend => _isFriend;
 
+  set favourite(bool value) => _favourite;
+
   User({
     required String userId, 
     required String name, 

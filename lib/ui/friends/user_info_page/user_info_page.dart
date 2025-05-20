@@ -70,7 +70,7 @@ class UserInfoPageState extends State<UserInfoPage>{
                             isFriend: widget.user.isFriend,
                             favourite: widget.user.favourite,
                             onTap: () {
-                            viewModel.favourite(widget.user.userId);
+                            viewModel.favourite(widget.user);
                             },
                           ),
                           FriendButton(

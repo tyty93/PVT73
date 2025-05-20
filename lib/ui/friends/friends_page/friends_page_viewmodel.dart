@@ -31,9 +31,8 @@ class FriendsPageViewmodel extends ChangeNotifier{
     _loadFriends();
   }
 
-  Future<void> favourite(String uid) async{
-    await _userRepository.toggleFavourite(uid);
-    refresh();
+  Future<void> favourite(User user) async{
+    _userRepository.toggleFavourite(user.userId);
   }
 
   Future<void> removeFriend(String uid) async{
