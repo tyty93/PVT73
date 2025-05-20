@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/Friend%20Model/User.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
-//import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/widgets/favourite_button.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/widgets/friend_button.dart';
 import 'package:google_fonts/google_fonts.dart';

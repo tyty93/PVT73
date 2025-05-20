@@ -93,6 +93,7 @@ class FirstScreenState extends State<FriendPageScreen>{
                         viewModel.favourite(users[index]);
                       },
                       removeFriendFunction: (){
+                        
                         viewModel.removeFriend(users[index].userId);
                       },
                     ),

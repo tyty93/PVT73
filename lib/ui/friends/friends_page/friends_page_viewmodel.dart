@@ -32,7 +32,8 @@ class FriendsPageViewmodel extends ChangeNotifier{
   }
 
   Future<void> favourite(User user) async{
-    _userRepository.toggleFavourite(user.userId);
+    await _userRepository.toggleFavourite(user.userId);
+    refresh();
   }
 
   Future<void> removeFriend(String uid) async{
@@ -45,12 +46,13 @@ class FriendsPageViewmodel extends ChangeNotifier{
     refresh();
   }
 
-  void acceptRequest(String uid){
-    _userRepository.acceptRequest(uid);
+  Future<void> acceptRequest(String uid) async{
+    await _userRepository.acceptRequest(uid);
     refresh();
   }
 
-  void rejectRequest(String uid){
-    _userRepository.rejectRequest(uid);
+  Future<void> rejectRequest(String uid) async{
+    await _userRepository.rejectRequest(uid);
+    refresh();
   }
 }

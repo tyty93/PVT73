@@ -32,7 +32,6 @@ class UserPageCardState extends State<UserCard> {
 
   @override
   void initState() {
-
     isFavourite = widget.user.favourite;
     isIncomingRequest = widget.user.incomingRequest;
     isOutgoingReuest = widget.user.outgoingRequest;
@@ -48,7 +47,11 @@ class UserPageCardState extends State<UserCard> {
       child: GestureDetector(
         onTap: () {
           final userId=widget.user.userId;
-          context.push('/friends/user/$userId', extra: widget.user);
+          context.push('/friends/user/$userId', extra: widget.user).then((value) => {
+              setState(() {
+                isFavourite = widget.user.favourite;
+              }),
+          });
         },
         child: SizedBox(
           height: 90,
