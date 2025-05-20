@@ -41,10 +41,27 @@ class AuthRepositoryImpl implements AuthRepository {
     return _authService.signInWithEmailAndPassword(email, password);
   }
 
-  // todo: add connection to db here ?, similarly as with signUpWithEmailAndPassword
   @override
-  Future<UserCredential> signInWithGoogle() {
-    return _authService.signInWithGoogle();
+  Future<UserCredential> signInWithGoogle() async {
+    final userCredential = await _authService.signInWithGoogle();
+    final user = userCredential.user;
+    final userUid = user?.uid ?? '';
+    final fullGmail = user?.email ?? '';
+    assert (fullGmail.contains('@'));
+    final gmailName = fullGmail.split('@')[0]; // abc123@gmail.com gives username abc123
+
+    print(userUid);
+    print(gmailName);
+    print(fullGmail);
+    if (userUid.isNotEmpty && gmailName.isNotEmpty) {
+      await _userService.createUser(
+        id: userUid,
+        name: gmailName,
+        email: fullGmail,
+      );
+    }
+
+    return userCredential;
   }
 
   @override
