@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../../data/models/event.dart';
 import 'event_info_viewmodel.dart';
 import '../../data/repositories/event_info_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 // Todo: fix colors (either apply theme colors manually or change from basic Container/Column stuff to more material-like widgets with automaticaally applied pr
 class EventInfoPage extends StatelessWidget {
@@ -41,11 +43,23 @@ class EventInfoPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 8),
-                    Text('Arrangör: ${event.getOwnerEmail}'),
+                    Text('Arrangör: ${event.getOwnerEmail}'), //denna skulle kunna printa nåt annat än email, typ namn, men har vi det?
                   ],
                 ),
               ),
             ),
+            if (event.ownerId == FirebaseAuth.instance.currentUser?.uid)
+              ElevatedButton.icon(
+                icon: Icon(Icons.edit, color: Colors.white),
+                label: Text('Edit'),
+                style: ElevatedButton.styleFrom(
+                 backgroundColor: Theme.of(context).colorScheme.primary,
+                 foregroundColor: Theme.of(context).colorScheme.onPrimary, 
+                   ),
+                 onPressed: () {
+                // Navigate to the edit screen
+               },
+              ),
             const SizedBox(height: 16),
             Container(
               padding: const EdgeInsets.all(16),
