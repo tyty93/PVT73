@@ -108,8 +108,10 @@ class MapViewModel extends ChangeNotifier {
 
   try {
     final events = await eventRepository.fetchAllEvents();
+    debugPrint('Fetched events: ${events.length}'); // debug print
     for (final event in events) {
       final LatLng? position = await getLatLngFromAddress(event.location, apiKey);
+      debugPrint('Event: ${event.name}, Address: ${event.location}, LatLng: $position'); // debug print
       if (position != null) {
         _markers.add(
           Marker(
@@ -133,6 +135,7 @@ class MapViewModel extends ChangeNotifier {
         debugPrint('Failed to get LatLng for address: ${event.location}');
       }
     }
+    debugPrint('Total markers: ${_markers.length}'); // debug
     notifyListeners();
   } catch (e) {
     debugPrint("Error fetching events: $e");
