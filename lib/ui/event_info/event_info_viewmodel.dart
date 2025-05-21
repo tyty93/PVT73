@@ -5,11 +5,14 @@ import '../../data/models/event_info.dart';
 import '../../data/repositories/event_info_repository.dart';
 import '../../data/repositories/event_repository.dart';
 
+
+
 // todo: handles one event, exposes registerToEvent(event)
 class EventInfoViewModel extends ChangeNotifier {
   final EventRepository eventRepository;
 
   EventInfoViewModel({required this.eventRepository});
+  
 
   Event? _event;
   bool _isLoading = false;

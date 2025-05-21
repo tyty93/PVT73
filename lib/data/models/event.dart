@@ -9,6 +9,9 @@ class Event {
   int _maxAttendees;
   DateTime _dateTime;
 
+  String? _ownerEmail;
+  String? _ownerId;
+
   int get eventId => _eventId;
   String get name => _name;
   String get description => _description;
@@ -16,6 +19,9 @@ class Event {
   String get location => _location;
   int get maxAttendees => _maxAttendees;
   DateTime get dateTime => _dateTime;
+
+  String? get ownerEmail => _ownerEmail;
+  String? get ownerId => _ownerId;
 
   Event({
     required int eventId,
@@ -25,13 +31,17 @@ class Event {
     required String location,
     required int maxAttendees,
     required DateTime dateTime,
+    String? ownerEmail,
+    String? ownerId,
   })  : _eventId = eventId,
         _name = name,
         _description = description,
         _theme = theme,
         _location = location,
         _maxAttendees = maxAttendees,
-        _dateTime = dateTime;
+        _dateTime = dateTime,
+        _ownerEmail = ownerEmail,
+        _ownerId = ownerId;
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
@@ -42,6 +52,8 @@ class Event {
       location: json['location'] as String,
       maxAttendees: json['maxAttendees'] as int,
       dateTime: DateTime.parse(json['eventDateTime'] as String),
+      ownerEmail: json['ownerEmail'] as String, 
+      ownerId: json['ownerId'] as String,
     );
   }
 
@@ -66,5 +78,5 @@ class Event {
   @override
   int get hashCode => _eventId.hashCode;
 
-  get getOwnerEmail => "fakePlaceholder@email.se";
+  get getOwnerEmail => ownerEmail;
 }
