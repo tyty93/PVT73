@@ -117,20 +117,57 @@ class MapViewModel extends ChangeNotifier {
           Marker(
             markerId: MarkerId(event.name.toString()),
             position: position,
-            infoWindow: InfoWindow(
-              title: event.name,
-              snippet: event.description,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                  builder: (context) => EventInfoPage(event: event), 
-                  ), 
+            onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true, // Optional: allows the modal to be taller if needed
+              builder: (context) {
+                return Padding(
+                  padding: MediaQuery.of(context).viewInsets, // Handles keyboard and safe area
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
+                        children: [
+                          Text(
+                            event.name,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            event.description,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity, // Make button full width
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context); // Close the bottom sheet
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EventInfoPage(event: event),
+                                  ),
+                                );
+                              },
+                              child: const Text('Go to event page'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
-            ),
+            );
+            },
           ),
         );
+        debugPrint('Marker added for event: ${event.name} at $position'); // debug print
       } else {
         debugPrint('Failed to get LatLng for address: ${event.location}');
       }

@@ -28,8 +28,8 @@ class MapPage extends StatelessWidget {
                 onLongPress: viewModel.addMarker, //Ta bort detta också när markers läggs in automatiskt.
               ),
               Positioned(
-                top: 20,
-                right: 20,
+                bottom: 20,
+                left: 20,
                 child: FloatingActionButton(
                   onPressed: viewModel.toggleFollowUser,
                   child: Icon(viewModel.followUser ? Icons.location_on : Icons.location_off),
