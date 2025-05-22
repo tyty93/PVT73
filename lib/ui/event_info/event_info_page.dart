@@ -43,7 +43,7 @@ class EventInfoPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     const SizedBox(height: 8),
-                    Text('Arrangör: ${event.getOwnerEmail}'), //denna skulle kunna printa nåt annat än email, typ namn, men har vi det?
+                    Text('Arrangör: ${event.ownerName}'), 
                   ],
                 ),
               ),

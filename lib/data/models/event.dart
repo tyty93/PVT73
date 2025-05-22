@@ -11,6 +11,7 @@ class Event {
 
   String? _ownerEmail;
   String? _ownerId;
+  String? _ownerName;
 
   int get eventId => _eventId;
   String get name => _name;
@@ -22,6 +23,8 @@ class Event {
 
   String? get ownerEmail => _ownerEmail;
   String? get ownerId => _ownerId;
+  String? get ownerName => _ownerName;
+
 
   Event({
     required int eventId,
@@ -33,6 +36,7 @@ class Event {
     required DateTime dateTime,
     String? ownerEmail,
     String? ownerId,
+    String? ownerName,
   })  : _eventId = eventId,
         _name = name,
         _description = description,
@@ -41,7 +45,8 @@ class Event {
         _maxAttendees = maxAttendees,
         _dateTime = dateTime,
         _ownerEmail = ownerEmail,
-        _ownerId = ownerId;
+        _ownerId = ownerId,
+        _ownerName = ownerName;
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
@@ -54,6 +59,7 @@ class Event {
       dateTime: DateTime.parse(json['eventDateTime'] as String),
       ownerEmail: json['ownerEmail'] as String, 
       ownerId: json['ownerId'] as String,
+      ownerName: json['ownerName'] as String,
     );
   }
 
