@@ -25,6 +25,11 @@ class EventService {
     required DateTime dateTime,
     required int maxAttendees,
     required String idToken,
+    String? ownerEmail,
+    String? ownerId,
+    String? ownerName,
+
+
   }) async {
 
     // Prepare request body with only necessary fields, no ID
@@ -34,7 +39,7 @@ class EventService {
       'theme': theme,
       'location': location,
       'maxAttendees': maxAttendees,
-      'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateTime)
+      'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateTime),
     };
 
     // POST request to create event
@@ -95,6 +100,10 @@ class EventService {
         location: eventJson['location'] ?? 'Unknown Address',
         maxAttendees: eventJson['maxAttendees'] ?? 0,
         dateTime: DateTime.parse(eventJson['eventDateTime']),
+        ownerEmail: eventJson['ownerEmail'] ?? 'Unknown Email', 
+        ownerId: eventJson['ownerId'] ?? 'Unknown ID',
+        ownerName: eventJson['ownerName'] ?? 'Unknown Name',
+
       ));
     }
     return events;
