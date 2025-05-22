@@ -82,57 +82,76 @@ class MapViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  //Ta bort det här sen, när events läggs in automatiskt.
-  void addMarker(LatLng position) {
-    _markers.add(
-      Marker(
-        markerId: MarkerId(position.toString()),
-        position: position,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        onTap: () => _showPlaceInfo(position),
-      ),
-    );
-    notifyListeners();
-  }
-
-  void _showPlaceInfo(LatLng position) {
-    debugPrint("Custom Pin at ${position.latitude}, ${position.longitude}");
-  }
-
-
-
-  // To-Do: Change event model/repository to fetch adress, that can be turned into LatLng. Problem, får null när date ska castas.
-  // Har ej testat detta än.
  Future<void> _fetchEventMarkers(BuildContext context) async {
   const String apiKey = 'AIzaSyCZJdZi3_6p0ivanHol3DqGFuqJ-aSm3_o';
 
   try {
     final events = await eventRepository.fetchAllEvents();
+    debugPrint('Fetched events: ${events.length}'); 
     for (final event in events) {
       final LatLng? position = await getLatLngFromAddress(event.location, apiKey);
+      debugPrint('Event: ${event.name}, Address: ${event.location}, LatLng: $position'); 
       if (position != null) {
         _markers.add(
           Marker(
             markerId: MarkerId(event.name.toString()),
             position: position,
-            infoWindow: InfoWindow(
-              title: event.name,
-              snippet: event.description,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                  builder: (context) => EventInfoPage(event: event), 
-                  ), 
+            onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true, 
+              builder: (context) {
+                return Padding(
+                  padding: MediaQuery.of(context).viewInsets, 
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center, 
+                        children: [
+                          Text(
+                            event.name,
+                            style: Theme.of(context).textTheme.headlineSmall,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            event.description,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity, 
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context); 
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EventInfoPage(event: event),
+                                  ),
+                                );
+                              },
+                              child: const Text('Go to event page'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
-            ),
+            );
+            },
           ),
         );
+        debugPrint('Marker added for event: ${event.name} at $position'); 
       } else {
         debugPrint('Failed to get LatLng for address: ${event.location}');
       }
     }
+    debugPrint('Total markers: ${_markers.length}'); 
     notifyListeners();
   } catch (e) {
     debugPrint("Error fetching events: $e");

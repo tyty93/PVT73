@@ -82,20 +82,17 @@ class EventService {
   );
 
   if (response.statusCode == HttpStatus.ok) {
-    final String jsonString = response.body;
+    final String jsonString = utf8.decode(response.bodyBytes);
     final List<dynamic> eventsJson = jsonDecode(jsonString);
     final List<Event> events = [];
 
     for (Map<String, dynamic> eventJson in eventsJson) {
-      // Normalize the location field
-      final normalizedLocation = _normalizeAddress(eventJson['location']);
-
       events.add(Event(
         eventId: eventJson['id'],
         name: eventJson['name'] ?? 'Unnamed Event',
         description: eventJson['description'] ?? 'No description available',
         theme: eventJson['theme'] ?? '',
-        location: normalizedLocation,
+        location: eventJson['location'] ?? 'Unknown Address',
         maxAttendees: eventJson['maxAttendees'] ?? 0,
         dateTime: DateTime.parse(eventJson['eventDateTime']),
       ));
@@ -105,17 +102,6 @@ class EventService {
     throw Exception("Failed to fetch events.");
   }
 }
-
-  String _normalizeAddress(String? address) {
-    if (address == null || address.isEmpty) {
-      return 'Unknown Address';
-    }
-
-    // Decode and re-encode the address to ensure proper UTF-8 handling
-    final decodedAddress = utf8.decode(address.runes.toList());
-    return decodedAddress;
-  }
-
 
   // todo fix:
   Future<Event> fetchEventById(int id) async {
