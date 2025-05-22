@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/services/friend_service.dart';
 import 'package:flutter_application_1/data/services/user_service.dart';
 import 'package:flutter_application_1/routing/router.dart';
 import 'package:flutter_application_1/ui/auth/viewmodels/auth_viewmodel.dart';
@@ -36,9 +35,6 @@ void main() async {
         ),
         Provider<EventService>(
           create: (_) => EventService(),
-        ),
-        Provider<FriendService>(
-          create: (_) => FriendService(),
         ),
 
         // Provide repositories
