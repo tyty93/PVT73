@@ -14,6 +14,16 @@ abstract class UserRepository {
   Future<List<Event>> fetchOwnedEvents();
   //Future<List<Event>> fetchParticipatingInEvents();
 
+  Future<List<User>> searchUsers(String query);
+
+  Future<List<User>> fetchFriends();
+  Future<List<User>> fetchPending();
+  
+  Future<String> addFriend(String personId);
+  Future<String> removeFriend(String personId);
+  Future<String> acceptRequest(String personId);
+  Future<String> rejectRequest(String personId);
+  Future<String> toggleFavourite(String personId);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -38,5 +48,117 @@ class UserRepositoryImpl implements UserRepository {
       throw Exception('No token available. User might not be authenticated.');
     }
     return _userService.fetchOwnedEvents(idToken);
+  }
+
+  @override
+  Future<List<User>> searchUsers(String query) async{
+    final idToken = await _authService.getIdToken();
+    if (idToken == null) {
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.searchUsers(idToken, query);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<User>> fetchFriends() async{
+    final idToken = await _authService.getIdToken();
+    if (idToken == null) {
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.fetchFriends(idToken);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<User>> fetchPending() async{
+    final idToken = await _authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.fetchPendingRequests(idToken);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> addFriend(String personId) async{
+    final idToken = await _authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.addFriend(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> removeFriend(String personId) async{
+    final idToken = await _authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.removeFriend(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> acceptRequest(String personId) async{
+    final idToken = await _authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.acceptRequest(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> rejectRequest(String personId) async{
+    final idToken = await _authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.rejectRequest(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> toggleFavourite(String personId) async{
+    final idToken = await _authService.getIdToken();
+    if(idToken == null){
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try{
+      return _userService.toggleFavourite(idToken, personId);
+    }
+    catch(e){
+      rethrow;
+    }
   }
 }

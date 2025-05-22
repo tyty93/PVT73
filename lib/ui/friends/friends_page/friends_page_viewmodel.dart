@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-
-import '../../../data/Friend Model/relation.dart';
-import '../../../data/repositories/friend_repository.dart';
+import 'package:flutter_application_1/data/models/user.dart';
+import 'package:flutter_application_1/data/repositories/user_repository.dart';
 
 class FriendsPageViewmodel extends ChangeNotifier{
-  List<Relation> _pendingRequests = List.empty(growable: true);
-  List<Relation>? _users;
+  List<User> _pendingRequests = List.empty(growable: true);
+  List<User>? _users;
   bool _hasLoadedFriends = false;
-  final FriendRepository _userRepository;
+  final UserRepository _userRepository;
 
-  FriendsPageViewmodel({required FriendRepository userRepository}) 
+  FriendsPageViewmodel({required UserRepository userRepository}) 
       : _userRepository = userRepository {
         _loadFriends();
       }
 
-  List<Relation> get pendingRequests => _pendingRequests;
-  List<Relation>? get users => _users;
+  List<User> get pendingRequests => _pendingRequests;
+  List<User>? get users => _users;
   bool get hasLoadedFriends => _hasLoadedFriends;
 
   Future<void> _loadFriends() async{

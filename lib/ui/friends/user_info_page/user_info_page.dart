@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/Friend%20Model/relation.dart';
+import 'package:flutter_application_1/data/models/user.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/widgets/favourite_button.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/widgets/friend_button.dart';
@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 
 class UserInfoPage extends StatefulWidget{
-  final Relation relation;
-  const UserInfoPage({super.key, required this.relation});
+  final User user;
+  const UserInfoPage({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() => UserInfoPageState();
@@ -48,14 +48,14 @@ class UserInfoPageState extends State<UserInfoPage>{
                   spacing: 0,
                   children: [
                     Text(
-                      widget.relation.user.name,
+                      widget.user.name,
                       style: GoogleFonts.itim(
                         textStyle: TextStyle(color: Colors.black),
                         fontSize: 40,
                       )
                     ),
                     Text(
-                      widget.relation.user.email,
+                      widget.user.email,
                       style: GoogleFonts.itim(
                         textStyle: TextStyle(color: Color(0xFF8B8B8B)),
                         fontSize: 24,
@@ -66,17 +66,17 @@ class UserInfoPageState extends State<UserInfoPage>{
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FavouriteButton(
-                            isFriend: widget.relation.isFriend,
-                            favourite: widget.relation.favourite,
+                            isFriend: widget.user.isFriend,
+                            favourite: widget.user.favourite,
                             onTap: () {
-                            viewModel.favourite(widget.relation.user.id);
+                            viewModel.favourite(widget.user.id);
                             },
                           ),
                           FriendButton(
-                            isFriend: widget.relation.isFriend,
-                            outgoingRequest: widget.relation.outgoingRequest,
-                            incomingRequest: widget.relation.incomingRequest,
-                            userId: widget.relation.user.id,
+                            isFriend: widget.user.isFriend,
+                            outgoingRequest: widget.user.outgoingRequest,
+                            incomingRequest: widget.user.incomingRequest,
+                            userId: widget.user.id,
                             viewmodel: viewModel,
                           )
                         ],

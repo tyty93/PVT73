@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/Friend%20Model/relation.dart';
+import 'package:flutter_application_1/data/models/user.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:developer';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
@@ -58,7 +57,7 @@ class FirstScreenState extends State<FriendPageScreen>{
               return Center(child: Text('No friends'));
             }
             final pendingRequests = viewModel.pendingRequests;
-            List<Relation> relations = viewModel.users!;
+            List<User> users = viewModel.users!;
             return RefreshIndicator(
               onRefresh: (){
                 return Future.delayed(Duration(milliseconds: 500),(){
@@ -67,7 +66,7 @@ class FirstScreenState extends State<FriendPageScreen>{
                 });
               },
               child: ListView.builder(
-                itemCount: (pendingRequests.isNotEmpty)? relations.length + pendingRequests.length + 2: relations.length + 1,
+                itemCount: (pendingRequests.isNotEmpty)? users.length + pendingRequests.length + 2: users.length + 1,
                 itemBuilder: (context, index) {
                   if(pendingRequests.isNotEmpty && index < pendingRequests.length+1){
                     if(index == 0){
@@ -82,7 +81,7 @@ class FirstScreenState extends State<FriendPageScreen>{
                     index-=1;
                     return Center(
                       child: UserCard(
-                        relation: pendingRequests[index],
+                        user: pendingRequests[index],
                       ),
                     );
                     
@@ -101,13 +100,13 @@ class FirstScreenState extends State<FriendPageScreen>{
                   index-=1;
                   return Center(
                     child: UserCard(
-                      relation: relations[index],
+                      user: users[index],
                       toggleFavoriteFunction: (){
-                        viewModel.favourite(relations[index].user.id);
+                        viewModel.favourite(users[index].id);
                       },
                       removeFriendFunction: (){
                         
-                        viewModel.removeFriend(relations[index].user.id);
+                        viewModel.removeFriend(users[index].id);
                       },
                     ),
                   );

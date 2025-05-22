@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/Friend%20Model/relation.dart';
+import 'package:flutter_application_1/data/models/user.dart';
 import 'package:flutter_application_1/routing/layout_scaffold.dart';
 import 'package:flutter_application_1/routing/routes.dart';
 import 'package:flutter_application_1/ui/event/event_page.dart';
@@ -117,8 +118,8 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
                     path: Routes.userInfoPath,
                     pageBuilder:  (context, state) {
                       log("Navigating to userInfo: ${state.matchedLocation}");
-                      final user = state.extra as Relation;
-                      return NoTransitionPage(child: UserInfoPage(relation: user));
+                      final user = state.extra as User;
+                      return NoTransitionPage(child: UserInfoPage(user: user));
                     }
                   ),
                   GoRoute(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 import 'package:flutter_application_1/data/services/friend_service.dart';
 import 'package:flutter_application_1/data/services/user_service.dart';
 import 'package:flutter_application_1/routing/router.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_application_1/ui/common/theme/theme.dart';
 import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
-import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/map/map_viewmodel.dart';
 import 'package:go_router/go_router.dart';
@@ -53,9 +51,6 @@ void main() async {
         Provider<UserRepository>(
           create: (context) => UserRepositoryImpl(context.read<UserService>(), context.read<AuthService>()),
         ),
-        Provider<FriendRepository>(
-          create: (context) => FriendRepositoryImpl(context.read<FriendService>(), context.read<AuthService>()),
-        ),
 
         // Inject into Viewmodels
         ChangeNotifierProvider(
@@ -75,10 +70,10 @@ void main() async {
           create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => FriendsPageViewmodel(userRepository: context.read<FriendRepository>()),
+          create: (context) => FriendsPageViewmodel(userRepository: context.read<UserRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => FriendsSearchPageViewmodel(userRepository: context.read<FriendRepository>()),
+          create: (context) => FriendsSearchPageViewmodel(userRepository: context.read<UserRepository>()),
         ),
         ChangeNotifierProvider(
           create: (context) => MapViewModel(eventRepository: context.read<EventRepository>()),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/Friend%20Model/relation.dart';
+import 'package:flutter_application_1/data/models/user.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,14 +9,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class UserCard extends StatefulWidget{
-  final Relation relation;
+  final User user;
   final void Function()? removeFriendFunction;
   final void Function()? addFriendFunction;
   final void Function()? toggleFavoriteFunction;
 
   const UserCard({
     super.key, 
-    required this.relation,
+    required this.user,
     this.removeFriendFunction, 
     this.addFriendFunction, 
     this.toggleFavoriteFunction
@@ -34,10 +34,10 @@ class UserPageCardState extends State<UserCard> {
 
   @override
   void initState() {
-    isFavourite = widget.relation.favourite;
-    isIncomingRequest = widget.relation.incomingRequest;
-    isOutgoingReuest = widget.relation.outgoingRequest;
-    isFriend = widget.relation.isFriend;
+    isFavourite = widget.user.favourite;
+    isIncomingRequest = widget.user.incomingRequest;
+    isOutgoingReuest = widget.user.outgoingRequest;
+    isFriend = widget.user.isFriend;
 
     super.initState();
   }
@@ -48,10 +48,10 @@ class UserPageCardState extends State<UserCard> {
       padding: EdgeInsets.fromLTRB(0, 4, 0, 12),
       child: GestureDetector(
         onTap: () {
-          final userId=widget.relation.user.id;
-          context.push('/friends/user/$userId', extra: widget.relation).then((value) => {
+          final userId=widget.user.id;
+          context.push('/friends/user/$userId', extra: widget.user).then((value) => {
               setState(() {
-                isFavourite = widget.relation.favourite;
+                isFavourite = widget.user.favourite;
               }),
           });
         },
@@ -94,7 +94,7 @@ class UserPageCardState extends State<UserCard> {
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child:Text(
-                                widget.relation.user.name,
+                                widget.user.name,
                                 style: GoogleFonts.itim(
                                   fontSize: 28,
                                 ),
@@ -119,7 +119,7 @@ class UserPageCardState extends State<UserCard> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          widget.relation.user.email,
+                          widget.user.email,
                           style: GoogleFonts.itim(
                             fontSize: 24,
                             color: const Color.fromARGB(255, 139, 139, 139)
@@ -133,7 +133,7 @@ class UserPageCardState extends State<UserCard> {
                 //Context menu
                 Builder(
                   builder: (context){
-                    if(widget.relation.isFriend){
+                    if(widget.user.isFriend){
                       return Align(
                         alignment: Alignment.center,
                         child: PopupMenuButton(
@@ -159,10 +159,10 @@ class UserPageCardState extends State<UserCard> {
                         )
                       );
                     }
-                    else if(widget.relation.incomingRequest){
+                    else if(widget.user.incomingRequest){
                       return GestureDetector(
                         onTap: (){
-                          context.read<FriendsPageViewmodel>().acceptRequest(widget.relation.user.id);
+                          context.read<FriendsPageViewmodel>().acceptRequest(widget.user.id);
                         },
                         child: SizedBox(
                           height: 70,
