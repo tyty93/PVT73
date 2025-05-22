@@ -1,6 +1,10 @@
 import 'package:flutter_application_1/data/services/auth_service.dart';
 import '../models/event.dart';
 import '../services/event_service.dart';
+import '../models/user.dart' as U;
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 
 abstract class EventRepository {
   Future<List<Event>> fetchAllEvents();
@@ -14,6 +18,8 @@ abstract class EventRepository {
     required int maxAttendees
   });
   Future<Event> fetchEventById(int eventId);
+  Future<List<String>> getFriendsAttending(int eventId);
+
 }
 
 class EventRepositoryImpl implements EventRepository {
@@ -70,4 +76,14 @@ class EventRepositoryImpl implements EventRepository {
   Future<Event> fetchEventById(int id) async {
     return await _eventService.fetchEventById(id);
   }
+  @override
+  Future<List<String>> getFriendsAttending(int eventId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final token = await user?.getIdToken();
+    if (token == null) throw Exception("User not authenticated");
+
+    final jsonList = await _eventService.fetchFriendsAttendingEvent(eventId, token);
+    return jsonList.map((json) => json['name'] as String).toList();
+}
+  
 }
