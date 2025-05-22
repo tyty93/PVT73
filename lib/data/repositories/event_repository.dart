@@ -18,7 +18,7 @@ abstract class EventRepository {
     required int maxAttendees
   });
   Future<Event> fetchEventById(int eventId);
-  Future<List<U.User>> getFriendsAttending(int eventId);
+  Future<List<String>> getFriendsAttending(int eventId);
 
 }
 
@@ -76,13 +76,14 @@ class EventRepositoryImpl implements EventRepository {
   Future<Event> fetchEventById(int id) async {
     return await _eventService.fetchEventById(id);
   }
-  Future<List<U.User>> getFriendsAttending(int eventId) async {
+  @override
+  Future<List<String>> getFriendsAttending(int eventId) async {
     final user = FirebaseAuth.instance.currentUser;
     final token = await user?.getIdToken();
     if (token == null) throw Exception("User not authenticated");
 
     final jsonList = await _eventService.fetchFriendsAttendingEvent(eventId, token);
-    return jsonList.map((json) => U.User.fromJson(json)).toList();
-  }
+    return jsonList.map((json) => json['name'] as String).toList();
+}
   
 }

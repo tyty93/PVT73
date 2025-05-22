@@ -120,7 +120,7 @@ class EventService {
         'Content-Type': 'application/json',
       },
     );
-    
+    print('Response body: ${response.body}'); 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = json.decode(response.body);
       return jsonList.cast<Map<String, dynamic>>();
