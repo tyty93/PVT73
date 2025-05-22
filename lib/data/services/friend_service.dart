@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../Friend Model/User.dart';
+import '../Friend Model/relation.dart';
 import 'dart:developer';
 
 class FriendService {
   final http.Client client;
-  final String baseUrl = "https://group-3-75.pvt.dsv.su.se/app/users";
+  final String baseUrl = "http://10.0.2.2:8080/users";
 
   FriendService({http.Client? client}) : client = client ?? http.Client();
 
-  Future<List<User>> fetchFriends(String idToken) async{
+  Future<List<Relation>> fetchFriends(String idToken) async{
     final response = await client.get(
       Uri.parse('$baseUrl/me/friends'),
       headers: {
@@ -21,9 +21,9 @@ class FriendService {
     if(response.statusCode == HttpStatus.ok){
       final String jsonString = response.body;
       final List<dynamic> friendsJson = jsonDecode(jsonString);
-      final List<User> friends = [];
+      final List<Relation> friends = [];
       for (Map<String,dynamic> friendJson in friendsJson){
-        friends.add(User.fromJson(friendJson));
+        friends.add(Relation.fromJson(friendJson));
         log(friendJson.toString());
       }
       return friends;
@@ -32,7 +32,7 @@ class FriendService {
     }
   }
 
-  Future<List<User>> fetchPendingRequests(String idToken) async{
+  Future<List<Relation>> fetchPendingRequests(String idToken) async{
     final response = await client.get(
       Uri.parse('$baseUrl/me/friends/pending'),
       headers: {
@@ -43,9 +43,9 @@ class FriendService {
     if(response.statusCode == HttpStatus.ok){
       final String jsonString = response.body;
       final List<dynamic> friendsJson = jsonDecode(jsonString);
-      final List<User> requests = [];
+      final List<Relation> requests = [];
       for (Map<String,dynamic> friendJson in friendsJson){
-        requests.add(User.fromJson(friendJson));
+        requests.add(Relation.fromJson(friendJson));
         log("Pending request$friendJson");
       }
       return requests;
@@ -135,7 +135,7 @@ class FriendService {
     }
   }
 
-  Future<List<User>> searchUsers(String idToken, String query) async{
+  Future<List<Relation>> searchRelations(String idToken, String query) async{
     final response = await client.get(
       Uri.parse('$baseUrl/search/$query'),
       headers: {
@@ -144,11 +144,11 @@ class FriendService {
     );
     if(response.statusCode == HttpStatus.ok){
       final String jsonString = response.body;
-      final List<dynamic> usersJson = jsonDecode(jsonString);
-      final List<User> friends = [];
-      for (Map<String,dynamic> userJson in usersJson){
-        friends.add(User.fromJson(userJson));
-        log(userJson.toString());
+      final List<dynamic> RelationsJson = jsonDecode(jsonString);
+      final List<Relation> friends = [];
+      for (Map<String,dynamic> RelationJson in RelationsJson){
+        friends.add(Relation.fromJson(RelationJson));
+        log(RelationJson.toString());
       }
       return friends;
     }

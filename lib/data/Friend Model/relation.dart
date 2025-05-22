@@ -1,15 +1,13 @@
-class User {
-  final String _userId;
-  String _name;
-  String _email;
+import 'package:flutter_application_1/data/models/user.dart';
+
+class Relation {
+  User _user;
   bool _favourite;
   bool _incomingRequest;
   bool _outgoingRequest;
   bool _isFriend;
 
-  String get userId => _userId;
-  String get name => _name;
-  String get email => _email;
+  User get user => _user;
   bool get favourite => _favourite;
   bool get incomingRequest => _incomingRequest;
   bool get outgoingRequest => _outgoingRequest;
@@ -17,28 +15,27 @@ class User {
 
   set favourite(bool value) => _favourite;
 
-  User({
-    required String userId, 
-    required String name, 
-    required String email, 
+  Relation({
+    required User user,
     required bool favourite, 
     required bool incomingRequest, 
     required bool outgoingRequest, 
     required bool isFriend
   })
-    : _userId = userId, 
-      _name = name,
-      _email = email,
+    : _user = user,
       _favourite = favourite,
       _incomingRequest = incomingRequest,
       _outgoingRequest = outgoingRequest,
       _isFriend = isFriend;
   
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      userId: json['id'] as String,
-      name: json['name'] as String,
-      email: json['email'] as String,
+  factory Relation.fromJson(Map<String, dynamic> json) {
+    
+    return Relation(
+      user: User(
+        id: json['id'] as String,
+        name: json['name'] as String,
+        email: json['email'] as String,
+      ),
       favourite: json['favourite'] as bool,
       incomingRequest: json['incomingRequest'] as bool,
       outgoingRequest: json['outgoingRequest'] as bool,
@@ -46,9 +43,7 @@ class User {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    'userId': _userId,
-    'name': name,
-    'email': email,
-  };
+  void toggleFavourite(){
+    favourite = !favourite;
+  }
 }

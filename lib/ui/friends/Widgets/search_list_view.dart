@@ -68,7 +68,7 @@ class DisplayListViewState extends State<SearchListView>{
                     itemBuilder: (context, index) {
                       return Center(
                           child: UserCard(
-                            user: users[index],
+                            relation: users[index],
                           ),
                       );
                     } 

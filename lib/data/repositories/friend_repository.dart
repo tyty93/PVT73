@@ -5,15 +5,15 @@ import 'package:flutter_application_1/data/services/auth_service.dart';
 import 'package:flutter_application_1/data/services/friend_service.dart';
 import 'package:http/http.dart' as http;
 
-import '../Friend Model/User.dart';
+import '../Friend Model/relation.dart';
 
 import 'dart:developer';
 
 abstract class FriendRepository {
-  Future<List<User>> searchUsers(String query);
+  Future<List<Relation>> searchUsers(String query);
 
-  Future<List<User>> fetchFriends();
-  Future<List<User>> fetchPending();
+  Future<List<Relation>> fetchFriends();
+  Future<List<Relation>> fetchPending();
   
   Future<String> addFriend(String personId);
   Future<String> removeFriend(String personId);
@@ -29,13 +29,13 @@ class FriendRepositoryImpl implements FriendRepository {
   FriendRepositoryImpl(this.friendService, this.authService);
 
   @override
-  Future<List<User>> searchUsers(String query) async{
+  Future<List<Relation>> searchUsers(String query) async{
     final idToken = await authService.getIdToken();
     if (idToken == null) {
       throw Exception('No token available. User might not be authenticated.');
     }
     try{
-      return friendService.searchUsers(idToken, query);
+      return friendService.searchRelations(idToken, query);
     }
     catch(e){
       rethrow;
@@ -43,7 +43,7 @@ class FriendRepositoryImpl implements FriendRepository {
   }
 
   @override
-  Future<List<User>> fetchFriends() async{
+  Future<List<Relation>> fetchFriends() async{
     final idToken = await authService.getIdToken();
     if (idToken == null) {
       throw Exception('No token available. User might not be authenticated.');
@@ -57,7 +57,7 @@ class FriendRepositoryImpl implements FriendRepository {
   }
 
   @override
-  Future<List<User>> fetchPending() async{
+  Future<List<Relation>> fetchPending() async{
     final idToken = await authService.getIdToken();
     if(idToken == null){
       throw Exception('No token available. User might not be authenticated.');

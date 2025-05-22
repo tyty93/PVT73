@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/Friend%20Model/User.dart';
+import 'package:flutter_application_1/data/Friend%20Model/relation.dart';
+import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
 import 'dart:developer' as developer;
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class UserCard extends StatefulWidget{
-  final User user;
+  final Relation relation;
   final void Function()? removeFriendFunction;
   final void Function()? addFriendFunction;
   final void Function()? toggleFavoriteFunction;
 
   const UserCard({
     super.key, 
-    required this.user, 
+    required this.relation,
     this.removeFriendFunction, 
     this.addFriendFunction, 
     this.toggleFavoriteFunction
@@ -32,10 +34,10 @@ class UserPageCardState extends State<UserCard> {
 
   @override
   void initState() {
-    isFavourite = widget.user.favourite;
-    isIncomingRequest = widget.user.incomingRequest;
-    isOutgoingReuest = widget.user.outgoingRequest;
-    isFriend = widget.user.isFriend;
+    isFavourite = widget.relation.favourite;
+    isIncomingRequest = widget.relation.incomingRequest;
+    isOutgoingReuest = widget.relation.outgoingRequest;
+    isFriend = widget.relation.isFriend;
 
     super.initState();
   }
@@ -46,10 +48,10 @@ class UserPageCardState extends State<UserCard> {
       padding: EdgeInsets.fromLTRB(0, 4, 0, 12),
       child: GestureDetector(
         onTap: () {
-          final userId=widget.user.userId;
-          context.push('/friends/user/$userId', extra: widget.user).then((value) => {
+          final userId=widget.relation.user.id;
+          context.push('/friends/user/$userId', extra: widget.relation).then((value) => {
               setState(() {
-                isFavourite = widget.user.favourite;
+                isFavourite = widget.relation.favourite;
               }),
           });
         },
@@ -92,7 +94,7 @@ class UserPageCardState extends State<UserCard> {
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child:Text(
-                                widget.user.name,
+                                widget.relation.user.name,
                                 style: GoogleFonts.itim(
                                   fontSize: 28,
                                 ),
@@ -113,11 +115,11 @@ class UserPageCardState extends State<UserCard> {
                     // Email text
                     Container(
                       width:220,
-                      alignment: Alignment.bottomLeft ,
+                      alignment: Alignment.bottomLeft,
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          widget.user.email,
+                          widget.relation.user.email,
                           style: GoogleFonts.itim(
                             fontSize: 24,
                             color: const Color.fromARGB(255, 139, 139, 139)
@@ -131,7 +133,7 @@ class UserPageCardState extends State<UserCard> {
                 //Context menu
                 Builder(
                   builder: (context){
-                    if(widget.user.isFriend){
+                    if(widget.relation.isFriend){
                       return Align(
                         alignment: Alignment.center,
                         child: PopupMenuButton(
@@ -157,8 +159,20 @@ class UserPageCardState extends State<UserCard> {
                         )
                       );
                     }
-                    else if(widget.user.outgoingRequest){
-                      return Text('');
+                    else if(widget.relation.incomingRequest){
+                      return GestureDetector(
+                        onTap: (){
+                          context.read<FriendsPageViewmodel>().acceptRequest(widget.relation.user.id);
+                        },
+                        child: SizedBox(
+                          height: 70,
+                          width: 60,
+                          child: Card.filled(
+                            color: Color(0xFF34DD53),
+
+                          )
+                        )
+                      );
                     }
                     else{
                       return Text('');
@@ -178,7 +192,7 @@ class UserPageCardState extends State<UserCard> {
       case 'Favourite':
         if(widget.toggleFavoriteFunction != null) {
           widget.toggleFavoriteFunction!();
-          setState(() {isFavourite = !isFavourite;});
+          setState((){isFavourite = !isFavourite;});
         } else{ developer.log('Hello 2'); }
       break;
       case 'Remove friend':

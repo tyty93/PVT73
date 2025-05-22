@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/data/Friend%20Model/User.dart';
+import 'package:flutter_application_1/data/Friend%20Model/relation.dart';
 import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 
 class FriendsSearchPageViewmodel extends ChangeNotifier{
   final FriendRepository _userRepository;
-  List<User>? _users;
+  List<Relation>? _users;
   bool _hasLoadedStrangers = false;
   
   String search;
@@ -13,7 +13,7 @@ class FriendsSearchPageViewmodel extends ChangeNotifier{
   FriendsSearchPageViewmodel({required FriendRepository userRepository, this.search = ''}) 
       : _userRepository = userRepository;
   
-  List<User>? get users => _users;
+  List<Relation>? get users => _users;
   bool get hasLoadedStrangers => _hasLoadedStrangers;
 
   Future<void> _loadUsers(String search) async{
