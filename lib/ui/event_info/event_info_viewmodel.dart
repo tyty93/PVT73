@@ -4,6 +4,8 @@ import '../../data/models/event.dart';
 import '../../data/models/event_info.dart';
 import '../../data/repositories/event_info_repository.dart';
 import '../../data/repositories/event_repository.dart';
+import '../../data/models/user.dart';
+
 
 
 
@@ -17,7 +19,13 @@ class EventInfoViewModel extends ChangeNotifier {
   Event? _event;
   bool _isLoading = false;
   String? _error;
+  List<String> _friendsAttending = [];
+  bool _isFriendsLoading = false;
+  String? _friendsError;
 
+  bool get isFriendsLoading => _isFriendsLoading;
+  String? get friendsError => _friendsError;
+  List<String> get friendsAttending => _friendsAttending;
   Event? get event => _event;
   bool get isLoading => _isLoading;
   String? get error => _error;
@@ -37,4 +45,22 @@ class EventInfoViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+Future<void> loadFriendsAttending(int eventId) async {
+  _isFriendsLoading = true;
+  notifyListeners();
+
+  try {
+    final friends = await eventRepository.getFriendsAttending(eventId);
+    _friendsAttending = friends;
+    _friendsError = null;
+  } catch (e, stack) {
+
+    _friendsError = e.toString();
+    _friendsAttending = [];
+  } finally {
+    _isFriendsLoading = false;
+    notifyListeners();
+  }
+}
+  
 }

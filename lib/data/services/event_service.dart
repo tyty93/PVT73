@@ -112,6 +112,23 @@ class EventService {
   }
 }
 
+  Future<List<Map<String, dynamic>>> fetchFriendsAttendingEvent(int eventId, String idToken) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/$eventId/friends'),
+      headers: {
+        'Authorization': 'Bearer $idToken',
+        'Content-Type': 'application/json',
+      },
+    );
+    print('Response body: ${response.body}'); 
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to fetch friends attending');
+    }
+  }
+
   // todo fix:
   Future<Event> fetchEventById(int id) async {
     /*final response = await _client.get(Uri.parse($baseUrl"/"$id));

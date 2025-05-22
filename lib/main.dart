@@ -19,6 +19,7 @@ import 'data/repositories/user_repository.dart';
 import 'data/services/auth_service.dart';
 import 'data/services/event_service.dart';
 import 'firebase_options.dart';
+import 'ui/event_info/event_info_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,6 +74,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => MapViewModel(eventRepository: context.read<EventRepository>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EventInfoViewModel(eventRepository: context.read<EventRepository>()),
         ),
 
         // Router
