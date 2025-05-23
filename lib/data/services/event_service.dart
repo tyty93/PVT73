@@ -26,6 +26,11 @@ class EventService {
     required int cost,
     required String paymentInfo,
     required String idToken,
+    String? ownerEmail,
+    String? ownerId,
+    String? ownerName,
+
+
   }) async {
 
     // Prepare request body with only necessary fields, no ID
@@ -35,8 +40,9 @@ class EventService {
       'location': location,
       'maxAttendees': maxAttendees,
       'cost': cost,
-      'paymentInfo': paymentInfo,
-      'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateTime)
+      'paymentInfo': paymentInfo,    
+      'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateTime),
+
     };
 
     // POST request to create event
@@ -84,23 +90,24 @@ class EventService {
   );
 
   if (response.statusCode == HttpStatus.ok) {
-    final String jsonString = response.body;
+    final String jsonString = utf8.decode(response.bodyBytes);
     final List<dynamic> eventsJson = jsonDecode(jsonString);
     final List<Event> events = [];
 
     for (Map<String, dynamic> eventJson in eventsJson) {
-      // Normalize the location field
-      final normalizedLocation = _normalizeAddress(eventJson['location']);
-
       events.add(Event(
         eventId: eventJson['id'],
         name: eventJson['name'] ?? 'Unnamed Event',
         description: eventJson['description'] ?? 'No description available',
-        location: normalizedLocation,
+        location: eventJson['location'] ?? 'Unknown Address',
         maxAttendees: eventJson['maxAttendees'] ?? 0,
         cost: eventJson['cost'],
         paymentInfo: eventJson['paymentInfo'],
         dateTime: DateTime.parse(eventJson['eventDateTime']),
+        ownerEmail: eventJson['ownerEmail'] ?? 'Unknown Email', 
+        ownerId: eventJson['ownerId'] ?? 'Unknown ID',
+        ownerName: eventJson['ownerName'] ?? 'Unknown Name',
+
       ));
     }
     return events;
@@ -109,16 +116,22 @@ class EventService {
   }
 }
 
-  String _normalizeAddress(String? address) {
-    if (address == null || address.isEmpty) {
-      return 'Unknown Address';
+  Future<List<Map<String, dynamic>>> fetchFriendsAttendingEvent(int eventId, String idToken) async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/$eventId/friends'),
+      headers: {
+        'Authorization': 'Bearer $idToken',
+        'Content-Type': 'application/json',
+      },
+    );
+    print('Response body: ${response.body}'); 
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+      return jsonList.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to fetch friends attending');
     }
-
-    // Decode and re-encode the address to ensure proper UTF-8 handling
-    final decodedAddress = utf8.decode(address.runes.toList());
-    return decodedAddress;
   }
-
 
   // todo fix:
   Future<Event> fetchEventById(int id) async {
