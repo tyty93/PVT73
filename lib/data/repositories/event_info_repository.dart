@@ -1,9 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
 
-import 'package:http/http.dart' as http;
 
-import '../models/event_info.dart';
 
 // todo commented out because no need to fetch event by id, we can pass the data directly from the home page
 // todo othewise, can just use EventRepository which already is the Single Source of Truth for all event-related data

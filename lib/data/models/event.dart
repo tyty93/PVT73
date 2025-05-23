@@ -4,9 +4,10 @@ class Event {
   final int _eventId;
   String _name;
   String _description;
-  String _theme;
   String _location;
   int _maxAttendees;
+  int _cost;
+  String _paymentInfo;
   DateTime _dateTime;
 
   String? _ownerEmail;
@@ -16,9 +17,10 @@ class Event {
   int get eventId => _eventId;
   String get name => _name;
   String get description => _description;
-  String get theme => _theme;
   String get location => _location;
   int get maxAttendees => _maxAttendees;
+  int get cost => _cost;
+  String get paymentInfo => _paymentInfo;
   DateTime get dateTime => _dateTime;
 
   String? get ownerEmail => _ownerEmail;
@@ -30,9 +32,10 @@ class Event {
     required int eventId,
     required String name,
     required String description,
-    required String theme,
     required String location,
     required int maxAttendees,
+    required int cost,
+    required String paymentInfo,
     required DateTime dateTime,
     String? ownerEmail,
     String? ownerId,
@@ -40,22 +43,25 @@ class Event {
   })  : _eventId = eventId,
         _name = name,
         _description = description,
-        _theme = theme,
         _location = location,
         _maxAttendees = maxAttendees,
+        _cost = cost,
+        _paymentInfo = paymentInfo,
         _dateTime = dateTime,
         _ownerEmail = ownerEmail,
         _ownerId = ownerId,
         _ownerName = ownerName;
+
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
       eventId: json['id'] as int,
       name: json['name'] as String,
       description: json['description'] as String,
-      theme: json['theme'] as String,
       location: json['location'] as String,
       maxAttendees: json['maxAttendees'] as int,
+      cost: json['cost'] as int,
+      paymentInfo: json['paymentInfo'] as String,
       dateTime: DateTime.parse(json['eventDateTime'] as String),
       ownerEmail: json['ownerEmail'] as String, 
       ownerId: json['ownerId'] as String,
@@ -68,9 +74,10 @@ class Event {
   Map<String, dynamic> toJson() => {
     'name': _name,
     'description': _description,
-    'theme': _theme,
     'location': _location,
     'maxAttendees': _maxAttendees,
+    'cost': _cost,
+    'paymentInfo': _paymentInfo,
     'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(_dateTime),
   };
 

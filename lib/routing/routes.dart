@@ -10,9 +10,6 @@ class Routes {
   static const String authPage = '/auth';
   static const String mapPage = '/map';
   static const String friendPage = '/friends';
-
-
-  // Nested under home
   static const String create = 'create-event';
 
   // relative path under both homepage and eventpage due to how its under EventCard?

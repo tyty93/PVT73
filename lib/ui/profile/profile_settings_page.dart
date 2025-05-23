@@ -10,7 +10,7 @@ class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({
     // Konstruktor för att skapa profilsidan.
 
-    Key? key,
+    super.key,
     // Unik nyckel för widgeten (valfri).
 
     required this.userName,
@@ -19,7 +19,7 @@ class EditProfileScreen extends StatefulWidget {
     required this.email,
     // Kräver att e-post skickas in.
 
-  }) : super(key: key);
+  });
   // Skickar nyckeln till föräldraklassen.
 
   @override
