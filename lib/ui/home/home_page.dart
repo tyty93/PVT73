@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/routing/routes.dart';
+import 'package:flutter_application_1/ui/home/create_event.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../event/event_card.dart';
@@ -102,7 +101,8 @@ class HomePage extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           onPressed: () {
-            context.push('/home/create-event');
+      //      context.push('/home/create-event');
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateEvent()));
           },
           child: Icon(Icons.add),
         ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../data/models/event.dart';
-import '../../data/models/event_info.dart';
-import '../../data/repositories/event_info_repository.dart';
 import '../../data/repositories/event_repository.dart';
 
 // todo: handles one event, exposes registerToEvent(event)

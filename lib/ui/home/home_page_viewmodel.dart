@@ -1,4 +1,5 @@
-import 'dart:collection';
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/repositories/auth_repository.dart';
@@ -56,20 +57,22 @@ class HomeViewmodel extends ChangeNotifier {
   Future<void> createEvent({
     required String name,
     required String description,
-    required String theme,
     required String location,
     required DateTime dateTime,
-    required int maxAttendees
+    required int maxAttendees,
+    required int cost,
+    required String paymentInfo
   }) async {
     try {
       // create event on backend and receive the created event (with ID)
       final createdEvent = await _eventRepository.createEvent(
         name: name,
         description: description,
-        theme: theme,
         location: location,
         dateTime: dateTime,
-        maxAttendees: maxAttendees
+        maxAttendees: maxAttendees,
+        cost: cost,
+        paymentInfo: paymentInfo
       );
 
       // add only the confirmed event from backend

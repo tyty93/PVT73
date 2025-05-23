@@ -1,13 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_application_1/data/services/auth_service.dart';
 import 'package:flutter_application_1/data/services/friend_service.dart';
-import 'package:http/http.dart' as http;
 
 import '../Friend Model/User.dart';
 
-import 'dart:developer';
 
 abstract class FriendRepository {
   Future<List<User>> searchUsers(String query);

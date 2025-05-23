@@ -8,10 +8,11 @@ abstract class EventRepository {
   Future<Event> createEvent({
     required String name,
     required String description,
-    required String theme,
     required String location,
     required DateTime dateTime,
-    required int maxAttendees
+    required int maxAttendees,
+    required int cost,
+    required String paymentInfo,
   });
   Future<Event> fetchEventById(int eventId);
 }
@@ -44,10 +45,11 @@ class EventRepositoryImpl implements EventRepository {
   Future<Event> createEvent({
     required String name,
     required String description,
-    required String theme,
     required String location,
     required DateTime dateTime,
     required int maxAttendees,
+    required int cost,
+    required String paymentInfo,
   }) async {
 
     final idToken = await _authService.getIdToken();
@@ -58,10 +60,11 @@ class EventRepositoryImpl implements EventRepository {
     return await _eventService.createEvent(
       name: name,
       description: description,
-      theme: theme,
       location: location,
       dateTime: dateTime,
       maxAttendees: maxAttendees,
+      cost: cost,
+      paymentInfo: paymentInfo,
       idToken: idToken,
     );
   }

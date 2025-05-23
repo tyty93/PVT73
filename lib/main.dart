@@ -9,7 +9,6 @@ import 'package:flutter_application_1/ui/common/theme/theme.dart';
 import 'package:flutter_application_1/ui/event/event_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
-import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 import 'package:flutter_application_1/ui/home/home_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/map/map_viewmodel.dart';
 import 'package:go_router/go_router.dart';

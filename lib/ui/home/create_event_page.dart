@@ -106,10 +106,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                               context.read<HomeViewmodel>().createEvent(
                                 name: _nameController.text,
                                 description: _descriptionController.text,
-                                theme: _themeController.text,
                                 location: _locationController.text,
                                 maxAttendees: _maxAttendees,
                                 dateTime: _selectedDate,
+                                cost: 10,
+                                paymentInfo: 'Japp',
                               );
 
                               // Close the dialog and go back to the Home page (pop twice)

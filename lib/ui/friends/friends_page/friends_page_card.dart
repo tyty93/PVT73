@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/Friend%20Model/User.dart';
-import 'package:flutter_application_1/data/repositories/friend_repository.dart';
-import 'package:flutter_application_1/ui/friends/user_info_page/user_info_page.dart';
-import 'package:flutter_application_1/ui/friends/user_info_page/user_info_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 
 import 'dart:developer' as developer;
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class FriendsPageCard extends StatelessWidget{
   final User user;

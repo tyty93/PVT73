@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/repositories/friend_repository.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_viewmodel.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page_card.dart';
-import 'package:flutter_application_1/ui/friends/search_page/friends_search_page.dart';
-import 'package:flutter_application_1/ui/friends/search_page/friends_search_page_viewmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:developer';

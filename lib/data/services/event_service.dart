@@ -20,10 +20,11 @@ class EventService {
   Future<Event> createEvent({
     required String name,
     required String description,
-    required String theme,
     required String location,
     required DateTime dateTime,
     required int maxAttendees,
+    required int cost,
+    required String paymentInfo,
     required String idToken,
   }) async {
 
@@ -31,9 +32,10 @@ class EventService {
     final Map<String, dynamic> eventData = {
       'name': name,
       'description': description,
-      'theme': theme,
       'location': location,
       'maxAttendees': maxAttendees,
+      'cost': cost,
+      'paymentInfo': paymentInfo,
       'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(dateTime)
     };
 
@@ -94,9 +96,10 @@ class EventService {
         eventId: eventJson['id'],
         name: eventJson['name'] ?? 'Unnamed Event',
         description: eventJson['description'] ?? 'No description available',
-        theme: eventJson['theme'] ?? '',
         location: normalizedLocation,
         maxAttendees: eventJson['maxAttendees'] ?? 0,
+        cost: eventJson['cost'],
+        paymentInfo: eventJson['paymentInfo'],
         dateTime: DateTime.parse(eventJson['eventDateTime']),
       ));
     }

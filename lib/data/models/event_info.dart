@@ -1,4 +1,3 @@
-import 'event.dart'; 
 
 // todo handleable by Event data class, it contains everything one needs to know about an Event already
 /*
