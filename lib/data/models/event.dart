@@ -10,6 +10,10 @@ class Event {
   String _paymentInfo;
   DateTime _dateTime;
 
+  String? _ownerEmail;
+  String? _ownerId;
+  String? _ownerName;
+
   int get eventId => _eventId;
   String get name => _name;
   String get description => _description;
@@ -18,6 +22,11 @@ class Event {
   int get cost => _cost;
   String get paymentInfo => _paymentInfo;
   DateTime get dateTime => _dateTime;
+
+  String? get ownerEmail => _ownerEmail;
+  String? get ownerId => _ownerId;
+  String? get ownerName => _ownerName;
+
 
   Event({
     required int eventId,
@@ -28,6 +37,9 @@ class Event {
     required int cost,
     required String paymentInfo,
     required DateTime dateTime,
+    String? ownerEmail,
+    String? ownerId,
+    String? ownerName,
   })  : _eventId = eventId,
         _name = name,
         _description = description,
@@ -35,7 +47,11 @@ class Event {
         _maxAttendees = maxAttendees,
         _cost = cost,
         _paymentInfo = paymentInfo,
-        _dateTime = dateTime;
+        _dateTime = dateTime,
+        _ownerEmail = ownerEmail,
+        _ownerId = ownerId,
+        _ownerName = ownerName;
+
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
@@ -47,6 +63,9 @@ class Event {
       cost: json['cost'] as int,
       paymentInfo: json['paymentInfo'] as String,
       dateTime: DateTime.parse(json['eventDateTime'] as String),
+      ownerEmail: json['ownerEmail'] as String, 
+      ownerId: json['ownerId'] as String,
+      ownerName: json['ownerName'] as String,
     );
   }
 
@@ -72,5 +91,5 @@ class Event {
   @override
   int get hashCode => _eventId.hashCode;
 
-  get getOwnerEmail => "fakePlaceholder@email.se";
+  get getOwnerEmail => ownerEmail;
 }
