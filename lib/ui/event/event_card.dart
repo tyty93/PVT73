@@ -49,14 +49,21 @@ class EventCard extends StatelessWidget {
                     },
                   ),
 
-                  // Register button
+                  // Register or Unregister button
                   Consumer<EventsViewmodel>(
                     builder: (context, viewmodel, child) {
+                      final alreadyRegistered = viewmodel.isAlreadyRegisteredTo(event);
+
                       return IconButton(
-                        icon: const Icon(Icons.event_available),
-                        tooltip: "Register",
+                        icon: Icon(alreadyRegistered ? Icons.event_busy : Icons.event_available),
+                        tooltip: alreadyRegistered ? "Unregister" : "Register",
+                        color: alreadyRegistered ? Theme.of(context).colorScheme.errorContainer : null,
                         onPressed: () async {
-                          await viewmodel.registerToEvent(event);
+                          if (alreadyRegistered) {
+                            await viewmodel.unregisterFromEvent(event);
+                          } else {
+                            await viewmodel.registerToEvent(event);
+                          }
                         },
                       );
                     },
