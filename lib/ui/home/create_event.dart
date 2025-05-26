@@ -240,6 +240,7 @@ class _CreateEventState extends State<CreateEvent> {
                   ),
 
                   TextFormField(
+                    controller: paymentInfoController,
                     enabled: doCostMoney.contains('true'),
                     maxLength: 50,
                     decoration: const InputDecoration(
