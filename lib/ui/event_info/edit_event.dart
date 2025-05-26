@@ -72,9 +72,6 @@ class _EditEventState extends State<EditEvent> {
                   ),
 
                   DateTimeFormField(
-                    onTap: () {
-                      formattedDate = '';
-                    },
                     initialValue: eventCopy.dateTime,
                     decoration: InputDecoration(
                       labelText: 'Datum & tid:',
@@ -193,6 +190,8 @@ class _EditEventState extends State<EditEvent> {
                     },
                   ),
 
+                  Text(hasLimitedSpots),
+
                   Text('Pris?'),
                   RadioListTile(
                     value: 'true',
@@ -212,8 +211,8 @@ class _EditEventState extends State<EditEvent> {
                     onChanged: (value) {
                       setState(() {
                         doCostMoney = 'false';
-                        eventCopy.cost = 0;
-                        eventCopy.paymentInfo = '';
+                        cost = 0;
+                        paymentInfo = '';
                       });
                     },
                     toggleable: true,
@@ -286,6 +285,15 @@ class _EditEventState extends State<EditEvent> {
                                 ? _validateMoney = true
                                 : _validateMoney = false;
                           }
+
+                          if (hasLimitedSpots == 'false') {
+                            _validateSpots = false;
+                          }
+
+                          if (doCostMoney == 'false') {
+                            _validateMoney = false;
+                          }
+
                           if (!_validateSpots && !_validateMoney) {
                             _activeCurrentStep = 2;
                           }
@@ -377,11 +385,11 @@ class _EditEventState extends State<EditEvent> {
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          streetController.text.isEmpty
+                          streetAddress.isEmpty
                               ? _validateStreetAddress = true
                               : _validateStreetAddress = false;
 
-                          int.parse(zipCodeController.text) < 5
+                          zipCode.toString().length < 5
                               ? _validateZipCode = true
                               : _validateZipCode = false;
 
@@ -399,8 +407,9 @@ class _EditEventState extends State<EditEvent> {
                               context,
                               MaterialPageRoute(
                                 builder:
-                                    (context) =>
-                                        SavedEventChangesConfirmation(),
+                                    (context) => SavedEventChangesConfirmation(
+                                      event: eventCopy,
+                                    ),
                               ),
                             );
                           }
@@ -431,9 +440,9 @@ class _EditEventState extends State<EditEvent> {
     name = eventCopy.name;
     description = eventCopy.description;
     location = eventCopy.location;
-    streetAddress = location.substring(0, location.length - 8);
+    streetAddress = location.substring(0, location.length - 7);
     zipCode = int.parse(
-      location.substring(location.length - 6, location.length - 1),
+      location.substring(location.length - 6, location.length),
     );
     maxAttendees = eventCopy.maxAttendees;
     _selectedDate = eventCopy.dateTime;

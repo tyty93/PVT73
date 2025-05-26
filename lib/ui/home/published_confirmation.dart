@@ -22,7 +22,7 @@ class _PublishedConfirmationState extends State<PublishedConfirmation> {
               text: TextSpan(
                 text: 'Ditt event har publicerats och är synligt för andra \n',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),

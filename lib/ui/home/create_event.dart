@@ -279,6 +279,15 @@ class _CreateEventState extends State<CreateEvent> {
                                 ? _validateMoney = true
                                 : _validateMoney = false;
                           }
+
+                          if (hasLimitedSpots == 'false') {
+                            _validateSpots = false;
+                          }
+
+                          if (doCostMoney == 'false') {
+                            _validateMoney = false;
+                          }
+
                           if (!_validateSpots && !_validateMoney) {
                             _activeCurrentStep = 2;
                           }
@@ -315,7 +324,6 @@ class _CreateEventState extends State<CreateEvent> {
                   TextFormField(
                     controller: streetController,
                     maxLength: 50,
-                    keyboardType: TextInputType.streetAddress,
                     decoration: InputDecoration(
                       label: Text('Gatuadress:'),
                       errorText:
@@ -323,7 +331,7 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        streetAddress = streetController.text;
+                        streetAddress = value;
                       });
                     },
                   ),
@@ -342,10 +350,12 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        zipCode = int.parse(zipCodeController.text);
+                        zipCode = int.parse(value);
                       });
                     },
                   ),
+                  Text(_validateStreetAddress.toString()),
+                  Text(_validateZipCode.toString()),
                 ],
               ),
             ),
@@ -370,15 +380,15 @@ class _CreateEventState extends State<CreateEvent> {
                     child: ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          streetController.text.isEmpty
+                          streetAddress.isEmpty
                               ? _validateStreetAddress = true
                               : _validateStreetAddress = false;
 
-                          int.parse(zipCodeController.text) < 5
+                          zipCode.toString().length < 5
                               ? _validateZipCode = true
                               : _validateZipCode = false;
 
-                          if (!_validateZipCode && !_validateStreetAddress) {
+                          if (!_validateStreetAddress && !_validateZipCode) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
