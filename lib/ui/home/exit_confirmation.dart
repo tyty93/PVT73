@@ -12,7 +12,67 @@ class _ExitConfirmationState extends State<ExitConfirmation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: Column(
+                children: [
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text:
+                          'Är du säker på att du vill avbryta? \nInga ändringar sparas. \n',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      children: <InlineSpan>[],
+                    ),
+                  ),
+
+                  Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName('/home'),
+                            );
+                          },
+                          child: Text("Ja, avbryt"),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CreateEvent(),
+                              ),
+                            );
+                          },
+                          child: Text("Nej, fortsätt skapa"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+
+      /*Container(
         child: Column(
           children: <Widget>[
             const Text(
@@ -24,7 +84,7 @@ class _ExitConfirmationState extends State<ExitConfirmation> {
               children: <Widget>[
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: TextButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.popUntil(context, ModalRoute.withName('/home'));
                     },
@@ -34,7 +94,7 @@ class _ExitConfirmationState extends State<ExitConfirmation> {
 
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: TextButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.pop(
                         context,
@@ -51,6 +111,7 @@ class _ExitConfirmationState extends State<ExitConfirmation> {
           ],
         ),
       ),
+      */
     );
   }
 }

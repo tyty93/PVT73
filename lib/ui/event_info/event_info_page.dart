@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/event.dart';
+import '../event/event_card.dart';
+import 'edit_event.dart';
 import 'event_info_viewmodel.dart';
 import '../../data/repositories/event_info_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,9 +20,12 @@ class EventInfoPage extends StatefulWidget {
 }
 
 class _EventInfoPageState extends State<EventInfoPage> {
+  late Event eventCopy;
+
   @override
   void initState() {
     super.initState();
+    eventCopy = widget.event;
 
     final viewModel = Provider.of<EventInfoViewModel>(context, listen: false);
     viewModel.loadFriendsAttending(widget.event.eventId);
@@ -64,16 +70,70 @@ class _EventInfoPageState extends State<EventInfoPage> {
             if (widget.event.ownerId == FirebaseAuth.instance.currentUser?.uid)
               ElevatedButton.icon(
                 icon: Icon(Icons.edit, color: Colors.white),
-                label: Text('Edit'),
+                label: Text('Redigera'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 ),
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditEvent(event: eventCopy),
+                    ),
+                  );
                   // Navigate to the edit screen
                 },
               ),
+
+            if (widget.event.ownerId == FirebaseAuth.instance.currentUser?.uid)
+              ElevatedButton.icon(
+                icon: Icon(Icons.delete, color: Colors.white),
+                label: Text('Ta bort'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder:
+                        (context) => AlertDialog(
+                          title: const Text(
+                            'Vill ta bort eventet?\nÅtgärden går inte att ångra.',
+                            textAlign: TextAlign.center,
+                          ),
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: TextButton(
+                                    onPressed:
+                                        () => Navigator.pop(context, false),
+                                    child: const Text('Nej'),
+                                  ),
+                                ),
+
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: TextButton(
+                                    onPressed:
+                                        () => Navigator.pop(context, true),
+                                    child: const Text('Ja'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                  );
+                },
+              ),
+
             const SizedBox(height: 16),
+
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -82,27 +142,151 @@ class _EventInfoPageState extends State<EventInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Info om event:',
-                    style: Theme.of(context).textTheme.titleMedium,
+                  RichText(
+                    text: TextSpan(
+                      text: 'Info om event:\n',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: widget.event.description + '\n',
+                          style: TextStyle(fontSize: 16, color: Colors.black45),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(widget.event.description),
-                  const SizedBox(height: 16),
-                  Text('Plats/Karta: ${widget.event.location}'),
-                  Text('Tid: ${widget.event.dateTime}'),
-                  Text('Kontakta arrangör på: ${widget.event.getOwnerEmail}'),
-                  Text('Max antal anmälda: ${widget.event.maxAttendees}'),
+
+                  RichText(
+                    text: TextSpan(
+                      text: 'Plats:\n',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: widget.event.location + '\n',
+                          style: TextStyle(fontSize: 16, color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  RichText(
+                    text: TextSpan(
+                      text: 'Tid:\n',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text:
+                              '${DateFormat('yyyy-MM-dd - kk:mm:ss').format(eventCopy.dateTime)}\n',
+                          style: TextStyle(fontSize: 16, color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: 'Kontakta arrangör på:\n',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        height: 1.5,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: '${eventCopy.ownerEmail}\n',
+                          style: TextStyle(fontSize: 16, color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  RichText(
+                    text: TextSpan(
+                      text: 'Max antal anmälda:\n',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text:
+                              widget.event.maxAttendees > 0
+                                  ? '${widget.event.maxAttendees}\n'
+                                  : 'Inget maxantal.\n',
+                          style: TextStyle(fontSize: 16, color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  RichText(
+                    text: TextSpan(
+                      text: 'Pris:\n',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text:
+                              widget.event.cost != 0
+                                  ? '${widget.event.cost}\n'
+                                  : 'Gratis\n',
+                          style: TextStyle(fontSize: 16, color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  if (eventCopy.cost > 0) ...[
+                    RichText(
+                      text: TextSpan(
+                        text: 'Betalningsinfo:\n',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text:
+                                widget.event.paymentInfo.isEmpty
+                                    ? 'Saknas info, kontakta arrangör för frågor.\n'
+                                    : '${widget.event.paymentInfo}\n',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black45,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+
+            /*
             ElevatedButton(
               onPressed: () {
                 // registerParticipation(currentUserId, widget.eventId);
               },
               child: const Text('Anmäl dig till eventet'),
             ),
+*/
             if (friends.isNotEmpty) ...[
               const SizedBox(height: 16),
               Center(
@@ -143,9 +327,34 @@ class _EventInfoPageState extends State<EventInfoPage> {
                 ),
               ),
             ],
+
+            const SizedBox(height: 50),
           ],
         ),
       ),
+
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter * 0.95,
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.65,
+          height: 50,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(40),
+            color: Theme.of(context).colorScheme.inversePrimary,
+            //Theme.of(context).colorScheme.primary,
+          ),
+          child: FloatingActionButton(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            onPressed: () {
+              // registerParticipation(currentUserId, widget.eventId);
+            },
+            child: Text('Anmäl dig till eventet'),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

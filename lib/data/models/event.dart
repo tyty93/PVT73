@@ -27,7 +27,6 @@ class Event {
   String? get ownerId => _ownerId;
   String? get ownerName => _ownerName;
 
-
   Event({
     required int eventId,
     required String name,
@@ -40,18 +39,17 @@ class Event {
     String? ownerEmail,
     String? ownerId,
     String? ownerName,
-  })  : _eventId = eventId,
-        _name = name,
-        _description = description,
-        _location = location,
-        _maxAttendees = maxAttendees,
-        _cost = cost,
-        _paymentInfo = paymentInfo,
-        _dateTime = dateTime,
-        _ownerEmail = ownerEmail,
-        _ownerId = ownerId,
-        _ownerName = ownerName;
-
+  }) : _eventId = eventId,
+       _name = name,
+       _description = description,
+       _location = location,
+       _maxAttendees = maxAttendees,
+       _cost = cost,
+       _paymentInfo = paymentInfo,
+       _dateTime = dateTime,
+       _ownerEmail = ownerEmail,
+       _ownerId = ownerId,
+       _ownerName = ownerName;
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
@@ -63,7 +61,7 @@ class Event {
       cost: json['cost'] as int,
       paymentInfo: json['paymentInfo'] as String,
       dateTime: DateTime.parse(json['eventDateTime'] as String),
-      ownerEmail: json['ownerEmail'] as String, 
+      ownerEmail: json['ownerEmail'] as String,
       ownerId: json['ownerId'] as String,
       ownerName: json['ownerName'] as String,
     );
@@ -84,12 +82,40 @@ class Event {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Event &&
-              runtimeType == other.runtimeType &&
-              _eventId == other._eventId;
+      other is Event &&
+          runtimeType == other.runtimeType &&
+          _eventId == other._eventId;
 
   @override
   int get hashCode => _eventId.hashCode;
 
   get getOwnerEmail => ownerEmail;
+
+  set name(String name) {
+    _name = name;
+  }
+
+  set description(String description) {
+    _description = description;
+  }
+
+  set dateTime(DateTime dateTime) {
+    _dateTime = dateTime;
+  }
+
+  set maxAttendees(int maxA) {
+    _maxAttendees = maxA;
+  }
+
+  set cost(int cost) {
+    _cost = cost;
+  }
+
+  set paymentInfo(String paymentInfo) {
+    _paymentInfo = paymentInfo;
+  }
+
+  set location(String location) {
+    _location = location;
+  }
 }

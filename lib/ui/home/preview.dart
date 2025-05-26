@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/home/published_confirmation.dart';
 import 'package:intl/intl.dart';
@@ -62,6 +63,7 @@ class Preview extends StatelessWidget {
     if (cost == 0) {
       return '';
     }
+
     return 'Betalningsinfo \n';
   }
 
@@ -177,10 +179,7 @@ class Preview extends StatelessWidget {
                               children: <InlineSpan>[
                                 TextSpan(
                                   text:
-                                      DateFormat(
-                                        'yyyy-MM-dd - kk:mm:ss',
-                                      ).format(dateTime) +
-                                      '\n',
+                                      '${DateFormat('yyyy-MM-dd - kk:mm:ss').format(dateTime)}\n',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black45,
@@ -200,7 +199,8 @@ class Preview extends StatelessWidget {
                               ),
                               children: <InlineSpan>[
                                 TextSpan(
-                                  text: 'testmail@gmail.com \n',
+                                  text:
+                                      '${FirebaseAuth.instance.currentUser?.email}\n',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black45,
@@ -260,7 +260,10 @@ class Preview extends StatelessWidget {
                               ),
                               children: <InlineSpan>[
                                 TextSpan(
-                                  text: paymentInfo + '\n',
+                                  text:
+                                      paymentInfo.isEmpty
+                                          ? 'Saknas info, kontakta arrangör för frågor.'
+                                          : paymentInfo + '\n',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black45,
