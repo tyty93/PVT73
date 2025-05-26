@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
 import '../../data/models/event.dart';
 import 'event_info_viewmodel.dart';
 import '../../data/repositories/event_info_repository.dart';
@@ -119,21 +118,26 @@ class _EventInfoPageState extends State<EventInfoPage> {
                       alignment: WrapAlignment.center,
                       spacing: 8,
                       runSpacing: 8,
-                      children: friends.map((friend) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            friend,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                      children:
+                          friends.map((friend) {
+                            return Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.primary,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                friend,
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              ),
+                            );
+                          }).toList(),
                     ),
                   ],
                 ),

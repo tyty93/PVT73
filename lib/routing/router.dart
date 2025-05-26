@@ -8,12 +8,12 @@ import 'package:flutter_application_1/ui/event/event_page.dart';
 import 'package:flutter_application_1/ui/friends/friends_page/friends_page.dart';
 import 'package:flutter_application_1/ui/friends/search_page/friends_search_page.dart';
 import 'package:flutter_application_1/ui/friends/user_info_page/user_info_page.dart';
-import 'package:flutter_application_1/ui/home/create_event_page.dart';
 import 'package:flutter_application_1/ui/profile/profile_settings_page.dart';
 import 'package:go_router/go_router.dart';
 import '../data/models/event.dart';
 import '../ui/auth/viewmodels/auth_viewmodel.dart';
 import '../ui/auth/widgets/auth_page.dart';
+import '../ui/home/create_event.dart';
 import '../ui/event_info/event_info_page.dart';
 import '../ui/home/home_page.dart';
 
@@ -71,7 +71,7 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
                     path: Routes.create,
                     pageBuilder: (context, state) {
                       print("Navigating to create event: ${state.matchedLocation}");
-                      return NoTransitionPage(child: CreateEventPage());
+                      return NoTransitionPage(child: CreateEvent());
                     }
                   ),
                 ],
