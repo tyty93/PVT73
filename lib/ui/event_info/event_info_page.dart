@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/event.dart';
+import 'edit_event.dart';
 import 'event_info_viewmodel.dart';
 import '../../data/repositories/event_info_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,9 +18,12 @@ class EventInfoPage extends StatefulWidget {
 }
 
 class _EventInfoPageState extends State<EventInfoPage> {
+  late Event eventCopy;
+
   @override
   void initState() {
     super.initState();
+    eventCopy = widget.event;
 
     final viewModel = Provider.of<EventInfoViewModel>(context, listen: false);
     viewModel.loadFriendsAttending(widget.event.eventId);
@@ -70,6 +74,12 @@ class _EventInfoPageState extends State<EventInfoPage> {
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 ),
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditEvent(event: eventCopy),
+                    ),
+                  );
                   // Navigate to the edit screen
                 },
               ),

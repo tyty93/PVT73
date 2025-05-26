@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/ui/event_info/saved_event_changes_confirmation.dart';
 import 'package:flutter_application_1/ui/home/exit_confirmation.dart';
 import 'package:intl/intl.dart';
-import 'preview.dart';
 
-class _CreateEventState extends State<CreateEvent> {
+import '../../data/models/event.dart';
+
+class _EditEventState extends State<EditEvent> {
+  late final Event eventCopy;
+
   int _activeCurrentStep = 0;
 
-  String name = '';
-  String description = '';
-  String streetAddress = '';
-  int zipCode = 0;
-
-  DateTime? selectedDate = DateTime.now();
+  late String name;
+  late String description;
+  late String location;
+  late String streetAddress;
+  late int zipCode;
+  late int maxAttendees;
+  late DateTime selectedDate;
+  late DateTime _selectedDate;
+  late String formattedDate;
+  late int cost;
+  late String paymentInfo;
 
   int selectedRadio = 0;
-  String hasLimitedSpots = 'false';
-  String doCostMoney = 'false';
+  late String hasLimitedSpots;
+  late String doCostMoney;
   bool _validateName = false;
   bool _validateDateTime = false;
   bool _validateSpots = false;
@@ -25,19 +34,13 @@ class _CreateEventState extends State<CreateEvent> {
   bool _validateStreetAddress = false;
   bool _validateZipCode = false;
 
-  int _maxAttendees = 0;
-  DateTime _selectedDate = DateTime.now();
-  String formattedDate = '';
-  int costMoney = 0;
-  String paymentInfo = '';
-
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController limitedSpotsController = TextEditingController();
-  final TextEditingController costMoneyController = TextEditingController();
-  final TextEditingController streetController = TextEditingController();
-  final TextEditingController zipCodeController = TextEditingController();
-  final TextEditingController paymentInfoController = TextEditingController();
+  late final TextEditingController nameController;
+  late final TextEditingController descriptionController;
+  late final TextEditingController limitedSpotsController;
+  late final TextEditingController costMoneyController;
+  late final TextEditingController streetController;
+  late final TextEditingController zipCodeController;
+  late final TextEditingController paymentInfoController;
 
   List<Step> stepList() => [
     Step(
@@ -64,11 +67,15 @@ class _CreateEventState extends State<CreateEvent> {
                               : null,
                     ),
                     onChanged: (value) {
-                      name = value;
+                      name = nameController.text;
                     },
                   ),
 
                   DateTimeFormField(
+                    onTap: () {
+                      formattedDate = '';
+                    },
+                    initialValue: eventCopy.dateTime,
                     decoration: InputDecoration(
                       labelText: 'Datum & tid:',
                       errorText:
@@ -117,10 +124,10 @@ class _CreateEventState extends State<CreateEvent> {
                       }
                     });
                   },
-                  child: const Text('Nästa'),
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(125, 30),
                   ),
+                  child: const Text('Nästa'),
                 ),
               ),
             ),
@@ -160,7 +167,7 @@ class _CreateEventState extends State<CreateEvent> {
                     onChanged: (value) {
                       setState(() {
                         hasLimitedSpots = 'false';
-                        _maxAttendees = 0;
+                        maxAttendees = 0;
                       });
                     },
                     toggleable: true,
@@ -181,7 +188,7 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        _maxAttendees = int.parse(limitedSpotsController.text);
+                        maxAttendees = int.parse(limitedSpotsController.text);
                       });
                     },
                   ),
@@ -205,8 +212,8 @@ class _CreateEventState extends State<CreateEvent> {
                     onChanged: (value) {
                       setState(() {
                         doCostMoney = 'false';
-                        costMoney = 0;
-                        paymentInfo = '';
+                        eventCopy.cost = 0;
+                        eventCopy.paymentInfo = '';
                       });
                     },
                     toggleable: true,
@@ -227,7 +234,7 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        costMoney = int.parse(costMoneyController.text);
+                        cost = int.parse(costMoneyController.text);
                       });
                     },
                   ),
@@ -379,20 +386,21 @@ class _CreateEventState extends State<CreateEvent> {
                               : _validateZipCode = false;
 
                           if (!_validateZipCode && !_validateStreetAddress) {
+                            eventCopy.name = name;
+                            eventCopy.description = description;
+                            eventCopy.dateTime = selectedDate;
+                            eventCopy.maxAttendees = maxAttendees;
+                            eventCopy.cost = cost;
+                            eventCopy.paymentInfo = paymentInfo;
+                            eventCopy.location =
+                                streetAddress + ', ' + zipCode.toString();
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder:
-                                    (context) => Preview(
-                                      name: name,
-                                      dateTime: _selectedDate,
-                                      description: description,
-                                      maxAttendees: _maxAttendees,
-                                      cost: costMoney,
-                                      paymentInfo: paymentInfo,
-                                      location: streetAddress,
-                                      zipCode: zipCode,
-                                    ),
+                                    (context) =>
+                                        SavedEventChangesConfirmation(),
                               ),
                             );
                           }
@@ -401,7 +409,7 @@ class _CreateEventState extends State<CreateEvent> {
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(125, 30),
                       ),
-                      child: Text("Nästa"),
+                      child: Text("Spara"),
                     ),
                   ),
                 ],
@@ -416,6 +424,41 @@ class _CreateEventState extends State<CreateEvent> {
   @override
   void initState() {
     super.initState();
+    eventCopy = widget.event;
+    hasLimitedSpots = eventCopy.maxAttendees > 0 ? 'true' : 'false';
+    doCostMoney = eventCopy.cost > 0 ? 'true' : 'false';
+
+    name = eventCopy.name;
+    description = eventCopy.description;
+    location = eventCopy.location;
+    streetAddress = location.substring(0, location.length - 8);
+    zipCode = int.parse(
+      location.substring(location.length - 6, location.length - 1),
+    );
+    maxAttendees = eventCopy.maxAttendees;
+    _selectedDate = eventCopy.dateTime;
+    selectedDate = DateTime.now();
+    formattedDate = DateFormat('yyyy-MM-dd - kk:mm:ss').format(_selectedDate);
+    ;
+    cost = eventCopy.cost;
+    paymentInfo = eventCopy.paymentInfo;
+
+    nameController = TextEditingController(text: eventCopy.name);
+    descriptionController = TextEditingController(text: eventCopy.description);
+    costMoneyController = TextEditingController(
+      text: doCostMoney.contains('true') ? eventCopy.cost.toString() : null,
+    );
+    streetController = TextEditingController(text: streetAddress);
+    zipCodeController = TextEditingController(text: zipCode.toString());
+    paymentInfoController = TextEditingController(
+      text: doCostMoney.contains('true') ? eventCopy.paymentInfo : null,
+    );
+    limitedSpotsController = TextEditingController(
+      text:
+          hasLimitedSpots.contains('true')
+              ? eventCopy.maxAttendees.toString()
+              : null,
+    );
   }
 
   @override
@@ -444,64 +487,17 @@ class _CreateEventState extends State<CreateEvent> {
         steps: stepList(),
         onStepContinue: () {},
       ),
-
-      /* Form(
-          child: Column(
-            children: [
-              TextFormField(
-                maxLength: 25,
-                decoration: const InputDecoration(
-                  label: Text('Titel'),
-                ),
-              ), DateTimeFormField(
-          decoration: const InputDecoration(
-            labelText: 'Datum & tid:',
-          ),
-        firstDate: DateTime.now().add(const Duration(days: 0)),
-        //lastDate: DateTime.now().add(const Duration(days: 40)),
-        initialPickerDateTime: DateTime.now().add(const Duration(days: 0)),
-        onChanged: (DateTime? value) {
-            selectedDate = value;
-        },
-
-              ),
-              TextFormField(
-                maxLength: 200,
-                decoration: const InputDecoration(
-                  label: Text('Beskrivning'),
-                ),
-              ),
-            ],
-          )
-      ), */
-      //  bottomNavigationBar: BottomNavigationBar(items: bottomNavigationBarList),
     );
   }
 }
 
-/*
-class _RadioListTileState extends State<RadioListTile>{
-  @override
-  void initState() {
-    super.initState();
-  }
-}
+class EditEvent extends StatefulWidget {
+  final Event _event;
 
- */
+  Event get event => _event;
 
-class CreateEvent extends StatefulWidget {
-  const CreateEvent({super.key});
-  @override
-  State<CreateEvent> createState() => _CreateEventState();
-
-  /*
-  @override
-  State<_RadioListTileState1> createState() => _RadioListTileState1();
+  const EditEvent({super.key, required event}) : _event = event;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-   */
+  State<EditEvent> createState() => _EditEventState();
 }
