@@ -8,6 +8,10 @@ import '../../data/models/event.dart';
 // todo here because it is tied to the page which uses eventcard, yet here it is hardcoded to home/event
 // todo a solution is to have home/myevent/id, home/participationevent/id for homepage, and event/id for event page
 // todo and then pull that state out of this class into those pages and hardcode the strings frmo there
+import 'package:provider/provider.dart';
+
+import 'event_page_viewmodel.dart';
+
 class EventCard extends StatelessWidget {
   final Event event;
   final int index;
@@ -15,7 +19,7 @@ class EventCard extends StatelessWidget {
   const EventCard({
     super.key,
     required this.event,
-    required this.index
+    required this.index,
   });
 
   @override
@@ -23,19 +27,42 @@ class EventCard extends StatelessWidget {
     return SizedBox(
       height: 120,
       child: Card.filled(
-        color: index.isEven ? Theme.of(context).colorScheme.surfaceContainerHigh : Theme.of(context).colorScheme.surfaceContainer,
+        color: index.isEven
+            ? Theme.of(context).colorScheme.surfaceContainerHigh
+            : Theme.of(context).colorScheme.surfaceContainer,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ListTile(
-              leading: CircleAvatar(), // Todo fix CircleAvatar to work as image placeholder backgroundImage: NetworkImage(userAvatarUrl),
+              leading: const CircleAvatar(), // Placeholder
               title: Text(event.name),
               subtitle: Text(event.description),
-              trailing: Icon(Icons.info_outline),
-              onTap: () {
-                final eventId = event.eventId;
-                context.push('/home/event/$eventId', extra: event);
-              }
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Info icon for navigation
+                  IconButton(
+                    icon: const Icon(Icons.info_outline),
+                    onPressed: () {
+                      final eventId = event.eventId;
+                      context.push('/home/event/$eventId', extra: event);
+                    },
+                  ),
+
+                  // Register button
+                  Consumer<EventsViewmodel>(
+                    builder: (context, viewmodel, child) {
+                      return IconButton(
+                        icon: const Icon(Icons.event_available),
+                        tooltip: "Register",
+                        onPressed: () async {
+                          await viewmodel.registerToEvent(event);
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),

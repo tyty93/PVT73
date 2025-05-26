@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models/event.dart';
 import '../../data/repositories/event_repository.dart';
+import '../../data/repositories/user_repository.dart';
 
 class EventsViewmodel extends ChangeNotifier {
   List<Event>? _availableEvents;
@@ -17,10 +18,12 @@ class EventsViewmodel extends ChangeNotifier {
 
   // Can be used to re-fetch data. For example triggered by onTaps or pull-down-to-re
   final EventRepository _eventRepository;
+  final UserRepository _userRepository;
 
   // todo: check if better to expose loadEvents and not call it in constructor
-  EventsViewmodel({required EventRepository eventRepository}) :
-        _eventRepository = eventRepository {
+  EventsViewmodel({required EventRepository eventRepository, required UserRepository userRepository}) :
+        _eventRepository = eventRepository,
+        _userRepository = userRepository {
     _loadAllEvents(); // initialize list
   }
 
@@ -33,30 +36,16 @@ class EventsViewmodel extends ChangeNotifier {
     _loadAllEvents();
   }
 
-  // todo implement
-  Future<void> unregisterFromEvent(Event event) async {
-    // find the event in the list, based on equality of its id compared to argument events id
-    /*final removedEvent = availableEvents?.firstWhereOrNull((e) => e.eventId == event.eventId);
-
-    // safety guard, return if nothing to remove
-    if (removedEvent == null) return;
-
-    // optimistic removal locally to update listviews quickly
-    availableEvents?.remove(removedEvent);
-    notifyListeners();
-
+  Future<void> registerToEvent(Event event) async {
     try {
-      // attempt removal by id in backend
-      await _eventRepository.deleteEvent(event.eventId);
+      await _userRepository.addParticipation(event.eventId);
     } catch (e) {
-      // if remote removal failed, re-add the removed event to local list
-      availableEvents?.add(removedEvent);
-      notifyListeners();
-      throw Exception('Failed to delete event: $e');
-    }*/
+      print('Failed to register for event: $e');
+    }
   }
 
-  // todo: change business logic. The event page gives option to join an event (listview, index, event.eventId)
-  Future<void> registerToEvent(Event event) async {
+
+  Future<void> unregisterFromEvent(Event event) async {
+
   }
 }
