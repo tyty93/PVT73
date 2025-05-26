@@ -64,7 +64,7 @@ void main() async {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>()),
+          create: (context) => EventsViewmodel(eventRepository: context.read<EventRepository>(), userRepository: context.read<UserRepository>()),
         ),
         ChangeNotifierProvider(
           create: (context) => FriendsPageViewmodel(userRepository: context.read<UserRepository>()),

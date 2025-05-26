@@ -44,6 +44,7 @@ class _CreateEventState extends State<CreateEvent> {
   final TextEditingController costMoneyController = TextEditingController();
   final TextEditingController streetController = TextEditingController();
   final TextEditingController zipCodeController = TextEditingController();
+  final TextEditingController paymentInfoController = TextEditingController();
 
   List<Step> stepList() => [
     Step(
@@ -239,6 +240,7 @@ class _CreateEventState extends State<CreateEvent> {
                   ),
 
                   TextFormField(
+                    controller: paymentInfoController,
                     enabled: doCostMoney.contains('true'),
                     maxLength: 50,
                     decoration: const InputDecoration(
@@ -246,7 +248,7 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        paymentInfo = value;
+                        paymentInfo = paymentInfoController.text;
                       });
                     },
                   ),
