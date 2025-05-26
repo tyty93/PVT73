@@ -12,8 +12,9 @@ abstract class UserRepository {
   });
   // Is indeed SSOT for the User data because this list of Events pertain to those fields in the User object
   Future<List<Event>> fetchOwnedEvents();
-  //Future<List<Event>> fetchParticipatingInEvents();
+  Future<List<Event>> fetchParticipatingEvents();
   Future<User> addParticipation(int eventId);
+  Future<User> unregisterFromEvent(int eventId);
 
 }
 
@@ -49,6 +50,21 @@ class UserRepositoryImpl implements UserRepository {
       throw Exception('No token available. User might not be authenticated.');
     }
     return _userService.addParticipation(eventId, idToken);
+  }
+
+  @override
+  Future<List<Event>> fetchParticipatingEvents() {
+    // TODO: implement fetchParticipatingEvents
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<User> unregisterFromEvent(int eventId) async {
+    final idToken = await _authService.getIdToken();
+    if (idToken == null) {
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    return _userService.removeParticipation(eventId, idToken);
   }
 
 }

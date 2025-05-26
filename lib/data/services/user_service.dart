@@ -83,4 +83,23 @@ class UserService {
     }
   }
 
+  Future<User> removeParticipation(int eventId, String idToken) async {
+    final url = Uri.parse("$_baseUrl/me/participations/$eventId");
+
+    final response = await _client.delete(
+      url,
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $idToken',
+      },
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      final userJson = jsonDecode(response.body);
+      return User.fromJson(userJson);
+    } else {
+      throw Exception('Failed to remove participation: ${response.statusCode}');
+    }
+  }
+
 }

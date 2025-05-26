@@ -8,6 +8,7 @@ import '../../data/repositories/user_repository.dart';
 class EventsViewmodel extends ChangeNotifier {
   List<Event>? _availableEvents;
   bool _hasLoadedEvents = false;
+  List<Event> _registeredEvents = [];
   Future<void> _loadAllEvents() async {
     if (_hasLoadedEvents) return;
     _hasLoadedEvents = true;
@@ -25,6 +26,7 @@ class EventsViewmodel extends ChangeNotifier {
         _eventRepository = eventRepository,
         _userRepository = userRepository {
     _loadAllEvents(); // initialize list
+    _loadRegisteredEvents();
   }
 
   List<Event>? get availableEvents => _availableEvents;
@@ -36,6 +38,11 @@ class EventsViewmodel extends ChangeNotifier {
     _loadAllEvents();
   }
 
+  Future<void> _loadRegisteredEvents() async {
+    _registeredEvents = await _userRepository.fetchParticipatingEvents();
+    notifyListeners();
+  }
+
   Future<void> registerToEvent(Event event) async {
     try {
       await _userRepository.addParticipation(event.eventId);
@@ -44,8 +51,13 @@ class EventsViewmodel extends ChangeNotifier {
     }
   }
 
+  bool isAlreadyRegisteredTo(Event event) {
+    return _registeredEvents.any((e) => e.eventId == event.eventId);
+  }
 
   Future<void> unregisterFromEvent(Event event) async {
-
+    await _userRepository.unregisterFromEvent(event.eventId);
+    _registeredEvents.removeWhere((e) => e.eventId == event.eventId);
+    notifyListeners();
   }
 }
