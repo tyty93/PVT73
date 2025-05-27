@@ -79,6 +79,7 @@ void main() async {
   create: (context) => EventInfoViewModel(
     eventRepository: context.read<EventRepository>(),
     userRepository: context.read<UserRepository>(),
+    authService: context.read<AuthService>()
   ),
 ),
 

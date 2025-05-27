@@ -117,12 +117,16 @@ class _EventInfoPageState extends State<EventInfoPage> {
                                   ),
                                 ),
 
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: TextButton(
-                                    onPressed:
-                                        () => Navigator.pop(context, true),
-                                    child: const Text('Ja'),
+                                Consumer<EventInfoViewModel>(
+                                  builder: (context, viewModel, child) => Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        viewModel.deleteEvent(widget.event.eventId);
+                                        Navigator.pop(context, true);
+                                      },
+                                      child: const Text('Ja'),
+                                    ),
                                   ),
                                 ),
                               ],

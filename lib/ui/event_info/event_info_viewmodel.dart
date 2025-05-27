@@ -4,16 +4,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../data/models/event.dart';
 import '../../data/repositories/event_repository.dart';
 import '../../data/repositories/user_repository.dart';
+import '../../data/services/auth_service.dart';
 
 class EventInfoViewModel extends ChangeNotifier {
   final EventRepository eventRepository;
   final UserRepository userRepository;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AuthService authService;
 
 
   EventInfoViewModel({
     required this.eventRepository,
     required this.userRepository,
+    required this.authService
   });
 
   Event? _event;
@@ -93,5 +96,15 @@ class EventInfoViewModel extends ChangeNotifier {
     await userRepository.unregisterFromEvent(eventId);
     _isRegistered = false;
     notifyListeners();
+  }
+
+  @override
+  Future<void> deleteEvent(int eventId) async {
+
+    try {
+      await eventRepository.deleteEvent(eventId);
+    } catch (e) {
+      rethrow;
+    }
   }
 }
