@@ -12,10 +12,16 @@ class HomeViewmodel extends ChangeNotifier {
   // List<Event>? _participatingInEvents;
 
   bool _hasLoadedOwnedEvents = false;
+  List<Event>? _participatingInEvents;
+  bool _hasLoadedParticipatingEvents = false;
+
 
   final AuthRepository _authRepository;
   final UserRepository _userRepository;
   final EventRepository _eventRepository;
+  
+  List<Event>? get participatingInEvents => _participatingInEvents;
+  bool get hasLoadedParticipatingEvents => _hasLoadedParticipatingEvents;
 
 
   HomeViewmodel({
@@ -24,10 +30,10 @@ class HomeViewmodel extends ChangeNotifier {
     required EventRepository eventRepository,
   }) : _authRepository = authRepository, _userRepository = userRepository, _eventRepository = eventRepository {
     _authRepository.authStateChanges.listen((user) {
-      if (user != null) {
-        _loadOwnedEvents(); // Reload events when a new user is logged in
-      }
-    });
+    if (user != null) {
+      _loadAllEvents();
+    }
+  });
   }
 
   List<Event>? get ownedEvents => _ownedEvents;
@@ -41,16 +47,31 @@ class HomeViewmodel extends ChangeNotifier {
     _ownedEvents?.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     notifyListeners();
   }
+  void _loadAllEvents() {
+  _loadOwnedEvents();
+  _loadParticipatingEvents();
+  }
 
-  Future<void> refreshOwnedEvents() async {
+  Future<void> _loadParticipatingEvents() async {
+    if (_hasLoadedParticipatingEvents) return;
+    _hasLoadedParticipatingEvents = true;
+    _participatingInEvents = await _userRepository.fetchParticipatingEvents();
+    _participatingInEvents?.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    notifyListeners();
+  }
+
+  Future<void> refreshAllEvents() async {
     _hasLoadedOwnedEvents = false;
-    _loadOwnedEvents();
+    _hasLoadedParticipatingEvents = false;
+    _loadAllEvents();
   }
   
   void signOut() {
     _authRepository.signOut();
     _ownedEvents?.clear();
+    _participatingInEvents?.clear();
     _hasLoadedOwnedEvents = false;
+    _hasLoadedParticipatingEvents = false;
     notifyListeners();
   }
 

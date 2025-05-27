@@ -26,6 +26,7 @@ abstract class UserRepository {
   Future<String> acceptRequest(String personId);
   Future<String> rejectRequest(String personId);
   Future<String> toggleFavourite(String personId);
+  Future<bool> isUserRegistered(int eventId, String userId);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -63,10 +64,14 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<List<Event>> fetchParticipatingEvents() {
-    // TODO: implement fetchParticipatingEvents
-    throw UnimplementedError();
+Future<List<Event>> fetchParticipatingEvents() async {
+  final idToken = await _authService.getIdToken();
+  if (idToken == null) {
+    throw Exception('No token available. User might not be authenticated.');
   }
+
+  return _userService.fetchParticipatingEvents(idToken);
+}
 
   @override
   Future<User> unregisterFromEvent(int eventId) async {
@@ -187,5 +192,11 @@ class UserRepositoryImpl implements UserRepository {
     catch(e){
       rethrow;
     }
+  }
+  Future<bool> isUserRegistered(int eventId, String userId) async {
+    final participations = await _userService.getParticipations();
+
+    return participations.any((p) =>
+      p['eventId'] == eventId && p['userId'] == userId);
   }
 }

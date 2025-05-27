@@ -20,6 +20,7 @@ abstract class EventRepository {
   });
   Future<Event> fetchEventById(int eventId);
   Future<List<String>> getFriendsAttending(int eventId);
+  Future<void> editEvent(Event event);
 
 }
 
@@ -87,6 +88,19 @@ class EventRepositoryImpl implements EventRepository {
 
     final jsonList = await _eventService.fetchFriendsAttendingEvent(eventId, token);
     return jsonList.map((json) => json['name'] as String).toList();
-}
+  }
+
+  @override
+  Future<void> editEvent(Event event) async{
+    final idToken = await _authService.getIdToken();
+    if (idToken == null) {
+      throw Exception('No token available. User might not be authenticated.');
+    }
+    try {
+      await _eventService.editEvent(event, idToken);
+    } catch (e) {
+      rethrow; // Rethrow the caught exception as is
+    }
+  }
   
 }

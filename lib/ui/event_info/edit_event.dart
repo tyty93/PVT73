@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/data/repositories/event_repository.dart';
 import 'package:flutter_application_1/ui/event_info/saved_event_changes_confirmation.dart';
 import 'package:flutter_application_1/ui/home/exit_confirmation.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/models/event.dart';
 
@@ -396,12 +398,14 @@ class _EditEventState extends State<EditEvent> {
                           if (!_validateZipCode && !_validateStreetAddress) {
                             eventCopy.name = name;
                             eventCopy.description = description;
-                            eventCopy.dateTime = selectedDate;
+                            eventCopy.dateTime = _selectedDate;
                             eventCopy.maxAttendees = maxAttendees;
                             eventCopy.cost = cost;
                             eventCopy.paymentInfo = paymentInfo;
                             eventCopy.location =
                                 streetAddress + ', ' + zipCode.toString();
+
+                            context.read<EventRepository>().editEvent(eventCopy);
 
                             Navigator.push(
                               context,

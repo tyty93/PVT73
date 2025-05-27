@@ -76,8 +76,12 @@ void main() async {
           create: (context) => MapViewModel(eventRepository: context.read<EventRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => EventInfoViewModel(eventRepository: context.read<EventRepository>()),
-        ),
+  create: (context) => EventInfoViewModel(
+    eventRepository: context.read<EventRepository>(),
+    userRepository: context.read<UserRepository>(),
+    authService: context.read<AuthService>()
+  ),
+),
 
         // Router
         Provider<GoRouter>(
