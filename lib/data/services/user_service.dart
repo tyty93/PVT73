@@ -66,7 +66,8 @@ class UserService {
     int eventId,
     String idToken
   ) async {
-    final url = Uri.parse("http://10.0.2.2:8080/users/me/participations/$eventId");
+    //final url = Uri.parse("http://10.0.2.2:8080/users/me/participations/$eventId");
+    final url = Uri.parse("$_baseUrl/me/participations/$eventId");
 
     final response = await _client.post(
       url,
@@ -247,6 +248,16 @@ class UserService {
     }
     else{
       throw Exception("Request failed");
+    }
+  }
+   Future<List<Map<String, dynamic>>> getParticipations() async {
+    final response = await http.get(Uri.parse('$_baseUrl/participations'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = jsonDecode(response.body);
+      return jsonList.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to load participations');
     }
   }
 }

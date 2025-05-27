@@ -335,27 +335,38 @@ class _EventInfoPageState extends State<EventInfoPage> {
       ),
 
       floatingActionButton: Align(
-        alignment: Alignment.bottomCenter * 0.95,
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.65,
-          height: 50,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(40),
-            color: Theme.of(context).colorScheme.inversePrimary,
-            //Theme.of(context).colorScheme.primary,
-          ),
-          child: FloatingActionButton(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            onPressed: () {
-              context.read<UserRepository>().addParticipation(widget.event.eventId);
-            },
-            child: Text('Anmäl dig till eventet'),
+  alignment: Alignment.bottomCenter * 0.95,
+  child: Consumer<EventInfoViewModel>(
+    builder: (context, viewModel, _) {
+      final registered = viewModel.isRegistered;
+      return Container(
+        width: MediaQuery.of(context).size.width * 0.65,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(40),
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        child: FloatingActionButton(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          onPressed: () {
+            if (registered) {
+              viewModel.unregisterFromEvent(widget.event.eventId);
+            } else {
+              viewModel.registerToEvent(widget.event.eventId);
+            }
+          },
+          child: Text(
+            registered ? 'Avanmäl dig' : 'Anmäl dig till eventet',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      );
+    },
+  ),
+),
     );
   }
 }

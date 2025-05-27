@@ -26,6 +26,7 @@ abstract class UserRepository {
   Future<String> acceptRequest(String personId);
   Future<String> rejectRequest(String personId);
   Future<String> toggleFavourite(String personId);
+  Future<bool> isUserRegistered(int eventId, String userId);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -187,5 +188,11 @@ class UserRepositoryImpl implements UserRepository {
     catch(e){
       rethrow;
     }
+  }
+  Future<bool> isUserRegistered(int eventId, String userId) async {
+    final participations = await _userService.getParticipations();
+
+    return participations.any((p) =>
+      p['eventId'] == eventId && p['userId'] == userId);
   }
 }
