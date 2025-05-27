@@ -260,4 +260,23 @@ class UserService {
       throw Exception('Failed to load participations');
     }
   }
+
+  Future<List<Event>> fetchParticipatingEvents(String idToken) async {
+  final url = Uri.parse("$_baseUrl/me/participating-events");
+
+  final response = await _client.get(
+    url,
+    headers: {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Bearer $idToken',
+    },
+  );
+
+  if (response.statusCode == HttpStatus.ok) {
+    final List<dynamic> eventJson = jsonDecode(response.body);
+    return eventJson.map((json) => Event.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to fetch participating events: ${response.statusCode}');
+  }
+}
 }

@@ -8,6 +8,7 @@ import '../event/event_card.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   final String title = "AfterTenta";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,28 +28,31 @@ class HomePage extends StatelessWidget {
       ),
       body: Consumer<HomeViewmodel>(
         builder: (context, viewModel, _) {
-          if (viewModel.ownedEvents == null) {
+          final ownedEvents = viewModel.ownedEvents;
+          final registeredEvents = viewModel.participatingInEvents;
+
+          if (ownedEvents == null || registeredEvents == null) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (viewModel.ownedEvents!.isEmpty) {
-            return Center(
-              child: Text(
-                '(placeholder text): You have not created any events.',
-              ),
-            );
-          }
-          final events = viewModel.ownedEvents!;
+
           return RefreshIndicator(
-            onRefresh: viewModel.refreshOwnedEvents,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return Dismissible(
-                  direction: DismissDirection.startToEnd,
-                  confirmDismiss: (direction) {
-                    return showDialog(
-                      context: context,
-                      builder:
-                          (context) => AlertDialog(
+            onRefresh: viewModel.refreshAllEvents,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    "Ägda Events",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                ...ownedEvents.map((event) => Dismissible(
+                      direction: DismissDirection.startToEnd,
+                      confirmDismiss: (direction) {
+                        return showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
                             title: const Text('Cancel the event?'),
                             actions: [
                               TextButton(
@@ -61,26 +65,35 @@ class HomePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                    );
-                  },
-                  onDismissed: (direction) {
-                    viewModel.deleteEvent(events[index]);
-                  },
-                  key: ValueKey<int>(events[index].eventId),
-                  background: Container(
-                    padding: const EdgeInsets.all(12),
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    alignment: Alignment.centerLeft,
-                    child: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).colorScheme.onErrorContainer,
-                      size: 40,
-                    ),
+                        );
+                      },
+                      onDismissed: (direction) {
+                        viewModel.deleteEvent(event);
+                      },
+                      key: ValueKey<int>(event.eventId),
+                      background: Container(
+                        padding: const EdgeInsets.all(12),
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        alignment: Alignment.centerLeft,
+                        child: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).colorScheme.onErrorContainer,
+                          size: 40,
+                        ),
+                      ),
+                      child: EventCard(event: event, index: ownedEvents.indexOf(event)),
+                    )),
+                const SizedBox(height: 24),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    "Events du ska gå på",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  child: EventCard(event: events[index], index: index),
-                );
-              },
-              itemCount: events.length,
+                ),
+                ...registeredEvents.map((event) =>
+                    EventCard(event: event, index: registeredEvents.indexOf(event))),
+              ],
             ),
           );
         },
@@ -103,7 +116,6 @@ class HomePage extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           onPressed: () {
-            //      context.push('/home/create-event');
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const CreateEvent()),
