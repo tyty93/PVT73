@@ -1,74 +1,139 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
 
+import 'package:flutter_application_1/data/repositories/event_repository.dart';
+import 'package:flutter_application_1/data/services/event_service.dart';
+import 'package:flutter_application_1/data/services/auth_service.dart';
+import 'package:flutter_application_1/data/models/event.dart';
 
-// todo: refaactor tests, haave become outdated
-/*
-@GenerateMocks([http.Client])
+import 'event_repository_test.mocks.dart';
+
+@GenerateMocks([EventService, AuthService])
 void main() {
   late EventRepository eventRepository;
-  late MockClient mockHttpClient;
+  late MockEventService mockEventService;
+  late MockAuthService mockAuthService;
 
   setUp(() {
-    mockHttpClient = MockClient();
-    eventRepository = EventRepositoryImpl(client: mockHttpClient);
+    mockEventService = MockEventService();
+    mockAuthService = MockAuthService();
+    eventRepository = EventRepositoryImpl(mockAuthService, mockEventService);
   });
 
-  group("Event repository - ", () {
-    group("fetchEvents", () {
+  group('EventRepository -', () {
+    group('fetchAllEvents', () {
       test(
-        "Given EventRepository class, when fetchEvents is called and status code is HttpStatus.ok then a Future<List<Event>> should be returned ",
+        'Given EventRepository, When fetchAllEvents is called, Then return List<Event>',
         () async {
-          // Stub
-          when(
-            mockHttpClient.get(
-              Uri.parse("https://group-3-75.pvt.dsv.su.se/events/all"),
+          // Arrange
+          final mockEvents = [
+            Event(
+              eventId: 1,
+              name: "Test Event 1",
+              description: "Description 1",
+              location: "Location 1",
+              maxAttendees: 10,
+              cost: 100,
+              paymentInfo: "Swish to 1234567890",
+              dateTime: DateTime(2025, 5, 1, 14),
+              ownerEmail: "test1@test.com",
+              ownerId: "user1",
+              ownerName: "Test User 1"
             ),
-          ).thenAnswer(
-            (_) async => Response('''
-              [
-                  {
-                    "id":53,
-                    "name":"Event 4",
-                    "description":"Description of event 1",
-                    "date":"2025-05-01T14:00:00"
-                  },
-                  {
-                    "id":54,
-                    "name":"Event 4",
-                    "description":"Description of event 1",
-                    "date":"2025-05-05T14:00:00"
-                  }
-              ]
-              ''',
-              HttpStatus.ok,
+            Event(
+              eventId: 2,
+              name: "Test Event 2",
+              description: "Description 2",
+              location: "Location 2",
+              maxAttendees: 20,
+              cost: 200,
+              paymentInfo: "Swish to 0987654321",
+              dateTime: DateTime(2025, 5, 5, 14),
+              ownerEmail: "test2@test.com",
+              ownerId: "user2",
+              ownerName: "Test User 2"
             ),
-          );
+          ];
 
-          final actual = await eventRepository.fetchAllEvents();
+          when(mockEventService.fetchAllEvents())
+              .thenAnswer((_) async => mockEvents);
 
-          expect(actual, isA<List<Event>>());
-        },
-      );
+          // Act
+          final result = await eventRepository.fetchAllEvents();
 
-      test(
-        "Given EventRepository class, when fetchEvents is called and status code is NOT HttpStatus.ok then an exception should be thrown",
-        () async {
-          when(
-            mockHttpClient.get(
-              Uri.parse("https://group-3-75.pvt.dsv.su.se/events/all"),
-            ),
-          ).thenAnswer((_) async => Response('Not found', HttpStatus.notFound));
-
-          final actual = eventRepository.fetchAllEvents();
-
-          expect(actual, throwsException);
+          // Assert
+          expect(result, isA<List<Event>>());
+          expect(result.length, 2);
+          verify(mockEventService.fetchAllEvents()).called(1);
         },
       );
     });
-    group("deleteEvent", () {
-      test("Should successfully delete an existing event", () {
 
-      });
+    group('createEvent', () {
+      test(
+        'Given authenticated user, When createEvent is called, Then return created Event',
+        () async {
+          // Arrange
+          const testToken = 'test_token';
+          final testEvent = Event(
+            eventId: 1,
+            name: "New Event",
+            description: "New Description",
+            location: "New Location",
+            maxAttendees: 15,
+            cost: 150,
+            paymentInfo: "Swish to 1234567890",
+            dateTime: DateTime(2025, 6, 1, 14),
+            ownerEmail: "creator@test.com",
+            ownerId: "creator1",
+            ownerName: "Event Creator"
+          );
+
+          when(mockAuthService.getIdToken()).thenAnswer((_) async => testToken);
+          when(mockEventService.createEvent(
+            name: anyNamed('name'),
+            description: anyNamed('description'),
+            location: anyNamed('location'),
+            dateTime: anyNamed('dateTime'),
+            maxAttendees: anyNamed('maxAttendees'),
+            cost: anyNamed('cost'),
+            paymentInfo: anyNamed('paymentInfo'),
+            idToken: testToken,
+            ownerEmail: anyNamed('ownerEmail'),
+            ownerId: anyNamed('ownerId'),
+            ownerName: anyNamed('ownerName'),
+          )).thenAnswer((_) async => testEvent);
+
+          // Act
+          final result = await eventRepository.createEvent(
+            name: "New Event",
+            description: "New Description",
+            location: "New Location",
+            dateTime: DateTime(2025, 6, 1, 14),
+            maxAttendees: 15,
+            cost: 150,
+            paymentInfo: "Swish to 1234567890"
+          );
+
+          // Assert
+          expect(result, isA<Event>());
+          verify(mockAuthService.getIdToken()).called(1);
+          verify(mockEventService.createEvent(
+            name: "New Event",
+            description: "New Description",
+            location: "New Location",
+            dateTime: DateTime(2025, 6, 1, 14),
+            maxAttendees: 15,
+            cost: 150,
+            paymentInfo: "Swish to 1234567890",
+            idToken: testToken,
+            ownerEmail: null,
+            ownerId: null,
+            ownerName: null
+          )).called(1);
+        },
+      );
     });
   });
 }
-*/
