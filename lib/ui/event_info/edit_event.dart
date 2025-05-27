@@ -398,7 +398,7 @@ class _EditEventState extends State<EditEvent> {
                           if (!_validateZipCode && !_validateStreetAddress) {
                             eventCopy.name = name;
                             eventCopy.description = description;
-                            eventCopy.dateTime = selectedDate;
+                            eventCopy.dateTime = _selectedDate;
                             eventCopy.maxAttendees = maxAttendees;
                             eventCopy.cost = cost;
                             eventCopy.paymentInfo = paymentInfo;
