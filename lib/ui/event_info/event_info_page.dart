@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/event.dart';
+import '../../routing/routes.dart';
 import '../event/event_card.dart';
 import 'edit_event.dart';
 import 'event_info_viewmodel.dart';
@@ -123,7 +124,8 @@ class _EventInfoPageState extends State<EventInfoPage> {
                                     child: TextButton(
                                       onPressed: () {
                                         viewModel.deleteEvent(widget.event.eventId);
-                                        Navigator.pop(context, true);
+                                        context.pop();
+                                        context.pop();
                                       },
                                       child: const Text('Ja'),
                                     ),
