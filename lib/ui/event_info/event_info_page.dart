@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/repositories/user_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -348,7 +349,7 @@ class _EventInfoPageState extends State<EventInfoPage> {
             elevation: 0,
             backgroundColor: Colors.transparent,
             onPressed: () {
-              // registerParticipation(currentUserId, widget.eventId);
+              context.read<UserRepository>().addParticipation(widget.event.eventId);
             },
             child: Text('Anmäl dig till eventet'),
           ),

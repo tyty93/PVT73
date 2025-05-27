@@ -66,7 +66,7 @@ class UserService {
     int eventId,
     String idToken
   ) async {
-    final url = Uri.parse("$_baseUrl/me/participations/$eventId");
+    final url = Uri.parse("http://10.0.2.2:8080/users/me/participations/$eventId");
 
     final response = await _client.post(
       url,
