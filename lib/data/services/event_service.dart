@@ -144,4 +144,31 @@ class EventService {
       throw Exception("Failed to fetch event details.");
     }*/
     throw UnimplementedError('fetchEventById is not implemented yet.');  }
+
+    Future<void> editEvent(Event event, String idToken) async{
+      final Map<String, dynamic> eventData = {
+        'id': event.eventId,
+        'name': event.name,
+        'description': event.description,
+        'location': event.location,
+        'maxAttendees': event.maxAttendees,
+        'cost': event.cost,
+        'paymentInfo': event.paymentInfo,    
+        'eventDateTime': DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(event.dateTime)
+      };
+      
+      final response = await _client.patch(
+          Uri.parse('$_baseUrl/edit'),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.authorizationHeader: 'Bearer $idToken',
+          },
+          body: jsonEncode(eventData),
+      );
+      if(response.statusCode == HttpStatus.ok) {
+        return;
+      } else {
+        throw Exception(response.statusCode);
+      }
+    }
 }
