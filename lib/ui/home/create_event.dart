@@ -354,8 +354,6 @@ class _CreateEventState extends State<CreateEvent> {
                       });
                     },
                   ),
-                  Text(_validateStreetAddress.toString()),
-                  Text(_validateZipCode.toString()),
                 ],
               ),
             ),
