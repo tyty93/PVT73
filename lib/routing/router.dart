@@ -88,16 +88,7 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
               )
             ],
           ),
-          /// Profile Page branch
-          StatefulShellBranch(
-            navigatorKey: _shellNavigatorCKey,
-            routes: [
-              GoRoute(
-                path: Routes.profilePage,
-                builder: (context, state) => const EditProfileScreen(email: '', userName: '',),
-              )
-            ],
-          ),
+          // Map Page branch
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -106,6 +97,7 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
               )
             ],
           ),
+          // Friends Page branch
           StatefulShellBranch(
             navigatorKey: _shellNavigatorDKey,
             routes: [
@@ -131,7 +123,17 @@ GoRouter createRouter(AuthViewmodel authViewmodel) {
                 ]
               )
             ]
-          )
+          ),
+          /// Profile Page branch
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorCKey,
+            routes: [
+              GoRoute(
+                path: Routes.profilePage,
+                builder: (context, state) => const EditProfileScreen(email: '', userName: '',),
+              )
+            ],
+          ),
         ], // state is current route state
       ),
     ],
