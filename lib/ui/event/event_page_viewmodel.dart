@@ -46,6 +46,8 @@ class EventsViewmodel extends ChangeNotifier {
   Future<void> registerToEvent(Event event) async {
     try {
       await _userRepository.addParticipation(event.eventId);
+      _registeredEvents.add(event);
+      notifyListeners();
     } catch (e) {
       print('Failed to register for event: $e');
     }

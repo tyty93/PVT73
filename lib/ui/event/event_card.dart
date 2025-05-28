@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../data/models/event.dart';
-
-
-// todo: Might be problematic to have context.push('/home/event/$eventId', extra: event);
-// todo here because it is tied to the page which uses eventcard, yet here it is hardcoded to home/event
-// todo a solution is to have home/myevent/id, home/participationevent/id for homepage, and event/id for event page
-// todo and then pull that state out of this class into those pages and hardcode the strings frmo there
 import 'package:provider/provider.dart';
-
 import 'event_page_viewmodel.dart';
 
 class EventCard extends StatelessWidget {
@@ -49,21 +41,61 @@ class EventCard extends StatelessWidget {
                     },
                   ),
 
-                  // Register or Unregister button
                   Consumer<EventsViewmodel>(
                     builder: (context, viewmodel, child) {
                       final alreadyRegistered = viewmodel.isAlreadyRegisteredTo(event);
 
                       return IconButton(
-                        icon: Icon(alreadyRegistered ? Icons.event_busy : Icons.event_available),
-                        tooltip: alreadyRegistered ? "Unregister" : "Register",
-                        color: alreadyRegistered ? Theme.of(context).colorScheme.errorContainer : null,
-                        onPressed: () async {
-                          if (alreadyRegistered) {
-                            await viewmodel.unregisterFromEvent(event);
-                          } else {
-                            await viewmodel.registerToEvent(event);
-                          }
+                        icon: Icon(
+                          alreadyRegistered ? Icons.event_busy : Icons.event_available,
+                        ),
+                        color: alreadyRegistered
+                            ? Theme.of(context).colorScheme.errorContainer
+                            : null,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                alreadyRegistered
+                                    ? 'Vill du avregistrera dig från eventet?'
+                                    : 'Vill du registrera dig till eventet?',
+                                textAlign: TextAlign.center,
+                              ),
+                              actions: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: TextButton(
+                                        onPressed: () => Navigator.pop(context, false),
+                                        child: const Text('Nej'),
+                                      ),
+                                    ),
+                                    Consumer<EventsViewmodel>(
+                                      builder: (context, viewModel, child) => Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: TextButton(
+                                          onPressed: () async {
+                                            if (alreadyRegistered) {
+                                              await viewModel.unregisterFromEvent(event);
+                                            } else {
+                                              await viewModel.registerToEvent(event);
+                                            }
+                                            if(context.mounted) {
+                                              context.pop();
+                                            }
+                                          },
+                                          child: const Text('Ja'),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       );
                     },

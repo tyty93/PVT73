@@ -85,8 +85,8 @@ class UserService {
     }
   }
 
-  Future<User> removeParticipation(int eventId, String idToken) async {
-    final url = Uri.parse("$_baseUrl/me/participations/$eventId");
+  Future<void> removeParticipation(int eventId, String idToken) async {
+    final url = Uri.parse("$_baseUrl/me/participation/$eventId");
 
     final response = await _client.delete(
       url,
@@ -97,8 +97,9 @@ class UserService {
     );
 
     if (response.statusCode == HttpStatus.ok) {
-      final userJson = jsonDecode(response.body);
-      return User.fromJson(userJson);
+      //final userJson = jsonDecode(response.body);
+      //return User.fromJson(userJson);
+      return;
     } else {
       throw Exception('Failed to remove participation: ${response.statusCode}');
     }
