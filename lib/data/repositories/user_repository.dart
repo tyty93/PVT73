@@ -14,7 +14,7 @@ abstract class UserRepository {
   Future<List<Event>> fetchOwnedEvents();
   Future<List<Event>> fetchParticipatingEvents();
   Future<User> addParticipation(int eventId);
-  Future<User> unregisterFromEvent(int eventId);
+  Future<void> unregisterFromEvent(int eventId);
 
   Future<List<User>> searchUsers(String query);
 
@@ -74,7 +74,7 @@ Future<List<Event>> fetchParticipatingEvents() async {
 }
 
   @override
-  Future<User> unregisterFromEvent(int eventId) async {
+  Future<void> unregisterFromEvent(int eventId) async {
     final idToken = await _authService.getIdToken();
     if (idToken == null) {
       throw Exception('No token available. User might not be authenticated.');
