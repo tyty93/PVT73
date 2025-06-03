@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'event.dart';
 
@@ -45,11 +44,7 @@ class User {
         _outgoingRequest = outgoingRequest,
         _isFriend = isFriend;
 
-  factory User.fromJson(Map<String, dynamic> json) { 
-    /*log((json['participationList'] as List).toString());
-    var participatingEventsList = (json['participationList'][''] as List)
-        .map((eventJson) => Event.fromJson(eventJson))
-        .toList();*/
+  factory User.fromJson(Map<String, dynamic> json) {
 
     List<Event> participatingEventsList = List.empty(growable: true);
     for (var e in (json['participationList'] as List)) {

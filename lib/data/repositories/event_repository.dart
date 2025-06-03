@@ -1,7 +1,6 @@
 import 'package:flutter_application_1/data/services/auth_service.dart';
 import '../models/event.dart';
 import '../services/event_service.dart';
-import '../models/user.dart' as U;
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -44,7 +43,7 @@ class EventRepositoryImpl implements EventRepository {
     try {
       await _eventService.deleteEvent(eventId, idToken);
     } catch (e) {
-      rethrow; // Rethrow the caught exception as is
+      rethrow;
     }
   }
 
@@ -99,7 +98,7 @@ class EventRepositoryImpl implements EventRepository {
     try {
       await _eventService.editEvent(event, idToken);
     } catch (e) {
-      rethrow; // Rethrow the caught exception as is
+      rethrow;
     }
   }
   

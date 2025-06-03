@@ -10,7 +10,6 @@ abstract class UserRepository {
     required String name,
     required String email,
   });
-  // Is indeed SSOT for the User data because this list of Events pertain to those fields in the User object
   Future<List<Event>> fetchOwnedEvents();
   Future<List<Event>> fetchParticipatingEvents();
   Future<User> addParticipation(int eventId);
@@ -193,6 +192,7 @@ Future<List<Event>> fetchParticipatingEvents() async {
       rethrow;
     }
   }
+  @override
   Future<bool> isUserRegistered(int eventId, String userId) async {
     final participations = await _userService.getParticipations();
 

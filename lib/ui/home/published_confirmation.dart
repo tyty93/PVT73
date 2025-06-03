@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'create_event.dart';
-import 'home_page.dart';
 
 class _PublishedConfirmationState extends State<PublishedConfirmation> {
   @override

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'create_event.dart';
-import 'home_page.dart';
 
 class _ExitConfirmationState extends State<ExitConfirmation> {
   @override
@@ -17,7 +16,7 @@ class _ExitConfirmationState extends State<ExitConfirmation> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: Column(
                 children: [

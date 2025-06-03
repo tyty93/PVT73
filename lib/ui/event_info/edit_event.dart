@@ -49,12 +49,12 @@ class _EditEventState extends State<EditEvent> {
       state: _activeCurrentStep <= 0 ? StepState.editing : StepState.complete,
       isActive: _activeCurrentStep >= 0,
       title: const Text('Allmänt'),
-      content: Container(
+      content: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.6,
               child: Column(
                 children: [
@@ -138,12 +138,12 @@ class _EditEventState extends State<EditEvent> {
       state: _activeCurrentStep <= 1 ? StepState.editing : StepState.complete,
       isActive: _activeCurrentStep >= 1,
       title: const Text('Antal & pris'),
-      content: Container(
+      content: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.6,
               width: MediaQuery.of(context).size.width,
               child: Column(
@@ -301,10 +301,10 @@ class _EditEventState extends State<EditEvent> {
                           }
                         });
                       },
-                      child: Text("Nästa"),
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(125, 30),
                       ),
+                      child: Text("Nästa"),
                     ),
                   ),
                 ],
@@ -319,12 +319,12 @@ class _EditEventState extends State<EditEvent> {
       state: _activeCurrentStep <= 2 ? StepState.editing : StepState.complete,
       isActive: _activeCurrentStep >= 2,
       title: const Text('Plats'),
-      content: Container(
+      content: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.6,
               width: MediaQuery.of(context).size.width,
               child: Column(
@@ -403,7 +403,7 @@ class _EditEventState extends State<EditEvent> {
                             eventCopy.cost = cost;
                             eventCopy.paymentInfo = paymentInfo;
                             eventCopy.location =
-                                streetAddress + ', ' + zipCode.toString();
+                                '$streetAddress, $zipCode';
 
                             context.read<EventRepository>().editEvent(eventCopy);
 
@@ -452,7 +452,6 @@ class _EditEventState extends State<EditEvent> {
     _selectedDate = eventCopy.dateTime;
     selectedDate = DateTime.now();
     formattedDate = DateFormat('yyyy-MM-dd - kk:mm:ss').format(_selectedDate);
-    ;
     cost = eventCopy.cost;
     paymentInfo = eventCopy.paymentInfo;
 

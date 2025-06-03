@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/repositories/user_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/event.dart';
-import '../../routing/routes.dart';
-import '../event/event_card.dart';
 import 'edit_event.dart';
 import 'event_info_viewmodel.dart';
-import '../../data/repositories/event_info_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // Todo: fix colors (either apply theme colors manually or change from basic Container/Column stuff to more material-like widgets with automaticaally applied pr
@@ -159,7 +155,7 @@ class _EventInfoPageState extends State<EventInfoPage> {
                       ),
                       children: <InlineSpan>[
                         TextSpan(
-                          text: widget.event.description + '\n',
+                          text: '${widget.event.description}\n',
                           style: TextStyle(fontSize: 16, color: Colors.black45),
                         ),
                       ],
@@ -176,7 +172,7 @@ class _EventInfoPageState extends State<EventInfoPage> {
                       ),
                       children: <InlineSpan>[
                         TextSpan(
-                          text: widget.event.location + '\n',
+                          text: '${widget.event.location}\n',
                           style: TextStyle(fontSize: 16, color: Colors.black45),
                         ),
                       ],

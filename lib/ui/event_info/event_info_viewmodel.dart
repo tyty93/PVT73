@@ -98,7 +98,6 @@ class EventInfoViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  @override
   Future<void> deleteEvent(int eventId) async {
 
     try {

@@ -67,8 +67,6 @@ class Event {
     );
   }
 
-  // check how this is used, if at all. Had to omit id because it is auto-generated!
-  // create event is not toJson'ing antything, its just usuing jsonEncode(data)..
   Map<String, dynamic> toJson() => {
     'name': _name,
     'description': _description,

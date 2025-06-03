@@ -49,14 +49,14 @@ class Preview extends StatelessWidget {
     if (maxAttendees == 0) {
       return 'Obegränsat antal platser \n';
     }
-    return maxAttendees.toString() + ' personer \n';
+    return '$maxAttendees personer \n';
   }
 
   String textFormatCost(int cost) {
     if (cost == 0) {
       return 'Gratis \n';
     }
-    return cost.toString() + ' kr \n';
+    return '$cost kr \n';
   }
 
   String textFormatPaymentInfo(int cost) {
@@ -85,12 +85,12 @@ class Preview extends StatelessWidget {
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.69,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
@@ -134,7 +134,7 @@ class Preview extends StatelessWidget {
                               ),
                               children: <InlineSpan>[
                                 TextSpan(
-                                  text: description + '\n',
+                                  text: '$description\n',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black45,
@@ -155,10 +155,7 @@ class Preview extends StatelessWidget {
                               children: <InlineSpan>[
                                 TextSpan(
                                   text:
-                                      location +
-                                      ', ' +
-                                      zipCode.toString() +
-                                      '\n',
+                                      '$location, $zipCode\n',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black45,
@@ -263,7 +260,7 @@ class Preview extends StatelessWidget {
                                   text:
                                       paymentInfo.isEmpty
                                           ? 'Saknas info, kontakta arrangör för frågor.'
-                                          : paymentInfo + '\n',
+                                          : '$paymentInfo\n',
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.black45,
@@ -307,7 +304,7 @@ class Preview extends StatelessWidget {
                           context.read<HomeViewmodel>().createEvent(
                             name: _name,
                             description: _description,
-                            location: _location + ', ' + _zipCode.toString(),
+                            location: '$_location, $_zipCode',
                             maxAttendees: _maxAttendees,
                             dateTime: _dateTime,
                             cost: _cost,
